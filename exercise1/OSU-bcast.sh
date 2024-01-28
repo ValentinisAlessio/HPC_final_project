@@ -26,7 +26,7 @@ src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
 np_values="2 4 8 16 32 64 128 256"  # Example number of processes
 
 # Define the MPI broadcast algorithms to test
-bcast_algorithm="0 1 2 3"  # Example broadcast algorithms
+bcast_algorithm="0 1 2 5"  # Example broadcast algorithms
 
 # Define different process map_values to evaluate
 map_values="core socket node"
