@@ -13,35 +13,37 @@
 # Load the MPI module
 module load openMPI/4.1.5/gnu/12.2.1
 
+# Specify the path to the result file
+csv_file="results/bcast_results.csv"
+
+# Go to the directory where the benchmark is located
+cd ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/
+
+
 # Define variables
-MESSAGE_SIZES=(1024 2048 4096 8192)  # Example message sizes
-NUM_PROCESSES=(4 8)  # Example number of processes
+#MESSAGE_SIZES=(1024 2048 4096 8192)  # Example message sizes
+np_values="2 4 8 16 32 64 128 256"  # Example number of processes
 
 # Define the MPI broadcast algorithms to test
-BROADCAST_ALGORITHMS=(0 1 2)  # Example broadcast algorithms
+bcast_algorithm="0 1 2 3"  # Example broadcast algorithms
 
-# Define different process mappings to evaluate
-MAPPINGS=("core" "socket" "numa" "board")
+# Define different process map_values to evaluate
+map_values="core socket node"
 
 # Create CSV file and add headers
-echo "Message Size,Processes,Mapping,Broadcast Algorithm,Avg Latency(us)" > bcast_results.csv
+echo "Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)" > csv_file
 
-# Loop through message sizes
-for size in "${MESSAGE_SIZES[@]}"; do
+# Loop through process map_values
+for mapping in $map_values; do
     # Loop through number of processes
-    for np in "${NUM_PROCESSES[@]}"; do
-        # Loop through process mappings
-        for mapping in "${MAPPINGS[@]}"; do
-            # Loop through broadcast algorithms
-            for broadcast_algo in "${BROADCAST_ALGORITHMS[@]}"; do
-                echo "Running MPI Bcast benchmark: Message size $size, Processes $np, Mapping $mapping, Broadcast Algorithm $broadcast_algo"
-                # Run MPI Bcast benchmark and capture output
-                output=$(mpirun -np $np --map-by $mapping --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm $broadcast_algo osu_bcast)
-                # Extract average latency from output
-                avg_latency=$(echo "$output" | awk '{print $3}')
-                # Append results to CSV file
-                echo "$size,$np,$mapping,$broadcast_algo,$avg_latency" >> bcast_results.csv
-            done
+    for np in $np_values; do
+        # Loop through broadcast algorithms
+        for broadcast_algo in $bcast_algorithm; do
+            echo "Running MPI Bcast benchmark: map=$mapping, np=$np, broadcast_algo=$broadcast_algo ..."
+            # Run MPI Bcast benchmark and capture output
+            output=$(mpirun -np $np --map-by $mapping --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm $broadcast_algo osu_bcast)
+            # Append results to CSV file
+            echo "$output" | awk -v mapping="$mapping" -v np="$np" -v algo="$broadcast_algo" 'NR>2 {print algo "," mapping "," np "," $1 "," $2}' >> $csv_file
         done
     done
 done
