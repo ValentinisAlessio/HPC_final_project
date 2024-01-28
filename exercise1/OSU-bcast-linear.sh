@@ -1,6 +1,6 @@
 #!/bin/bash
 # Script to automatize OSU-benchmark routines for boocking broadcast operation, varying the number of processes and the message size
-#SBATCH --job-name=OSU-bcast
+#SBATCH --job-name=hpcex1
 #SBATCH --output=OSU-linear-bcast.out
 #SBATCH --error=OSU--linear-bcast.err
 #SBATCH --nodes=2
