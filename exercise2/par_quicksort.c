@@ -74,6 +74,16 @@ void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
     }
 }
 
+// Parallel quicksort algorithm
+void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
+
+    #pragma omp parallel for
+    for (int i =0; i<size; i++){
+        quicksort(data, size, sizeof(data_t), compare_ge);
+    }
+    
+}
+
 
 // Verification functions (for debugging)
 int verify_sorting(data_t* data, int start, int end, int not_used){

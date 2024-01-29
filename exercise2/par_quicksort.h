@@ -101,3 +101,5 @@ verify_t show_array;
 // Declare partitioning and sorting functions
 int partition(data_t *, int, int, compare_t);
 void quicksort(data_t *, int, int, compare_t);
+
+void par_quicksort(data_t *, int);
