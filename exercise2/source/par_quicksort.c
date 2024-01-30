@@ -96,13 +96,13 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge, int n_thr
 
     // Sort the left and right side
     if(n_threads > 1) {
-            #pragma omp task shared(arr) if(high - low > SIZE/num_threads)
-            quicksort(arr, low, pivot-1, n_threads);
-            #pragma omp task shared(arr) if(high - low > SIZE/num_threads)
-            quicksort(arr, pivot+1, high, n_threads);
+            #pragma omp task shared(data) if(end - start > SIZE/num_threads)
+            quicksort(data, start, pivot-1, n_threads);
+            #pragma omp task shared(data) if(end - start > SIZE/num_threads)
+            quicksort(data, pivot+1, end, n_threads);
         } else {
-            quicksort(arr, low, pivot-1, n_threads);
-            quicksort(arr, pivot+1, high, n_threads);
+            quicksort(data, start, pivot-1, n_threads);
+            quicksort(data, pivot+1, end, n_threads);
         }
     
 }

@@ -89,7 +89,7 @@ typedef struct {
 typedef int compare_t(const void *, const void *);
 
 // Define verifying function type, used to test results
-typedef int verify_t(const data_t *, int);
+typedef int verify_t(const data_t *, int, int, int);
 
 // Declare the functions
 compare_t compare;      // compare function
