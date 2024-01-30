@@ -94,14 +94,13 @@ int main(int argc, char** argv){
     data = NULL;
 
     // Print the part of the array arrived at each process
-    if (rank == 0) {
-        printf("Process %d received:\n", rank);
-        for (int i = 0; i < chunk_size; i++) {
-            printf("%lf ", chunk[i].data[HOT]);
+    for (int i=0; i<num_processes; i++) {
+        if (rank == i) {
+            printf("Process %d received:\n", rank);
+            show_array(chunk, 0, chunk_size, 0);
         }
-        printf("\n");
+        MPI_Barrier(MPI_COMM_WORLD);
     }
-
     // // Compute the start and end index of the chunk
     // int start = rank * chunk_size;
     // int end = start + chunk_size;
