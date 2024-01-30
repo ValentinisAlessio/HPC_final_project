@@ -59,14 +59,14 @@ int main(int argc, char** argv){
 
     if (num_processes == 1){
         omp_set_num_threads(nthreads);
-        par_quicksort(data, 0, N, compare_ge);
+        par_quicksort(data, 0, N, compare_ge, nthreads);
     }else{
         int local_size = N/num_processes;
         int local_start = rank*local_size;
         int local_end = local_start + local_size;
         data_t *local_data = (data_t*)malloc(local_size*sizeof(data_t));
         MPI_Scatter(data, local_size, MPI_DOUBLE, local_data, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-        par_quicksort(local_data, 0, local_size, compare_ge);
+        par_quicksort(local_data, 0, local_size, compare_ge, nthreads);
         MPI_Gather(local_data, local_size, MPI_DOUBLE, data, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
         free(local_data);
     }

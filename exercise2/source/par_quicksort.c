@@ -75,7 +75,7 @@ void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 }
 
 // Parallel quicksort algorithm
-void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
+void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge, int n_threads){
 
     #if defined(DEBUG)
     #define CHECK{\
@@ -95,14 +95,14 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
     int pivot = partition(data, start, end, cmp_ge);
 
     // Sort the left and right side
-    if(num_threads > 1) {
+    if(n_threads > 1) {
             #pragma omp task shared(arr) if(high - low > SIZE/num_threads)
-            quicksort(arr, low, pivot-1, num_threads);
+            quicksort(arr, low, pivot-1, n_threads);
             #pragma omp task shared(arr) if(high - low > SIZE/num_threads)
-            quicksort(arr, pivot+1, high, num_threads);
+            quicksort(arr, pivot+1, high, n_threads);
         } else {
-            quicksort(arr, low, pivot-1, num_threads);
-            quicksort(arr, pivot+1, high, num_threads);
+            quicksort(arr, low, pivot-1, n_threads);
+            quicksort(arr, pivot+1, high, n_threads);
         }
     
 }
