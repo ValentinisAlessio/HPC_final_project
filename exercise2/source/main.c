@@ -103,9 +103,9 @@ int main(int argc, char** argv){
         
         // Compute sendcounts and displs
         int elements_per_process = N / num_processes;
-        printf("elements_per_process: %d\n", elements_per_process)
+        printf("elements_per_process: %d\n", elements_per_process);
         int remaining_elements = N % num_processes;
-        printf("remaining_elements: %d\n", remaining_elements)
+        printf("remaining_elements: %d\n", remaining_elements);
         int current_displ = 0;
         for (int i = 0; i < num_processes; i++) {
             sendcounts[i] = elements_per_process + (i < remaining_elements ? 1 : 0);
