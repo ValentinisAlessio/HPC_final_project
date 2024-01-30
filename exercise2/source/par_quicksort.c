@@ -36,7 +36,7 @@ int partition(data_t* data, int start, int end, compare_t cmp_ge){
 }
 
 
-// Parallel quicksort algorithm
+// Quicksort algorithm
 void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 
     #if defined(DEBUG)
@@ -77,10 +77,33 @@ void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 // Parallel quicksort algorithm
 void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 
-    #pragma omp parallel for
-    for (int i =0; i<size; i++){
-        quicksort(data, size, sizeof(data_t), compare_ge);
-    }
+    #if defined(DEBUG)
+    #define CHECK{\
+        if (verify_partitioning(data, start, end, mid)){\
+            printf("Partitioning error!\n");\
+            printf("%4d, %4d (%4d, &g) -> %4d, %4d + %4d, %4d\n",\
+            start, end, mid, data[mid].data[HOT], start, mid, mid+1, end);\
+            show_array(data, start, end, 0); }}
+    #else
+    #define CHECK
+    #endif
+
+    if (end - start <= 0)
+        return;
+    
+    // Partition the array
+    int pivot = partition(data, start, end, cmp_ge);
+
+    // Sort the left and right side
+    if(num_threads > 1) {
+            #pragma omp task shared(arr) if(high - low > SIZE/num_threads)
+            quicksort(arr, low, pivot-1, num_threads);
+            #pragma omp task shared(arr) if(high - low > SIZE/num_threads)
+            quicksort(arr, pivot+1, high, num_threads);
+        } else {
+            quicksort(arr, low, pivot-1, num_threads);
+            quicksort(arr, pivot+1, high, num_threads);
+        }
     
 }
 
