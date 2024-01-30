@@ -4,6 +4,7 @@ int main(int argc, char** argv){
 
     // Default values
     int N = N_dflt;
+    int nthreads=1;
     
     /* check command-line arguments */
     {
@@ -46,7 +47,7 @@ int main(int argc, char** argv){
     show_array(data, 0, N, 0);
     printf("\n");
 
-    int num_processes, rank, nthreads;
+    int num_processes, rank;
     char* env_var = getenv("OMP_NUM_THREADS");
     if (env_var != NULL) {
         int nthreads = atoi(env_var);
