@@ -64,6 +64,12 @@ int main(int argc, char** argv){
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     // ---------------------------------------------
+    // Create custom MPI data type for data_t
+    MPI_Datatype MPI_DATA_T;
+    MPI_Type_contiguous(sizeof(data_t), MPI_BYTE, &MPI_DATA_T);
+    MPI_Type_commit(&MPI_DATA_T);
+
+    // ---------------------------------------------
     // Print the unsorted array
     if (rank == 0) {
         printf("Unsorted array:\n");
@@ -87,7 +93,7 @@ int main(int argc, char** argv){
     data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
 
     // Scatter the array to all processes
-    MPI_Scatter(data, chunk_size, MPI_DOUBLE, chunk, chunk_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Scatter(data, chunk_size, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
 
     // Free the memory of the original array
     free(data);
@@ -115,6 +121,7 @@ int main(int argc, char** argv){
     // par_quicksort(chunk, 0, own_chunk_size, compare_ge);
 
     MPI_Finalize();
+    MPI_Type_free(&MPI_DATA_T);
     free(chunk);
     chunk = NULL;
 
