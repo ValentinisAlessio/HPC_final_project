@@ -92,12 +92,12 @@ int main(int argc, char** argv){
     // Allocate memory for the chunk
     data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
 
+    // Define arrays to describe scatter
+    int *sendcounts = NULL;
+    int *displs = NULL;
 
     // Allocate memory for sendcounts and displs
     if (rank == 0) {
-        // Define arrays to describe scatter
-        int *sendcounts = NULL;
-        int *displs = NULL;
         sendcounts = (int*)malloc(num_processes * sizeof(int));
         displs = (int*)malloc(num_processes * sizeof(int));
         
