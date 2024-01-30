@@ -15,7 +15,7 @@ date
 pwd
 hostname
 
-module load openMPI/4.1.4/gnu/12.2.1
+module load openMPI/4.1.5/gnu/12.2.1
 module load architecture/Intel
 
 make
@@ -24,6 +24,6 @@ export OMP_NUM_THREADS=16
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 
-mpirun -np 8 ./main
+mpirun -np 8 ./main 10
 
 make clean
