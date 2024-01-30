@@ -87,7 +87,8 @@ int main(int argc, char** argv){
     MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     // Compute chunk size to be sent to each process
-    int chunk_size = (N % num_processes == 0) ? N / num_processes : N / (num_processes - 1);
+    // int chunk_size = (N % num_processes == 0) ? N / num_processes : N / (num_processes - 1);
+    int chunk_size = N / num_processes;
     printf("Chunk size: %d\n", chunk_size);
 
     // Allocate memory for the chunk
