@@ -102,6 +102,6 @@ verify_t show_array;
 int partition(data_t *, int, int, compare_t);
 void quicksort(data_t *, int, int, compare_t);
 
-void par_quicksort(data_t *, int, int, compare_t, int);
+void par_quicksort(data_t *, int, int, compare_t);
 
 data_t* merge(data_t *, int, data_t *, int, compare_t);
