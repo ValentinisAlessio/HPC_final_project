@@ -42,14 +42,7 @@ int main(int argc, char** argv){
     }    
     #endif
 
-    // Print unordered array
-    if(rank == 0){
-        printf("Unordered array:\n");
-        show_array(data, 0, N, 0);
-        printf("\n");
-    }
 
-    int num_processes, rank;
     char* env_var = getenv("OMP_NUM_THREADS");
     if (env_var != NULL) {
         int nthreads = atoi(env_var);
@@ -57,10 +50,17 @@ int main(int argc, char** argv){
         printf("OMP_NUM_THREADS environment variable not set.\n");
     }
 
+    int num_processes, rank;
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &num_processes);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
+    // Print unordered array
+    if(rank == 0){
+        printf("Unordered array:\n");
+        show_array(data, 0, N, 0);
+        printf("\n");
+    }
     printf("Rank %d out of %d processes\n", rank, num_processes);
 
     if (num_processes == 1){
