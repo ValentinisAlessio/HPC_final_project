@@ -88,7 +88,7 @@ int main(int argc, char** argv){
 
     // Compute chunk size to be sent to each process
     int chunk_size = (N % num_processes == 0) ? N / num_processes : N / (num_processes - 1);
-    printf("Chunk size: %d\n", chunk_size)
+    printf("Chunk size: %d\n", chunk_size);
 
     // Allocate memory for the chunk
     data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
