@@ -92,12 +92,12 @@ int main(int argc, char** argv){
     // Allocate memory for the chunk
     data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
 
-    // Define arrays to describe scatter
-    int *sendcounts = NULL;
-    int *displs = NULL;
 
     // Allocate memory for sendcounts and displs
     if (rank == 0) {
+        // Define arrays to describe scatter
+        int *sendcounts = NULL;
+        int *displs = NULL;
         sendcounts = (int*)malloc(num_processes * sizeof(int));
         displs = (int*)malloc(num_processes * sizeof(int));
         
@@ -108,9 +108,9 @@ int main(int argc, char** argv){
         printf("remaining_elements: %d\n", remaining_elements);
         int current_displ = 0;
         for (int i = 0; i < num_processes; i++) {
-            sendcounts[i] = elements_per_process + (i < remaining_elements ? 1 : 0);
-            current_displ += sendcounts[i];
+            sendcounts[i] = elements_per_process + (i <= (remaining_elements-1) ? 1 : 0);
             displs[i] = current_displ;
+            current_displ += sendcounts[i];
         }
     }
 
