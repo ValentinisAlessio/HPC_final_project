@@ -130,6 +130,17 @@ int main(int argc, char** argv){
     // Compute size of own chunk and
     // then sort them
     // using quick sort
+
+    if (rank == 0):
+        printf("Chunk size: %d\n", chunk_size)
+    int own_chunk_size = (rank < N % num_processes) ? chunk_size+1 : chunk_size;
+    for (int i=0; i<num_processes; i++) {
+        if (rank == i) {
+            printf("Process %d has %d elements\n", rank, own_chunk_size);
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
+
     // Sorting array with quick sort for every
     // chunk as called by process
     par_quicksort(chunk, 0, chunk_size, compare_ge);
