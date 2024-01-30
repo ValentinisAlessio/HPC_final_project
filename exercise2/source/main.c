@@ -59,7 +59,10 @@ int main(int argc, char** argv){
     MPI_Comm_size(MPI_COMM_WORLD, &num_processes);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
+    printf("Rank %d out of %d processes\n", rank, num_processes);
+
     if (num_processes == 1){
+        printf("Sorting with %d threads\n", nthreads);
         omp_set_num_threads(nthreads);
         par_quicksort(data, 0, N, compare_ge, nthreads);
     }else{
@@ -68,6 +71,7 @@ int main(int argc, char** argv){
         int local_end = local_start + local_size;
         data_t *local_data = (data_t*)malloc(local_size*sizeof(data_t));
         MPI_Scatter(data, local_size, MPI_DOUBLE, local_data, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        printf("Rank %d: Sorting local data with %d threads\n", rank, nthreads);
         par_quicksort(local_data, 0, local_size, compare_ge, nthreads);
         MPI_Gather(local_data, local_size, MPI_DOUBLE, data, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
         free(local_data);
