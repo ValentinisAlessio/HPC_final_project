@@ -130,11 +130,10 @@ int main(int argc, char** argv){
     // then sort them
     // using quick sort
  
-    own_chunk_size = (number_of_elements
-                      >= chunk_size * (rank_of_process + 1))
+    int own_chunk_size = (N
+                      >= chunk_size * (rank + 1))
                          ? chunk_size
-                         : (number_of_elements
-                            - chunk_size * rank_of_process);
+                         : (N - chunk_size * rank);
  
     // Sorting array with quick sort for every
     // chunk as called by process
