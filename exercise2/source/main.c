@@ -128,12 +128,9 @@ int main(int argc, char** argv){
     // Compute size of own chunk and
     // then sort them
     // using quick sort
- 
-    int own_chunk_size = N / num_processes + 1;
- 
     // Sorting array with quick sort for every
     // chunk as called by process
-    par_quicksort(chunk, 0, own_chunk_size, compare_ge);
+    par_quicksort(chunk, 0, chunk_size, compare_ge);
 
     // ---------------------------------------------
     // Debug message
