@@ -13,6 +13,13 @@ int main(int argc, char** argv){
         if ( argc > ++a ) N = atoi(*(argv+a));
     }
 
+    char* env_var = getenv("OMP_NUM_THREADS");
+    if (env_var != NULL) {
+        int nthreads = atoi(env_var);
+    } else {
+        printf("OMP_NUM_THREADS environment variable not set.\n");
+    }
+
     // ---------------------------------------------
     //  generate the array
     //
@@ -43,12 +50,6 @@ int main(int argc, char** argv){
     #endif
 
 
-    char* env_var = getenv("OMP_NUM_THREADS");
-    if (env_var != NULL) {
-        int nthreads = atoi(env_var);
-    } else {
-        printf("OMP_NUM_THREADS environment variable not set.\n");
-    }
 
     // ---------------------------------------------
     // Initialize MPI
@@ -95,6 +96,20 @@ int main(int argc, char** argv){
     data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
 
     MPI_Scatter(data, chunk_size, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+
+    // Send the remaining elements to the first processes (if any)
+    if (rank == 0) {
+        int remaining = N % num_processes;
+        if (remaining > 0) {
+            #pragma omp parallel for
+            for (int i=0; i<remaining; i++) {
+                MPI_Send(&data[chunk_size*num_processes+i], 1, MPI_DATA_T, i, 0, MPI_COMM_WORLD);
+            }
+        }
+    }
+    if (rank < N % num_processes) {
+        MPI_Recv(&chunk[chunk_size], 1, MPI_DATA_T, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
 
 
     // Free the memory of the original array
