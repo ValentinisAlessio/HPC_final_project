@@ -124,18 +124,31 @@ int main(int argc, char** argv){
         }
         MPI_Barrier(MPI_COMM_WORLD);
     }
-    // // Compute the start and end index of the chunk
-    // int start = rank * chunk_size;
-    // int end = start + chunk_size;
 
-    // own_chunk_size = (number_of_elements
-    //                   >= chunk_size * (rank_of_process + 1))
-    //                      ? chunk_size
-    //                      : (number_of_elements
-    //                         - chunk_size * rank_of_process);
+    // ---------------------------------------------
+    // Compute size of own chunk and
+    // then sort them
+    // using quick sort
+ 
+    own_chunk_size = (number_of_elements
+                      >= chunk_size * (rank_of_process + 1))
+                         ? chunk_size
+                         : (number_of_elements
+                            - chunk_size * rank_of_process);
+ 
+    // Sorting array with quick sort for every
+    // chunk as called by process
+    quicksort(chunk, 0, own_chunk_size);
 
-    // // Sort the chunk
-    // par_quicksort(chunk, 0, own_chunk_size, compare_ge);
+    // ---------------------------------------------
+    // Debug message
+    for (int i=0; i<num_processes; i++) {
+        if (rank == i) {
+            printf("Process %d sorted:\n", rank);
+            show_array(chunk, 0, chunk_size, 0);
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
 
     MPI_Finalize();
     MPI_Type_free(&MPI_DATA_T);
