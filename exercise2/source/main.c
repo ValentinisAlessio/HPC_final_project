@@ -131,7 +131,7 @@ int main(int argc, char** argv){
     // then sort them
     // using quick sort
 
-    if (rank == 0):
+    if (rank == 0)
         printf("Chunk size: %d\n", chunk_size);
     int own_chunk_size = (rank < N % num_processes) ? chunk_size+1 : chunk_size;
     for (int i=0; i<num_processes; i++) {
