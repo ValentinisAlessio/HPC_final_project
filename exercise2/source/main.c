@@ -49,7 +49,10 @@ int main(int argc, char** argv){
     }    
     #endif
 
-
+    // Try to sort the array
+    show_array(data, 0, N, 0);
+    par_quicksort(data, 0, N, compare_ge);
+    show_array(data, 0, N, 0);
 
     // ---------------------------------------------
     // Initialize MPI
