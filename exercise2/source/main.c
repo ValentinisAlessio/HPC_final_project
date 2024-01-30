@@ -92,8 +92,32 @@ int main(int argc, char** argv){
     // Allocate memory for the chunk
     data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
 
+    // Define arrays to describe scatter
+    int *sendcounts = NULL;
+    int *displs = NULL;
+
+    // Allocate memory for sendcounts and displs
+    if (rank == 0) {
+        sendcounts = (int*)malloc(num_processes * sizeof(int));
+        displs = (int*)malloc(num_processes * sizeof(int));
+        
+        // Compute sendcounts and displs
+        int remaining_elements = N;
+        for (int i = 0; i < num_processes; i++) {
+            sendcounts[i] = remaining_elements / (num_processes - i);
+            displs[i] = (i > 0) ? displs[i - 1] + sendcounts[i - 1] : 0;
+            remaining_elements -= sendcounts[i];
+        }
+    }
+
     // Scatter the array to all processes
-    MPI_Scatter(data, chunk_size, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+    MPI_Scatterv(data, sendcounts, displs, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+
+    // Free memory for sendcounts and displs
+    if (rank == 0) {
+        free(sendcounts);
+        free(displs);
+    }
 
     // Free the memory of the original array
     free(data);
