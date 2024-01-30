@@ -50,42 +50,74 @@ int main(int argc, char** argv){
         printf("OMP_NUM_THREADS environment variable not set.\n");
     }
 
+    // ---------------------------------------------
+    // Initialize MPI
     int num_processes, rank;
-    MPI_Init(&argc, &argv);
+    int mpi_err = MPI_Init(&argc, &argv);
+
+    if (mpi_err != MPI_SUCCESS) {
+        printf("Error starting MPI program. Terminating.\n");
+        MPI_Abort(MPI_COMM_WORLD, mpi_err);
+    }
+
     MPI_Comm_size(MPI_COMM_WORLD, &num_processes);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    // Print unordered array
-    if(rank == 0){
-        printf("Unordered array:\n");
+    // ---------------------------------------------
+    // Print the unsorted array
+    if (rank == 0) {
+        printf("Unsorted array:\n");
         show_array(data, 0, N, 0);
+    }
+
+    // ---------------------------------------------
+    // Sinchronize all processes
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    // ---------------------------------------------
+    // Sort the array
+
+    // Broadcast the dimension of the array to all processes
+    MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
+    // Compute chunk size to be sent to each process
+    int chunk_size = (N % num_processes == 0) ? N / num_processes : N / (num_processes - 1);
+
+    // Allocate memory for the chunk
+    data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
+
+    // Scatter the array to all processes
+    MPI_Scatter(data, chunk_size, MPI_DOUBLE, chunk, chunk_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    // Free the memory of the original array
+    free(data);
+    data = NULL;
+
+    // Print the part of the array arrived at each process
+    if (rank == 0) {
+        printf("Process %d received:\n", rank);
+        for (int i = 0; i < chunk_size; i++) {
+            printf("%lf ", chunk[i].data[HOT]);
+        }
         printf("\n");
     }
-    printf("Rank %d out of %d processes\n", rank, num_processes);
 
-    if (num_processes == 1){
-        printf("Sorting with %d threads\n", nthreads);
-        omp_set_num_threads(nthreads);
-        par_quicksort(data, 0, N, compare_ge, nthreads);
-    }else{
-        int local_size = N/num_processes;
-        int local_start = rank*local_size;
-        int local_end = local_start + local_size;
-        data_t *local_data = (data_t*)malloc(local_size*sizeof(data_t));
-        MPI_Scatter(data, local_size, MPI_DOUBLE, local_data, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-        printf("Rank %d: Sorting local data with %d threads\n", rank, nthreads);
-        par_quicksort(local_data, 0, local_size, compare_ge, nthreads);
-        MPI_Gather(local_data, local_size, MPI_DOUBLE, data, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-        free(local_data);
-    }
+    // // Compute the start and end index of the chunk
+    // int start = rank * chunk_size;
+    // int end = start + chunk_size;
 
-    // Print ordered array
-    if(rank == 0){
-        printf("Ordered array:\n");
-        show_array(data, 0, N, 0);
-    }
-    free(data);
+    // own_chunk_size = (number_of_elements
+    //                   >= chunk_size * (rank_of_process + 1))
+    //                      ? chunk_size
+    //                      : (number_of_elements
+    //                         - chunk_size * rank_of_process);
+
+    // // Sort the chunk
+    // par_quicksort(chunk, 0, own_chunk_size, compare_ge);
+
     MPI_Finalize();
+    free(chunk);
+    chunk = NULL;
 
     return 0;
 }

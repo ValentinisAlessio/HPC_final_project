@@ -20,6 +20,9 @@ int partition(data_t* data, int start, int end, compare_t cmp_ge){
 
     // Partition around the pivot
     int pointbreak = start + 1;
+
+    // Parallelize this loop
+    #pragma omp parallel for
     for (int i = start + 1; i <= end; ++i){
         if (!cmp_ge((void*)&data[i], pivot)){
             // Move elements less than pivot to the left side
@@ -75,7 +78,7 @@ void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 }
 
 // Parallel quicksort algorithm
-void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge, int n_threads){
+void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 
     #if defined(DEBUG)
     #define CHECK{\
@@ -88,27 +91,60 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge, int n_thr
     #define CHECK
     #endif
 
-    if (end - start <= 0)
-        return;
-    
-    // Partition the array
-    int pivot = partition(data, start, end, cmp_ge);
+    if (start < end){    
+        // Partition the array
+        int pivot = partition(data, start, end, cmp_ge);
 
-    // Sort the left and right side
-    if(n_threads > 1) {
-        #pragma omp task shared(data) if(end - start > (int)(sizeof(data)/DATA_SIZE)/n_threads)
-            par_quicksort(data, start, pivot-1, cmp_ge, n_threads);
-        #pragma omp task shared(data) if(end - start > (int)(sizeof(data)/DATA_SIZE)/n_threads)
-            par_quicksort(data, pivot+1, end, cmp_ge, n_threads);
-    } else {
-        quicksort(data, start, pivot-1, cmp_ge);
-        quicksort(data, pivot+1, end, cmp_ge);
+        CHECK;  // Verify partitioning
+
+        // Sort the left and right side
+        #pragma omp parallel sections
+        {
+            #pragma omp section
+            par_quicksort(data, start, pivot, cmp_ge);
+            #pragma omp section
+            par_quicksort(data, pivot + 1, end, cmp_ge);
+        }
     }
-    
 }
 
+data_t* merge(data_t* data1, int n1, data_t* data2, int n2, compare_t cmp_ge){
 
+    // Allocate memory for the merged array
+    data_t* merged = (data_t*)malloc((n1 + n2)*sizeof(data_t));
+    int i =0, j = 0, k;
+
+    // Merge the two arrays
+    for (k = 0; k < n1 + n2; k++){
+        if (i>=n1){
+            merged[k] = data2[j];
+            j++;
+        }
+        else if (j>=n2){
+            merged[k] = data1[i];
+            i++;
+        }
+
+        // Indeces are in bounds
+        // i < n1 && j < n2
+        else if (cmp_ge((void*)&data1[i], (void*)&data2[j])){
+            merged[k] = data1[i];
+            i++;
+        }
+        else{
+            merged[k] = data2[j];
+            j++;
+        }
+    }
+
+    return merged;
+}
+
+// =================================================================================================
 // Verification functions (for debugging)
+// =================================================================================================
+
+
 int verify_sorting(data_t* data, int start, int end, int not_used){
 
     // Check if the array is sorted
