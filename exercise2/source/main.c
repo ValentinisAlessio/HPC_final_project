@@ -44,6 +44,7 @@ int main(int argc, char** argv){
     // Print unordered array
     printf("Unordered array:\n");
     show_array(data, 0, N, 0);
+    printf("\n");
 
     int num_processes, rank, nthreads;
     char* env_var = getenv("OMP_NUM_THREADS");

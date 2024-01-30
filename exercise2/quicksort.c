@@ -93,7 +93,7 @@
 // let's define the default amount of data
 //
 #if (!defined(DEBUG) || defined(_OPENMP))
-#define N_dflt    100000
+#define N_dflt    10
 #else
 #define N_dflt    10000
 #endif
