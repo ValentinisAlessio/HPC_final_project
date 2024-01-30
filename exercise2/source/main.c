@@ -43,9 +43,11 @@ int main(int argc, char** argv){
     #endif
 
     // Print unordered array
-    printf("Unordered array:\n");
-    show_array(data, 0, N, 0);
-    printf("\n");
+    if(rank == 0){
+        printf("Unordered array:\n");
+        show_array(data, 0, N, 0);
+        printf("\n");
+    }
 
     int num_processes, rank;
     char* env_var = getenv("OMP_NUM_THREADS");
@@ -78,8 +80,10 @@ int main(int argc, char** argv){
     }
 
     // Print ordered array
-    printf("Ordered array:\n");
-    show_array(data, 0, N, 0);
+    if(rank == 0){
+        printf("Ordered array:\n");
+        show_array(data, 0, N, 0);
+    }
     free(data);
     MPI_Finalize();
 
