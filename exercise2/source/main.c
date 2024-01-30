@@ -93,33 +93,35 @@ int main(int argc, char** argv){
     data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
 
     // Define arrays to describe scatter
-int *sendcounts = NULL;
-int *displs = NULL;
+    int *sendcounts = NULL;
+    int *displs = NULL;
 
-// Allocate memory for sendcounts and displs
-if (rank == 0) {
-    sendcounts = (int*)malloc(num_processes * sizeof(int));
-    displs = (int*)malloc(num_processes * sizeof(int));
-    
-    // Compute sendcounts and displs
-    int elements_per_process = N / num_processes;
-    int remaining_elements = N % num_processes;
-    int current_displ = 0;
-    for (int i = 0; i < num_processes; i++) {
-        sendcounts[i] = elements_per_process + (i < remaining_elements ? 1 : 0);
-        displs[i] = current_displ;
-        current_displ += sendcounts[i];
+    // Allocate memory for sendcounts and displs
+    if (rank == 0) {
+        sendcounts = (int*)malloc(num_processes * sizeof(int));
+        displs = (int*)malloc(num_processes * sizeof(int));
+        
+        // Compute sendcounts and displs
+        int elements_per_process = N / num_processes;
+        printf("elements_per_process: %d\n", elements_per_process)
+        int remaining_elements = N % num_processes;
+        printf("remaining_elements: %d\n", remaining_elements)
+        int current_displ = 0;
+        for (int i = 0; i < num_processes; i++) {
+            sendcounts[i] = elements_per_process + (i < remaining_elements ? 1 : 0);
+            current_displ += sendcounts[i];
+            displs[i] = current_displ;
+        }
     }
-}
 
-// Scatter the array to all processes
-MPI_Scatterv(data, sendcounts, displs, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+    // Scatter the array to all processes
+    MPI_Scatterv(data, sendcounts, displs, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
 
-// Free memory for sendcounts and displs
-if (rank == 0) {
-    free(sendcounts);
-    free(displs);
-}
+    // Free memory for sendcounts and displs
+    if (rank == 0) {
+        free(sendcounts);
+        free(displs);
+    }
 
 
     // Free the memory of the original array
