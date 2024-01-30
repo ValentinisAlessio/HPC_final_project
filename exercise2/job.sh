@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=job
 #SBATCH --output=job.out
-#SBATCH --no-requeue
+#SBATCH --error=job.err
 #SBATCH --get-user-env
-#SBATCH --partition=THIN
+#SBATCH -p THIN
 #SBATCH --nodes=1
 #SBATCH --ntasks=8
 #SBATCH --time=00:30:00
