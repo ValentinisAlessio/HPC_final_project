@@ -137,7 +137,7 @@ int main(int argc, char** argv){
  
     // Sorting array with quick sort for every
     // chunk as called by process
-    quicksort(chunk, 0, own_chunk_size);
+    par_quicksort(chunk, 0, own_chunk_size, compare_ge);
 
     // ---------------------------------------------
     // Debug message
