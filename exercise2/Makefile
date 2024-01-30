@@ -12,7 +12,7 @@ OBJECTS = $(OBJDIR)/par_quicksort.o $(OBJDIR)/main.o
 main: $(OBJECTS)
 	$(CC) $(OFLAGS) $^ -o $@
 
-$(OBJDIR)%.o: $(SRCDIR)%.c $(DEPS)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 	$(CC) $(CFLAGS) $(OFLAGS) $< -o $@
 
 clean:
