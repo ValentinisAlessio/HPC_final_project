@@ -1,0 +1,29 @@
+#!/bin/bash
+#SBATCH --job-name=job
+#SBATCH --output=job.out
+#SBATCH --no-requeue
+#SBATCH --get-user-env
+#SBATCH --partition=THIN
+#SBATCH --nodes=1
+#SBATCH --ntasks=8
+#SBATCH --time=00:30:00
+#SBATCH --mem=10000
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=ALESSIO.VALENTINIS@studenti.units.it
+
+date
+pwd
+hostname
+
+module load openMPI/4.1.4/gnu/12.2.1
+module load architecture/Intel
+
+make
+
+export OMP_NUM_THREADS=16
+export OMP_PLACES=cores
+export OMP_PROC_BIND=close
+
+mpirun -np 8 ./main
+
+make clean
