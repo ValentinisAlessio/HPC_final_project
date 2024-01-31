@@ -15,7 +15,7 @@
 module load openMPI/4.1.5/gnu/12.2.1
 
 # Specify the path to the result file
-csv_file="results/bcast_bintree_results.csv"
+csv_file="results/bcast_bintree_results_wu.csv"
 
 # Go to the directory where the benchmark is located
 src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
@@ -37,9 +37,8 @@ for mapping in $map_values; do
     for np in $np_values; do
         echo "Running MPI Bcast benchmark: map=$mapping, np=$np, broadcast_algo=$broadcast_algo ..."
         # Run MPI Bcast benchmark and capture output
-        output=$(mpirun -np $np --map-by $mapping --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 5 $src_path/osu_bcast)
+        mpirun -np $np --map-by $mapping --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 5 $src_path/osu_bcast -i 100 -x 10000 |\
         # Append results to CSV file
-        tail -n 21 "$output" | awk -v mapping="$mapping" -v np="$np" '{printf "bin_tree,%s,%s,%s,%s\n",mapping,np,$1,$2}'\
-        | sed 's/,$//' >> $csv_file
+        tail -n 21 | awk -v mapping="$mapping" -v np="$np" '{printf "bin_tree,%s,%s,%s,%s\n",mapping,np,$1,$2}' | sed 's/,$//' >> $csv_file
     done
 done
