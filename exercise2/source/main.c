@@ -187,7 +187,7 @@ int main(int argc, char** argv){
     MPI_Gather(&own_chunk_size, 1, MPI_INT, chunk_sizes, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     // For gatherv we need to know the displacements of each chunk
-    int* displs = NULL;
+    displs = NULL;
     if (rank == 0) {
         displs = (int*)malloc(num_processes*sizeof(int));
         displs[0] = 0;
