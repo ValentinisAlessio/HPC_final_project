@@ -11,6 +11,10 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ALESSIO.VALENTINIS@studenti.units.it
 
+date
+pwd
+hostname
+
 # Load the MPI module
 module load openMPI/4.1.5/gnu/12.2.1
 
