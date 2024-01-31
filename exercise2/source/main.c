@@ -114,7 +114,6 @@ int main(int argc, char** argv){
 
     // Free the memory of the original array
     free(data);
-    data = NULL;
 
     // Print the part of the array arrived at each process
     for (int i=0; i<num_processes; i++) {
