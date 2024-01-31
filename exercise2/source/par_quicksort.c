@@ -15,19 +15,20 @@ int partition(data_t* data, int start, int end, compare_t cmp_ge){
     //     SWAP(&data[start], &data[end], sizeof(data_t));
 
     // Pick the first element as pivot
-    ++ start;
     void* pivot = (void*)&data[start];
 
     // Partition around the pivot
     int pointbreak = start + 1;
 
     // Parallelize this loop
-    #pragma omp parallel for
     for (int i = start + 1; i <= end; ++i){
         if (!cmp_ge((void*)&data[i], pivot)){
+            
             // Move elements less than pivot to the left side
             SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
+
             ++ pointbreak;
+            
         }
     }
 
@@ -91,25 +92,19 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
     #define CHECK
     #endif
 
-    if (end - start > 2){    
+    if (start < end){    
         // Partition the array
         int pivot = partition(data, start, end, cmp_ge);
+        // int pivot = par_partition(data, start, end, cmp_ge);
 
         CHECK;  // Verify partitioning
 
         // Sort the left and right side
-        #pragma omp parallel sections
-        {
-            #pragma omp section
-            par_quicksort(data, start, pivot, cmp_ge);
-            #pragma omp section
-            par_quicksort(data, pivot + 1, end, cmp_ge);
-        }
-    }else{
-        // Sort the array of size 2
-        if ( (end - start == 2) && cmp_ge((void*)&data[start], (void*)&data[end-1]) )
-            SWAP((void*)&data[start], (void*)&data[end-1], sizeof(data_t));
-    
+        #pragma omp task shared(data)
+        par_quicksort(data, start, pivot, cmp_ge);
+        #pragma omp task shared(data)
+        par_quicksort(data, pivot + 1, end, cmp_ge);
+
     }
 }
 

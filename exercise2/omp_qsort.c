@@ -19,7 +19,6 @@
 ------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h>
 #include <time.h>
 #include <math.h>
 #include <unistd.h>
@@ -186,28 +185,21 @@ int par_partition(data_t* data, int start, int end, compare_t cmp_ge){
     int pointbreak = start + 1;
 
     // Parallelize this loop
-    // #pragma omp parallel
-    // #pragma omp parallel for schedule(dynamic) reduction(+:pointbreak)
-    #pragma omp parallel for shared(data, pointbreak)
+    #pragma omp parallel for shared(data, pivot, pointbreak)
     for (int i = start + 1; i <= end; ++i){
         if (!cmp_ge((void*)&data[i], pivot)){
             
-            #pragma omp critical
-            {
             // Move elements less than pivot to the left side
             SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
 
+            #pragma omp atomic
             ++ pointbreak;
-            }
             
         }
     }
 
     // Put the pivot in the right place
-    #pragma omp master
-    {
     SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
-    }
 
     // Return the pivot position
     return pointbreak - 1;
@@ -231,8 +223,6 @@ int partition(data_t* data, int start, int end, compare_t cmp_ge){
     int pointbreak = start + 1;
 
     // Parallelize this loop
-    // #pragma omp parallel
-    // #pragma omp parallel for schedule(dynamic) reduction(+:pointbreak)
     for (int i = start + 1; i <= end; ++i){
         if (!cmp_ge((void*)&data[i], pivot)){
             
@@ -313,7 +303,6 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
         #pragma omp task shared(data)
         par_quicksort(data, pivot + 1, end, cmp_ge);
 
-        #pragma omp taskwait
     }
 }
 
