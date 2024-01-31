@@ -157,25 +157,47 @@ int main(int argc, char** argv){
     // ---------------------------------------------
     // Gather all the chunks to the root process
     // and merge them
+    data_t* sorted_data = NULL;
     if (rank == 0) {
-        data = (data_t*)malloc((num_processes*own_chunk_size)*sizeof(data_t));
+        sorted_data = (data_t*)malloc(N*sizeof(data_t));
     }
 
-    MPI_Gather(chunk, own_chunk_size, MPI_DATA_T, data, own_chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+    // For gatherv we need to know the size of each chunk
+    int* chunk_sizes = NULL;
+    if (rank == 0) {
+        chunk_sizes = (int*)malloc(num_processes*sizeof(int));
+    }
+    MPI_Gather(&own_chunk_size, 1, MPI_INT, chunk_sizes, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // ---------------------------------------------
-    // Print the sorted array
+    // For gatherv we need to know the displacements of each chunk
+    int* displs = NULL;
+    if (rank == 0) {
+        displs = (int*)malloc(num_processes*sizeof(int));
+        displs[0] = 0;
+        for (int i=1; i<num_processes; i++) {
+            displs[i] = displs[i-1] + chunk_sizes[i-1];
+        }
+    }
+
+    // Gather all the chunks to the root process
+    MPI_Gatherv(chunk, own_chunk_size, MPI_DATA_T, sorted_data, chunk_sizes, displs, MPI_DATA_T, 0, MPI_COMM_WORLD);
+
+    // Debug message
     if (rank == 0) {
         printf("Sorted array:\n");
-        show_array(data, 0, N, 0);
+        show_array(sorted_data, 0, N, 0);
     }
 
     MPI_Finalize();
     MPI_Type_free(&MPI_DATA_T);
     free(chunk);
     chunk = NULL;
-    free(data);
-    data = NULL;
+    free(chunk_sizes);
+    chunk_sizes = NULL;
+    free(displs);
+    displs = NULL;
+    free(sorted_data);
+    sorted_data = NULL;
 
     return 0;
 }
