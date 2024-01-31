@@ -159,7 +159,7 @@ int main(int argc, char** argv){
     // Gather all the chunks to the root process
     // and merge them
 
-    for (int i=0; i<num_processes; i++) {
+    for (int i=1; i<num_processes; i++) {
         if (rank % (2*i) != 0){
             MPI_Send(chunk, own_chunk_size, MPI_DATA_T, rank-i, 0, MPI_COMM_WORLD);
             break;
