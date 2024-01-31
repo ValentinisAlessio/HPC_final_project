@@ -62,12 +62,6 @@ int main(int argc, char** argv){
 
     MPI_Comm_size(MPI_COMM_WORLD, &num_processes);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    // Try to sort the array
-    if(rank == 0){
-        show_array(data, 0, N, 0);
-        par_quicksort(data, 0, N, compare_ge);
-        show_array(data, 0, N, 0);
-    }
 
     // ---------------------------------------------
     // Create custom MPI data type for data_t
