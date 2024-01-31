@@ -142,17 +142,17 @@ int main(int argc, char** argv){
 
     // Sorting array with quick sort for every
     // chunk as called by process
-    //par_quicksort(chunk, 0, chunk_size, compare_ge);
+    par_quicksort(chunk, 0, chunk_size, compare_ge);
 
     // ---------------------------------------------
     // Debug message
-    // for (int i=0; i<num_processes; i++) {
-    //     if (rank == i) {
-    //         printf("Process %d sorted:\n", rank);
-    //         show_array(chunk, 0, chunk_size, 0);
-    //     }
-    //     MPI_Barrier(MPI_COMM_WORLD);
-    // }
+    for (int i=0; i<num_processes; i++) {
+        if (rank == i) {
+            printf("Process %d sorted:\n", rank);
+            show_array(chunk, 0, chunk_size, 0);
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
 
     MPI_Finalize();
     MPI_Type_free(&MPI_DATA_T);
