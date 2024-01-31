@@ -159,26 +159,7 @@ int main(int argc, char** argv){
     // Gather all the chunks to the root process
     // and merge them
 
-    for (int i=1; i<num_processes; i*=2) {
-        if (rank % (2*i) != 0){
-            MPI_Send(chunk, own_chunk_size, MPI_DATA_T, rank-i, 0, MPI_COMM_WORLD);
-            break;
-        }
-
-        if (rank + i < num_processes){
-            int received_chunk_size = (N >= chunk_size * (rank+2*i)) ? chunk_size*i : (N - chunk_size * (rank + i));
-
-            data_t* received_chunk = (data_t*)malloc(received_chunk_size*sizeof(data_t));
-            MPI_Recv(received_chunk, received_chunk_size, MPI_DATA_T, rank+i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-            data = merge(chunk, own_chunk_size, received_chunk, received_chunk_size, compare_ge);
-
-            free(chunk);
-            free(received_chunk);
-            chunk = data;
-            own_chunk_size += received_chunk_size;
-        }
-    }
+    MPI_Gather(chunk, chunk_size, MPI_DATA_T, data, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
 
     // ---------------------------------------------
     // Print the sorted array
