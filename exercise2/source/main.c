@@ -154,6 +154,38 @@ int main(int argc, char** argv){
         MPI_Barrier(MPI_COMM_WORLD);
     }
 
+
+    // ---------------------------------------------
+    // Gather all the chunks to the root process
+    // and merge them
+
+    // Allocate memory for the sorted array
+    data_t* sorted = NULL;
+    if (rank == 0) {
+        sorted = (data_t*)malloc(N*sizeof(data_t));
+    }
+
+    // Gather all the chunks to the root process
+    MPI_Gather(chunk, chunk_size, MPI_DATA_T, sorted, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+
+    // Receive the remaining elements from the first processes (if any)
+    if (rank == 0) {
+        int remaining = N % num_processes;
+        if (remaining > 0) {
+            #pragma omp parallel for
+            for (int i=0; i<remaining; i++) {
+                MPI_Recv(&sorted[chunk_size*num_processes+i], 1, MPI_DATA_T, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            }
+        }
+    }
+
+    // ---------------------------------------------
+    // Debug message
+    if (rank == 0) {
+        printf("Sorted array:\n");
+        show_array(sorted, 0, N, 0);
+    }
+    
     MPI_Finalize();
     MPI_Type_free(&MPI_DATA_T);
     free(chunk);
