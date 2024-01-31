@@ -131,9 +131,9 @@ int main(int argc, char** argv){
 
     if (rank == 0)
         printf("Chunk size: %d\n", chunk_size);
-    int own_chunk_size = (rank < N % num_processes) ? chunk_size+1 : chunk_size;
 
-    data_t* chunk = (data_t*)realloc(chunk, own_chunk_size*sizeof(data_t));
+    
+    int own_chunk_size = (rank < N % num_processes) ? chunk_size+1 : chunk_size;
 
     for (int i=0; i<num_processes; i++) {
         if (rank == i) {
@@ -141,6 +141,9 @@ int main(int argc, char** argv){
         }
         MPI_Barrier(MPI_COMM_WORLD);
     }
+
+    // Reallocate memory for the chunk
+    chunk = (data_t*)realloc(chunk, own_chunk_size*sizeof(data_t));
 
     // Sorting array with quick sort for every
     // chunk as called by process
