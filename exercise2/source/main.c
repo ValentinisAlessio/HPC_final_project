@@ -159,33 +159,34 @@ int main(int argc, char** argv){
     // Gather all the chunks to the root process
     // and merge them
 
-    // Allocate memory for the sorted array
-    data_t* sorted = NULL;
-    if (rank == 0) {
-        sorted = (data_t*)malloc(N*sizeof(data_t));
-    }
+    for (int i=0; i<num_processes; i++) {
+        if (rank % (2*i) != 0){
+            MPI_Send(chunk, own_chunk_size, MPI_DATA_T, rank-i, 0, MPI_COMM_WORLD);
+            break;
+        }
 
-    // Gather all the chunks to the root process
-    MPI_Gather(chunk, chunk_size, MPI_DATA_T, sorted, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+        if (rank + i < num_processes){
+            int received_chunk_size = (N >= chunk_size * (rank+2*i)) ? chunk_size*i : (N - chunk_size * (rank + i));
 
-    // Receive the remaining elements from the first processes (if any)
-    if (rank == 0) {
-        int remaining = N % num_processes;
-        if (remaining > 0) {
-            #pragma omp parallel for
-            for (int i=0; i<remaining; i++) {
-                MPI_Recv(&sorted[chunk_size*num_processes+i], 1, MPI_DATA_T, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            }
+            data_t* received_chunk = (data_t*)malloc(received_chunk_size*sizeof(data_t));
+            MPI_Recv(received_chunk, received_chunk_size, MPI_DATA_T, rank+i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+            data = merge(chunk, own_chunk_size, received_chunk, received_chunk_size, compare_ge);
+
+            free(chunk);
+            free(received_chunk);
+            chunk = data;
+            own_chunk_size += received_chunk_size;
         }
     }
 
     // ---------------------------------------------
-    // Debug message
+    // Print the sorted array
     if (rank == 0) {
         printf("Sorted array:\n");
-        show_array(sorted, 0, N, 0);
+        show_array(chunk, 0, N, 0);
     }
-    
+
     MPI_Finalize();
     MPI_Type_free(&MPI_DATA_T);
     free(chunk);
