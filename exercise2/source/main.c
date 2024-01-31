@@ -158,10 +158,10 @@ int main(int argc, char** argv){
     // Gather all the chunks to the root process
     // and merge them
     if (rank == 0) {
-        data_t* sorted = (data_t*)malloc((num_processes*own_chunk_size)*sizeof(data_t));
+        data = (data_t*)malloc((num_processes*own_chunk_size)*sizeof(data_t));
     }
 
-    MPI_Gather(chunk, own_chunk_size, MPI_DATA_T, sorted, own_chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+    MPI_Gather(chunk, own_chunk_size, MPI_DATA_T, data, own_chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
 
     // ---------------------------------------------
     // Print the sorted array
@@ -174,8 +174,8 @@ int main(int argc, char** argv){
     MPI_Type_free(&MPI_DATA_T);
     free(chunk);
     chunk = NULL;
-    free(sorted);
-    sorted = NULL;
+    free(data);
+    data = NULL;
 
     return 0;
 }
