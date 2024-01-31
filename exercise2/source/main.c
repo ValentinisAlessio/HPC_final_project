@@ -88,27 +88,28 @@ int main(int argc, char** argv){
 
     // Compute chunk size to be sent to each process
     // int chunk_size = (N % num_processes == 0) ? N / num_processes : N / (num_processes - 1);
-    int chunk_size = (rank < N % num_processes) ? (N / num_processes) + 1 : N / num_processes;
+    // int chunk_size = (rank < N % num_processes) ? (N / num_processes) + 1 : N / num_processes;
+    int chunk_size = N / num_processes;
     if (rank == 0) {
         printf("Chunk size: %d\n", chunk_size);
     }
     // Allocate memory for the chunk
     data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
 
-    // Compute sendcounts and displacements of each chunk
-    int* sendcounts = (int*)malloc(num_processes*sizeof(int));
-    int* displs = (int*)malloc(num_processes*sizeof(int));
-    displs[0] = 0;
-    for (int i=0; i<num_processes; i++) {
-        sendcounts[i] = (i < N % num_processes) ? chunk_size+1 : chunk_size;
-        if (i > 0) {
-            displs[i] = displs[i-1] + sendcounts[i-1];
-        }
-    }
+    // // Compute sendcounts and displacements of each chunk
+    // int* sendcounts = (int*)malloc(num_processes*sizeof(int));
+    // int* displs = (int*)malloc(num_processes*sizeof(int));
+    // displs[0] = 0;
+    // for (int i=0; i<num_processes; i++) {
+    //     sendcounts[i] = (i < N % num_processes) ? chunk_size+1 : chunk_size;
+    //     if (i > 0) {
+    //         displs[i] = displs[i-1] + sendcounts[i-1];
+    //     }
+    // }
 
-    MPI_Scatterv(data, sendcounts, displs, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+    // MPI_Scatterv(data, sendcounts, displs, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
 
-    // MPI_Scatter(data, chunk_size, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+    MPI_Scatter(data, chunk_size, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
 
     // Send the remaining elements to the first processes (if any)
     if (rank == 0) {
