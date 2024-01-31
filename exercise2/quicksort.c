@@ -93,9 +93,9 @@
 // let's define the default amount of data
 //
 #if (!defined(DEBUG) || defined(_OPENMP))
-#define N_dflt    100000
+#define N_dflt    10
 #else
-#define N_dflt    10000
+#define N_dflt    10
 #endif
 
 
@@ -143,7 +143,7 @@ extern inline int partitioning( data_t *, int, int, compare_t );
 
 // declare the sorting function
 //
-void qsort( data_t *, int, int, compare_t ); 
+void quicksort( data_t *, int, int, compare_t ); 
 
 
 // ================================================================
@@ -198,6 +198,8 @@ int main ( int argc, char **argv )
     }    
     #endif
 
+    printf("Unsorted array:\n");
+    show_array( data, 0, N, 0 );
     
     // ---------------------------------------------
     //  process 
@@ -216,9 +218,12 @@ int main ( int argc, char **argv )
     
     #else
 
-    qsort( data, 0, N, compare_ge );
+    quicksort( data, 0, N, compare_ge );
     
     #endif
+
+    printf("Sorted array:\n");
+    show_array( data, 0, N, 0 );
     
     double tend = CPU_TIME;  
     
@@ -270,7 +275,7 @@ inline int partitioning( data_t *data, int start, int end, compare_t cmp_ge )
 }
 
 
-void qsort( data_t *data, int start, int end, compare_t cmp_ge )
+void quicksort( data_t *data, int start, int end, compare_t cmp_ge )
 {
 
     #if defined(DEBUG)
@@ -291,8 +296,8 @@ void qsort( data_t *data, int start, int end, compare_t cmp_ge )
 
         CHECK;
         
-        qsort( data, start, mid, cmp_ge );    // sort the left half
-        qsort( data, mid+1, end , cmp_ge );   // sort the right half
+        quicksort( data, start, mid, cmp_ge );    // sort the left half
+        quicksort( data, mid+1, end , cmp_ge );   // sort the right half
         }
     else
         {
@@ -308,7 +313,8 @@ void qsort( data_t *data, int start, int end, compare_t cmp_ge )
 int verify_sorting( data_t *data, int start, int end, int not_used )
 {
     int i = start;
-    while( (++i < end) && (data[i].data[HOT] >= data[i-1].data[HOT]) );
+    while( (i <= end) && (data[i].data[HOT] >= data[i-1].data[HOT]) )
+        i++;
     return ( i == end );
 }
 

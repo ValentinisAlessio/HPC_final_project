@@ -91,7 +91,7 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
     #define CHECK
     #endif
 
-    if (start < end){    
+    if (end - start > 2){    
         // Partition the array
         int pivot = partition(data, start, end, cmp_ge);
 
@@ -105,6 +105,11 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
             #pragma omp section
             par_quicksort(data, pivot + 1, end, cmp_ge);
         }
+    }else{
+        // Sort the array of size 2
+        if ( (end - start == 2) && cmp_ge((void*)&data[start], (void*)&data[end-1]) )
+            SWAP((void*)&data[start], (void*)&data[end-1], sizeof(data_t));
+    
     }
 }
 
