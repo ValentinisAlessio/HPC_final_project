@@ -167,13 +167,15 @@ int main(int argc, char** argv){
     // Print the sorted array
     if (rank == 0) {
         printf("Sorted array:\n");
-        show_array(chunk, 0, N, 0);
+        show_array(sorted, 0, N, 0);
     }
 
     MPI_Finalize();
     MPI_Type_free(&MPI_DATA_T);
     free(chunk);
     chunk = NULL;
+    free(sorted);
+    sorted = NULL;
 
     return 0;
 }
