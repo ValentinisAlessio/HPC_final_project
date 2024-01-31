@@ -167,7 +167,7 @@ int main(int argc, char** argv){
     // Print the sorted array
     if (rank == 0) {
         printf("Sorted array:\n");
-        show_array(sorted, 0, N, 0);
+        show_array(data, 0, N, 0);
     }
 
     MPI_Finalize();
