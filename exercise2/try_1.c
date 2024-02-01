@@ -39,8 +39,9 @@ verify_t show_array;
 int partition(data_t*, int, int, compare_t);
 void par_quicksort(data_t*, int, int, compare_t);
 void divide(data_t*, int, int, MPI_Datatype, data_t*, int);
+void exchange();
 data_t* merge(data_t*, int, data_t*, int, compare_t);
-data_t* global_merge(data_t*, int, int, MPI_Datatype, data_t*, int);
+// data_t* global_merge(data_t*, int, int, MPI_Datatype, data_t*, int);
 
 int main(int argc, char** argv){
 
@@ -132,6 +133,8 @@ int main(int argc, char** argv){
         MPI_Barrier(MPI_COMM_WORLD);
     }
 
+
+
     // ---------------------------------------------
     // Sort the local array
     par_quicksort(loc_data, 0, chunk_size, compare_ge);
@@ -163,23 +166,7 @@ int main(int argc, char** argv){
         show_array(merged, 0, 8, 0);
     }
 
-    // data_t* merged = (data_t*)malloc((N)*sizeof(data_t));
-    // for (int i = 0; i < N; i++)
-    //     merged[i].data[HOT] = 1.;
-    // for (int i = 0; i < num_processes; i++){
-    //     if (rank == i)
-    //     merged = merge(merged, N, loc_data, chunk_size, compare_ge);
-    // }
-
-    // Merge all the local arrays into a single array
-    data_t* merged = (data_t*)malloc((N)*sizeof(data_t));
-    merged = global_merge(merged, 0, N, MPI_DATA_T, loc_data, num_processes);
-
-    // ---------------------------------------------
-    if (rank == 0){
-        printf("Merged array:\n");
-        show_array(merged, 0, N, 0);
-    }
+    
 
     MPI_Type_free(&MPI_DATA_T);
     MPI_Finalize();
@@ -348,34 +335,42 @@ data_t* merge(data_t* left, int left_size, data_t* right, int right_size, compar
     return merged;
 }
 
-data_t* global_merge(data_t* data, int start, int end, MPI_Datatype MPI_DATA_T, data_t* loc_data, int num_procs){
-    // Function that merges the sorted arrays of all the processes
-    // into a single sorted array
-    // Returns a pointer to the merged array
+// data_t* global_merge(data_t* data, int start, int end, MPI_Datatype MPI_DATA_T, data_t* loc_data, int num_procs){
+//     // Function that merges the sorted arrays of all the processes
+//     // into a single sorted array
+//     // Returns a pointer to the merged array
 
-    int size = end - start;
-    int chunk_size = size / num_procs;
-    int remainder = size % num_procs;
+//     int size = end - start;
+//     int chunk_size = size / num_procs;
+//     int remainder = size % num_procs;
 
-    int* sendcounts = (int*)malloc(num_procs*sizeof(int));
-    int* displs = (int*)malloc(num_procs*sizeof(int));
+//     int* sendcounts = (int*)malloc(num_procs*sizeof(int));
+//     int* displs = (int*)malloc(num_procs*sizeof(int));
 
-    for (int i = 0; i < num_procs; i++){
-        sendcounts[i] = chunk_size;
-        if (remainder > 0){
-            sendcounts[i] += 1;
-            remainder -= 1;
-        }
-        displs[i] = start;
-        start += sendcounts[i];
-    }
+//     for (int i = 0; i < num_procs; i++){
+//         sendcounts[i] = chunk_size;
+//         if (remainder > 0){
+//             sendcounts[i] += 1;
+//             remainder -= 1;
+//         }
+//         displs[i] = start;
+//         start += sendcounts[i];
+//     }
 
-    MPI_Gatherv(loc_data, sendcounts[0], MPI_DATA_T, data, sendcounts, displs, MPI_DATA_T, 0, MPI_COMM_WORLD);
+//     MPI_Gatherv(loc_data, sendcounts[0], MPI_DATA_T, data, sendcounts, displs, MPI_DATA_T, 0, MPI_COMM_WORLD);
 
-    free(sendcounts);
-    free(displs);
+//     free(sendcounts);
+//     free(displs);
     
-    return data;
+//     return data;
+// }
+
+void exchange(){
+    // Function that takes care of the exchange of data between processes
+    // in order to achieve processes with only the elements that are smaller
+    // than the pivot or that are greater than the pivot
+
+    
 }
 
 int verify_sorting( data_t *data, int start, int end, int not_used )
