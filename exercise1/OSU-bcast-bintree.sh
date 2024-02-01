@@ -23,7 +23,7 @@ src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
 
 # Define variables
 #MESSAGE_SIZES=(1024 2048 4096 8192)  # Example message sizes
-np_values=$(seq 2 9 128)$(seq 129 9 256) 256  # Example number of processes
+np_values=$(seq 2 9 128)$(seq 129 9 256) $(256)  # Example number of processes
 
 # Define different process map_values to evaluate
 map_values="core socket node"
