@@ -40,9 +40,9 @@ for mapping in $map_values; do
     for np in {1...72}; do
         echo "Running MPI Bcast benchmark: map=$mapping, np=$np, broadcast_algo=$broadcast_algo ..."
         # Run MPI Bcast benchmark and capture output
-        output=$(mpirun -np $np --map-by $mapping --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 5 $src_path/osu_bcast -x 1000 -i 10000)
+        mpirun -np $np --map-by $mapping --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 5 $src_path/osu_bcast -x 100 -i 10000
         # Append results to CSV file
-        tail -n 21 "$output" | awk -v mapping="$mapping" -v np="$np" '{printf "bin_tree,%s,%s,%s,%s\n",mapping,np,$1,$2}'\
+        tail -n 21 | awk -v mapping="$mapping" -v np="$np" '{printf "bin_tree,%s,%s,%s,%s\n",mapping,np,$1,$2}'\
         | sed 's/,$//' >> $csv_file
     done
 done
