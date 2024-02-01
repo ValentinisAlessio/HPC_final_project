@@ -4,6 +4,22 @@
 #include <time.h>
 #include <mpi.h>
 
+#if defined(_OPENMP)
+// measure the wall-clock time
+#define CPU_TIME (clock_gettime( CLOCK_REALTIME, &ts ), (double)ts.tv_sec + \
+                  (double)ts.tv_nsec * 1e-9)
+
+// measure the cpu thread time
+#define CPU_TIME_th (clock_gettime( CLOCK_THREAD_CPUTIME_ID, &myts ), (double)myts.tv_sec +     \
+                     (double)myts.tv_nsec * 1e-9)
+
+#else
+
+// measure ther cpu process time
+#define CPU_TIME (clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ), (double)ts.tv_sec + \
+                  (double)ts.tv_nsec * 1e-9)
+#endif
+
 #if !defined(DATA_SIZE)
 #define DATA_SIZE 8
 #endif
@@ -68,7 +84,7 @@ int main(int argc, char** argv){
 
     char* env_var = getenv("OMP_NUM_THREADS");
     if (env_var != NULL) {
-        int nthreads = atoi(env_var);
+        nthreads = atoi(env_var);
     } else {
         printf("OMP_NUM_THREADS environment variable not set.\n");
     }
@@ -120,13 +136,18 @@ int main(int argc, char** argv){
         int pivot = partition(data, 0, N, compare_ge);
         printf("Pivot is %d\n", pivot);
     }
+    struct timespec ts;
+    double tstart = CPU_TIME;
+    double tend;
 
-
+if (num_processes > 1){ // Run this section only if there are more than 1 processes
+    printf("Running on %d processes\n", num_processes);
     // ---------------------------------------------
     // Create custom MPI data type for data_t
     MPI_Datatype MPI_DATA_T;
     MPI_Type_contiguous(sizeof(data_t), MPI_BYTE, &MPI_DATA_T);
     MPI_Type_commit(&MPI_DATA_T);
+
 
     // ---------------------------------------------
     // Broadcast the Size to all processes
@@ -149,6 +170,8 @@ int main(int argc, char** argv){
     // Sorting array with quick sort for every chunk as called by process
     par_quicksort(chunk, 0, own_chunk_size, compare_ge);
 
+    // ---------------------------------------------
+    // Return the sorted data to the master process by recursively merging two sorted arrays
     for (int step = 1; step < num_processes; step = 2 * step) {
 
         if (rank % (2 * step) != 0) {
@@ -174,20 +197,42 @@ int main(int argc, char** argv){
             own_chunk_size += received_chunk_size;
         }
     }
+    // Return the sorted array to the data pointer
+    data = chunk;
 
-    // ---------------------------------------------
+    // Release chunk
+    free(chunk);
+
+    MPI_Type_free(&MPI_DATA_T);
+    tend = CPU_TIME;
     // Print the sorted array
     if (rank == 0){
         printf("Array after sorting:\n");
-        show_array(chunk, 0, N, 0);
+        show_array(data, 0, N, 0);
     }
+
+}else{  // Run this section if there is only 1 process
+    printf("Running on 1 process\n");
+    par_quicksort(data, 0, N, compare_ge);
+    tend = CPU_TIME;
+    printf("Array after sorting:\n");
+    show_array(data, 0, N, 0);
+}
+
+    // ---------------------------------------------
 
     // ---------------------------------------------
     // Finalize MPI
-    MPI_Type_free(&MPI_DATA_T);
     MPI_Finalize();
-    free(chunk);
+    // free(chunk);
     // free(data);
+
+
+    if (rank == 0)
+        if ( verify_sorting( data, 0, N, 0) )
+            printf("%d\t%g sec\n", nthreads, tend-tstart);
+        else
+            printf("the array is not sorted correctly\n");
 
 
     return 0;
@@ -350,48 +395,6 @@ data_t* merge(data_t* left, int left_size, data_t* right, int right_size, compar
 
     return merged;
 }
-
-// data_t* global_merge(data_t* data, int start, int end, MPI_Datatype MPI_DATA_T, data_t* loc_data, int num_procs){
-//     // Function that merges the sorted arrays of all the processes
-//     // into a single sorted array
-//     // Returns a pointer to the merged array
-
-//     int size = end - start;
-//     int chunk_size = size / num_procs;
-//     int remainder = size % num_procs;
-
-//     int* sendcounts = (int*)malloc(num_procs*sizeof(int));
-//     int* displs = (int*)malloc(num_procs*sizeof(int));
-
-//     for (int i = 0; i < num_procs; i++){
-//         sendcounts[i] = chunk_size;
-//         if (remainder > 0){
-//             sendcounts[i] += 1;
-//             remainder -= 1;
-//         }
-//         displs[i] = start;
-//         start += sendcounts[i];
-//     }
-
-//     MPI_Gatherv(loc_data, sendcounts[0], MPI_DATA_T, data, sendcounts, displs, MPI_DATA_T, 0, MPI_COMM_WORLD);
-
-//     free(sendcounts);
-//     free(displs);
-    
-//     return data;
-// }
-
-// void exchange(data_t* data1, int size1, data_t* data2, int size2, MPI_Datatype MPI_DATA_T, int rank1, int rank2){
-//     // Function that takes care of the exchange of data between processes
-//     // in order to achieve processes with only the elements that are smaller
-//     // than the pivot or that are greater than the pivot
-
-//     if (rank == rank1){
-//         int pivot = partition(data1, 0, size1, compare_ge);
-//         data_t* temp1 
-//     }
-
-// }
 
 int verify_sorting( data_t *data, int start, int end, int not_used )
 {
