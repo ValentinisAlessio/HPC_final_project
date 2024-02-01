@@ -38,6 +38,8 @@ verify_t show_array;
 
 int partition(data_t*, int, int, compare_t);
 void par_quicksort(data_t*, int, int, compare_t);
+void divide(data_t*, int, int, MPI_Datatype, data_t*, int);
+data_t* merge(data_t*, int, data_t*, int, compare_t);
 
 int main(int argc, char** argv){
 
@@ -59,10 +61,20 @@ int main(int argc, char** argv){
         printf("OMP_NUM_THREADS environment variable not set.\n");
     }
 
+    int num_processes, rank;
+    int mpi_err = MPI_Init(&argc, &argv);
+
+    if (mpi_err != MPI_SUCCESS) {
+        printf("Error starting MPI program. Terminating.\n");
+        MPI_Abort(MPI_COMM_WORLD, mpi_err);
+    }
+
+    MPI_Comm_size(MPI_COMM_WORLD, &num_processes);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
     // ---------------------------------------------
     //  generate the array
     //
-    
     data_t *data = (data_t*)malloc(N*sizeof(data_t));
     long int seed;
     #if defined(_OPENMP)
@@ -87,17 +99,13 @@ int main(int argc, char** argv){
         data[i].data[HOT] = drand48();
     }    
     #endif
-
-    int num_processes, rank;
-    int mpi_err = MPI_Init(&argc, &argv);
-
-    if (mpi_err != MPI_SUCCESS) {
-        printf("Error starting MPI program. Terminating.\n");
-        MPI_Abort(MPI_COMM_WORLD, mpi_err);
+    
+    if (rank == 0){
+        printf("Generating array of size %d\n", N);
+        printf("Array before sorting:\n");
+        show_array(data, 0, N, 0);
     }
 
-    MPI_Comm_size(MPI_COMM_WORLD, &num_processes);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     // ---------------------------------------------
     // Create custom MPI data type for data_t
@@ -105,50 +113,47 @@ int main(int argc, char** argv){
     MPI_Type_contiguous(sizeof(data_t), MPI_BYTE, &MPI_DATA_T);
     MPI_Type_commit(&MPI_DATA_T);
 
-    // See the generated array
-    for (int i=0; i<num_processes; i++) {
-        if (rank == i) {
-            printf("Unordered generated array by rank %d:\n", rank);
-            show_array(data, 0, N, 0);
+    // ---------------------------------------------
+    // Divide the array into chunks and scatter them to the processes
+    // Generate local array to store the scattered data of the right size
+    int chuck_size = (rank < N % num_processes) ? N / num_processes + 1 : N / num_processes;
+    printf("Process %d has chunk size %d\n", rank, chuck_size);
+    data_t* loc_data = (data_t*)malloc(chuck_size*sizeof(data_t));
+    printf("Process %d has allocated %d bytes\n", rank, chuck_size*sizeof(data_t));
+    divide(data, 0, N, MPI_DATA_T, loc_data, num_processes);
+
+    // Print scattered arrays
+    for (int i = 0; i < num_processes; i++){
+        if (rank == i){
+            printf("Process %d received:\n", rank);
+            show_array(loc_data, 0, chuck_size, 0);
         }
         MPI_Barrier(MPI_COMM_WORLD);
     }
 
     // ---------------------------------------------
-    // Try to exchange different ammount of data
-    // Print just before the data exchange
-    printf("Just before data exchange, rank %d, data: ", rank);
-    show_array(data, 0, N, 0);
+    // Sort the local array
+    par_quicksort(loc_data, 0, chuck_size, compare_ge);
 
-    data_t* buffer = NULL;
-    if (rank == 0) {
-        buffer = (data_t*)malloc((6+3)*sizeof(data_t));
-        // Exchange the elements between processes
-        for (int i = 0; i < 6; i++) buffer[i] = data[i];
-        MPI_Send(&data[N - 4], 4, MPI_DATA_T, 1, 0, MPI_COMM_WORLD);
-        MPI_Recv(&buffer[6], 3, MPI_DATA_T, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    } else if (rank == 1) {
-        buffer = (data_t*)malloc((4+7)*sizeof(data_t));
-        for (int i = 4; i < 11; i++) buffer[i] = data[i-1];
-        MPI_Send(&data[0], 3, MPI_DATA_T, 0, 0, MPI_COMM_WORLD);
-        MPI_Recv(&buffer[0], 4, MPI_DATA_T, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    }
-
-    // Print just after the data exchange
-    printf("Just after data exchange, rank %d, data: ", rank);
-    show_array(buffer, 0, N, 0);
-
-    for (int i=0; i<num_processes; i++) {
-        if (rank == i) {
-            printf("Exchanged arrays on rank %d:\n", rank);
-            show_array(buffer, 0, N, 0);
+    // Print sorted arrays
+    for (int i = 0; i < num_processes; i++){
+        if (rank == i){
+            printf("Process %d sorted:\n", rank);
+            show_array(loc_data, 0, chuck_size, 0);
         }
         MPI_Barrier(MPI_COMM_WORLD);
+    }
+
+    if (!verify_sorting(loc_data, 0, chuck_size, 0)){
+        printf("Process %d did not sort correctly!\n", rank);
+        divide(data, 0, N, MPI_DATA_T, loc_data, num_processes);
+        par_quicksort(loc_data, 0, chuck_size, compare_ge);
     }
 
     MPI_Type_free(&MPI_DATA_T);
     MPI_Finalize();
     free(data);
+    free(loc_data);
 
     return 0;
 }
@@ -244,4 +249,41 @@ int compare_ge(const void* a, const void* b){
 
     // return 1 if A >= B, 0 if A < B
     return (A->data[HOT] >= B->data[HOT]);
+}
+
+void divide(data_t* data, int start, int end, MPI_Datatype MPI_DATA_T, data_t* loc_data, int num_procs){
+    // Function that, given an array, divides it into num_procs parts
+    // and scatters them to the processes (including the master process)
+    // taking care of the case where the number of processes is not a
+    // multiple of the array size
+
+    int size = end - start;
+    int chunk_size = size / num_procs;
+    int remainder = size % num_procs;
+
+    int* sendcounts = (int*)malloc(num_procs*sizeof(int));
+    int* displs = (int*)malloc(num_procs*sizeof(int));
+
+    for (int i = 0; i < num_procs; i++){
+        sendcounts[i] = chunk_size;
+        if (remainder > 0){
+            sendcounts[i] += 1;
+            remainder -= 1;
+        }
+        displs[i] = start;
+        start += sendcounts[i];
+    }
+
+    MPI_Scatterv(data, sendcounts, displs, MPI_DATA_T, loc_data, sendcounts[0], MPI_DATA_T, 0, MPI_COMM_WORLD);
+
+    free(sendcounts);
+    free(displs);
+}
+
+int verify_sorting( data_t *data, int start, int end, int not_used )
+{
+    int i = start;
+    while( (i <= end) && (data[i].data[HOT] >= data[i-1].data[HOT]) )
+        i++;
+    return ( i == end );
 }
