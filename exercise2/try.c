@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <omp.h>
 #include <time.h>
+#include <mpi.h>
 
 #if !defined(DATA_SIZE)
 #define DATA_SIZE 8
@@ -87,13 +88,67 @@ int main(int argc, char** argv){
     }    
     #endif
 
-    printf("Size of data is %ld\n", sizeof(*data)/sizeof(data_t));
+    int num_processes, rank;
+    int mpi_err = MPI_Init(&argc, &argv);
 
+    if (mpi_err != MPI_SUCCESS) {
+        printf("Error starting MPI program. Terminating.\n");
+        MPI_Abort(MPI_COMM_WORLD, mpi_err);
+    }
+
+    MPI_Comm_size(MPI_COMM_WORLD, &num_processes);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    // ---------------------------------------------
+    // Create custom MPI data type for data_t
+    MPI_Datatype MPI_DATA_T;
+    MPI_Type_contiguous(sizeof(data_t), MPI_BYTE, &MPI_DATA_T);
+    MPI_Type_commit(&MPI_DATA_T);
+
+    // See the generated array
+    for (int i=0; i<num_processes; i++) {
+        if (rank == i) {
+            printf("Unordered generated array by rank %d:\n", rank);
+            show_array(data, 0, N, 0);
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
+
+    // ---------------------------------------------
+    // Try to exchange different ammount of data
+    // Print just before the data exchange
+    printf("Just before data exchange, rank %d, data: ", rank);
     show_array(data, 0, N, 0);
 
-    par_quicksort(data, 0, N, compare_ge);
+    data_t* buffer = NULL;
+    if (rank == 0) {
+        buffer = (data_t*)malloc((6+3)*sizeof(data_t));
+        // Exchange the elements between processes
+        for (int i = 0; i < 6; i++) buffer[i] = data[i];
+        MPI_Send(&data[N - 4], 4, MPI_DATA_T, 1, 0, MPI_COMM_WORLD);
+        MPI_Recv(&buffer[6], 3, MPI_DATA_T, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    } else if (rank == 1) {
+        buffer = (data_t*)malloc((4+7)*sizeof(data_t));
+        for (int i = 4; i < 11; i++) buffer[i] = data[i-1];
+        MPI_Send(&data[0], 3, MPI_DATA_T, 0, 0, MPI_COMM_WORLD);
+        MPI_Recv(&buffer[0], 4, MPI_DATA_T, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
 
-    show_array(data, 0, N, 0);
+    // Print just after the data exchange
+    printf("Just after data exchange, rank %d, data: ", rank);
+    show_array(buffer, 0, N, 0);
+
+    for (int i=0; i<num_processes; i++) {
+        if (rank == i) {
+            printf("Exchanged arrays on rank %d:\n", rank);
+            show_array(buffer, 0, N, 0);
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
+
+    MPI_Type_free(&MPI_DATA_T);
+    MPI_Finalize();
+    free(data);
 
     return 0;
 }
