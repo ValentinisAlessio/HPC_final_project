@@ -15,7 +15,7 @@
 module load openMPI/4.1.5/gnu/12.2.1
 
 # Specify the path to the result file
-csv_file="results/bcast_def_results_wu.csv"
+csv_file="results/bcast_def_results_wu_1.csv"
 
 # Go to the directory where the benchmark is located
 src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
@@ -23,7 +23,7 @@ src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
 
 # Define variables
 #MESSAGE_SIZES=(1024 2048 4096 8192)  # Example message sizes
-np_values="2 4 8 16 32 64 128 256"  # Example number of processes
+np_values=2 $(seq 8 8 256)  # Example number of processes
 
 # Define different process map_values to evaluate
 map_values="core socket node"

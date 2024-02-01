@@ -15,7 +15,7 @@
 module load openMPI/4.1.5/gnu/12.2.1
 
 # Specify the path to the result file
-csv_file="results/bcast_bintree_results_wu.csv"
+csv_file="results/bcast_bintree_results_wu_1.csv"
 
 # Go to the directory where the benchmark is located
 src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
