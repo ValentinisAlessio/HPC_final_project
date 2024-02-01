@@ -88,8 +88,8 @@ int main(int argc, char** argv){
 
     // Compute chunk size to be sent to each process
     // int chunk_size = (N % num_processes == 0) ? N / num_processes : N / (num_processes - 1);
-    // int chunk_size = (rank < N % num_processes) ? (N / num_processes) + 1 : N / num_processes;
-    int chunk_size = N / num_processes;
+    int chunk_size = (rank < N % num_processes) ? (N / num_processes) + 1 : N / num_processes;
+    // int chunk_size = N / num_processes;
     if (rank == 0) {
         printf("Chunk size: %d\n", chunk_size);
     }
@@ -97,33 +97,33 @@ int main(int argc, char** argv){
     data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
 
     // // Compute sendcounts and displacements of each chunk
-    // int* sendcounts = (int*)malloc(num_processes*sizeof(int));
-    // int* displs = (int*)malloc(num_processes*sizeof(int));
-    // displs[0] = 0;
-    // for (int i=0; i<num_processes; i++) {
-    //     sendcounts[i] = (i < N % num_processes) ? chunk_size+1 : chunk_size;
-    //     if (i > 0) {
-    //         displs[i] = displs[i-1] + sendcounts[i-1];
-    //     }
-    // }
-
-    // MPI_Scatterv(data, sendcounts, displs, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
-
-    MPI_Scatter(data, chunk_size, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
-
-    // Send the remaining elements to the first processes (if any)
-    if (rank == 0) {
-        int remaining = N % num_processes;
-        if (remaining > 0) {
-            #pragma omp parallel for
-            for (int i=0; i<remaining; i++) {
-                MPI_Send(&data[chunk_size*num_processes+i], 1, MPI_DATA_T, i, 0, MPI_COMM_WORLD);
-            }
+    int* sendcounts = (int*)malloc(num_processes*sizeof(int));
+    int* displs = (int*)malloc(num_processes*sizeof(int));
+    displs[0] = 0;
+    for (int i=0; i<num_processes; i++) {
+        sendcounts[i] = (i < N % num_processes) ? chunk_size+1 : chunk_size;
+        if (i > 0) {
+            displs[i] = displs[i-1] + sendcounts[i-1];
         }
     }
-    if (rank < N % num_processes) {
-        MPI_Recv(&chunk[chunk_size], 1, MPI_DATA_T, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    }
+
+    MPI_Scatterv(data, sendcounts, displs, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+
+    // MPI_Scatter(data, chunk_size, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+
+    // Send the remaining elements to the first processes (if any)
+    // if (rank == 0) {
+    //     int remaining = N % num_processes;
+    //     if (remaining > 0) {
+    //         #pragma omp parallel for
+    //         for (int i=0; i<remaining; i++) {
+    //             MPI_Send(&data[chunk_size*num_processes+i], 1, MPI_DATA_T, i, 0, MPI_COMM_WORLD);
+    //         }
+    //     }
+    // }
+    // if (rank < N % num_processes) {
+    //     MPI_Recv(&chunk[chunk_size], 1, MPI_DATA_T, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    // }
 
 
     // Free the memory of the original array
@@ -185,12 +185,18 @@ int main(int argc, char** argv){
     if (rank == 0) {
         chunk_sizes = (int*)malloc(num_processes*sizeof(int));
     }
-    MPI_Gather(&own_chunk_size, 1, MPI_INT, chunk_sizes, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    // MPI_Gather(&own_chunk_size, 1, MPI_INT, chunk_sizes, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     // For gatherv we need to know the displacements of each chunk
-    int* displs = NULL;
+    // int* displs = NULL;
+    // if (rank == 0) {
+    //     displs = (int*)malloc(num_processes*sizeof(int));
+    //     displs[0] = 0;
+    //     for (int i=1; i<num_processes; i++) {
+    //         displs[i] = displs[i-1] + chunk_sizes[i-1];
+    //     }
+    // }
     if (rank == 0) {
-        displs = (int*)malloc(num_processes*sizeof(int));
         displs[0] = 0;
         for (int i=1; i<num_processes; i++) {
             displs[i] = displs[i-1] + chunk_sizes[i-1];
