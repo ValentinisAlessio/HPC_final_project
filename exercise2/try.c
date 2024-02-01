@@ -107,6 +107,7 @@ int main(int argc, char** argv){
         show_array(data, 0, N, 0);
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);
 
     // ---------------------------------------------
     // Create custom MPI data type for data_t

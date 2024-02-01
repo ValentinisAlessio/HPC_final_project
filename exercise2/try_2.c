@@ -11,6 +11,16 @@
 
 #define SIZE 100
 
+#if defined(DEBUG)
+#define VERBOSE
+#endif
+
+#if defined(VERBOSE)
+#define PRINTF(...) printf(__VA_ARGS__)
+#else
+#define PRINTF(...)
+#endif
+
 typedef struct {
     double data[SIZE];
 } data_t;
@@ -119,63 +129,66 @@ int main(int argc, char** argv){
     MPI_Type_commit(&MPI_DATA_T);
 
     // ---------------------------------------------
-    // Divide the array into chunks and scatter them to the processes
-    // Generate local array to store the scattered data of the right size
-    int chunk_size = (rank < N % num_processes) ? N / num_processes + 1 : N / num_processes;
-    printf("Process %d has chunk size %d\n", rank, chunk_size);
-    data_t* loc_data = (data_t*)malloc(chunk_size*sizeof(data_t));
-    printf("Process %d has allocated %d bytes\n", rank, chunk_size*sizeof(data_t));
-    divide(data, 0, N, MPI_DATA_T, loc_data, num_processes);
+    // Broadcast the Size to all processes
+    MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // Print scattered arrays
-    for (int i = 0; i < num_processes; i++){
-        if (rank == i){
-            printf("Process %d received:\n", rank);
-            show_array(loc_data, 0, chunk_size, 0);
+    // Compute chunk size
+    int chunk_size = (N % num_processes == 0) ? (N / num_processes) : N / (num_processes - 1);
+
+    // Calculate total size of chunk according to bits
+    data_t* chunk = (data_t*)malloc(chunk_size*sizeof(data_t));
+
+    // Scatter the chuck size data to all process
+    MPI_Scatter(data, chunk_size, MPI_DATA_T, chunk, chunk_size, MPI_DATA_T, 0, MPI_COMM_WORLD);
+    free(data);
+
+    // Compute size of own chunk and then sort them using quick sort
+
+    int own_chunk_size = (N >= chunk_size * (rank + 1)) ? chunk_size : (N - chunk_size * rank);
+
+    // Sorting array with quick sort for every chunk as called by process
+    par_quicksort(chunk, 0, own_chunk_size, compare_ge);
+
+    for (int step = 1; step < num_processes; step = 2 * step) {
+
+        if (rank % (2 * step) != 0) {
+            MPI_Send(chunk, own_chunk_size, MPI_DATA_T, rank - step, 0, MPI_COMM_WORLD);
+            break;
         }
-        MPI_Barrier(MPI_COMM_WORLD);
+
+        if (rank + step < num_processes) {
+            int received_chunk_size = (N >= chunk_size * (rank + 2 * step)) ? chunk_size * step : (N - chunk_size * (rank + step));
+            data_t* received_chunk = (data_t*)malloc(received_chunk_size*sizeof(data_t));
+
+            MPI_Recv(received_chunk, received_chunk_size, MPI_DATA_T, rank + step, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+            // Merge the received array with own array
+            data = merge(chunk, own_chunk_size, received_chunk, received_chunk_size, compare_ge);
+
+            // Free the memory
+            free(chunk);
+            free(received_chunk);
+
+            // Update the chunk pointer
+            chunk = data;
+            own_chunk_size += received_chunk_size;
+        }
     }
 
-
-
     // ---------------------------------------------
-    // Sort the local array
-    par_quicksort(loc_data, 0, chunk_size, compare_ge);
-
-    // Print sorted arrays
-    for (int i = 0; i < num_processes; i++){
-        if (rank == i){
-            printf("Process %d sorted:\n", rank);
-            show_array(loc_data, 0, chunk_size, 0);
-        }
-        MPI_Barrier(MPI_COMM_WORLD);
-    }
-
-    // ---------------------------------------------
-    // Try merge on two arrays
+    // Print the sorted array
     if (rank == 0){
-        data_t* left = (data_t*)malloc(4*sizeof(data_t));
-        data_t* right = (data_t*)malloc(4*sizeof(data_t));
-        for (int i = 0; i < 4; i++){
-            left[i].data[HOT] = 2*i +1;
-            right[i].data[HOT] = 2*i +2;
-        }
-        printf("Left array:\n");
-        show_array(left, 0, 4, 0);
-        printf("Right array:\n");
-        show_array(right, 0, 4, 0);
-        data_t* merged = merge(left, 4, right, 4, compare_ge);
-        printf("Merged array:\n");
-        show_array(merged, 0, 8, 0);
+        printf("Array after sorting:\n");
+        show_array(chunk, 0, N, 0);
     }
 
-    
-
+    // ---------------------------------------------
+    // Finalize MPI
     MPI_Type_free(&MPI_DATA_T);
     MPI_Finalize();
-    free(data);
-    free(loc_data);
-    // free(merged);
+    free(chunk);
+    // free(data);
+
 
     return 0;
 }
@@ -368,17 +381,17 @@ data_t* merge(data_t* left, int left_size, data_t* right, int right_size, compar
 //     return data;
 // }
 
-void exchange(data_t* data1, int size1, data_t* data2, int size2, MPI_Datatype MPI_DATA_T, int rank1, int rank2){
-    // Function that takes care of the exchange of data between processes
-    // in order to achieve processes with only the elements that are smaller
-    // than the pivot or that are greater than the pivot
+// void exchange(data_t* data1, int size1, data_t* data2, int size2, MPI_Datatype MPI_DATA_T, int rank1, int rank2){
+//     // Function that takes care of the exchange of data between processes
+//     // in order to achieve processes with only the elements that are smaller
+//     // than the pivot or that are greater than the pivot
 
-    if (rank == rank1){
-        int pivot = partition(data1, 0, size1, compare_ge);
-        data_t* temp1 
-    }
+//     if (rank == rank1){
+//         int pivot = partition(data1, 0, size1, compare_ge);
+//         data_t* temp1 
+//     }
 
-}
+// }
 
 int verify_sorting( data_t *data, int start, int end, int not_used )
 {
