@@ -4,9 +4,10 @@
 #SBATCH --output=OSU-def-bcast-thin.out
 #SBATCH --error=OSU-def-bcast-thin.err
 #SBATCH --nodes=2
-#SBATCH --ntasks=72
+#SBATCH --ntasks=48
 #SBATCH -p THIN
 #SBATCH --exclusive
+#SBATCH --exclude=fat[001-002]
 #SBATCH --time=02:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ALESSIO.VALENTINIS@studenti.units.it
@@ -37,7 +38,7 @@ echo "Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)" > $csv_file
 # Loop through process map_values
 for mapping in $map_values; do
     # Loop through number of processes
-    for np in {1...72}; do
+    for np in {1...48}; do
         echo "Running MPI Bcast benchmark: map=$mapping, np=$np, broadcast_algo=default ..."
         # Run MPI Bcast benchmark and capture output
         mpirun -np $np --map-by $mapping --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 0 $src_path/osu_bcast -x 100 -i 10000
