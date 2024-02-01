@@ -23,7 +23,7 @@ src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
 
 # Define variables
 #MESSAGE_SIZES=(1024 2048 4096 8192)  # Example message sizes
-np_values=$(seq 2 2 256)  # Example number of processes
+np_values=$(seq 2 9 128) $(seq 129 9 256) 256  # Example number of processes
 
 # Define different process map_values to evaluate
 map_values="core socket node"
@@ -37,8 +37,8 @@ for mapping in $map_values; do
     for np in $np_values; do
         echo "Running MPI Bcast benchmark: map=$mapping, np=$np, broadcast_algo=$broadcast_algo ..."
         # Run MPI Bcast benchmark and capture output
-        mpirun -np $np --map-by $mapping --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 5 $src_path/osu_bcast -x 100 -i 10000 |\
+        mpirun -np $np --map-by $mapping --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 5 $src_path/osu_bcast -m 1024 -x 100 -i 10000 |\
         # Append results to CSV file
-        tail -n 21 | awk -v mapping="$mapping" -v np="$np" '{printf "bin_tree,%s,%s,%s,%s\n",mapping,np,$1,$2}' | sed 's/,$//' >> $csv_file
+        tail -n 11 | awk -v mapping="$mapping" -v np="$np" '{printf "bin_tree,%s,%s,%s,%s\n",mapping,np,$1,$2}' | sed 's/,$//' >> $csv_file
     done
 done
