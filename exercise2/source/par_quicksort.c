@@ -21,7 +21,7 @@ int partition(data_t* data, int start, int end, compare_t cmp_ge){
     int pointbreak = start + 1;
 
     // Parallelize this loop
-    for (int i = start + 1; i <= end; ++i){
+    for (int i = start + 1; i < end; ++i){
         if (!cmp_ge((void*)&data[i], pivot)){
             
             // Move elements less than pivot to the left side
@@ -180,7 +180,7 @@ int verify_partitioning(data_t* data, int start, int end, int mid){
 }
 
 int show_array(data_t* data, int start, int end, int not_used){
-    for (int i = start; i <= end; i++)
+    for (int i = start; i < end; i++)
         printf("%f ", data[i].data[HOT]);
     printf("\n");
     return 0;
