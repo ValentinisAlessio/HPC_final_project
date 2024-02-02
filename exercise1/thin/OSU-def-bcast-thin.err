@@ -1,0 +1,686 @@
+This test requires at least two processes
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[5964,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:192746] 1 more process has sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:192746] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:192769] 2 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:192769] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:192795] 3 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:192795] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:192825] 4 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:192825] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:192956] 7 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:192956] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:193130] 10 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:193130] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:193438] 14 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:193438] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:193513] 15 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:193513] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:193594] 16 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:193594] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:194132] 21 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:194132] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:194379] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:194379] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:194767] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:194767] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:194882] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:194882] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:194994] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:194994] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:195379] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:195379] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:195491] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:195491] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:195606] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:195606] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:196131] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:196131] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:196379] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:196379] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:196629] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:196629] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:197020] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:197020] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:197270] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:197270] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:197382] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:197382] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+This test requires at least two processes
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[58607,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:197644] 5 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:197644] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:197685] 6 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:197685] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:197845] 9 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:197845] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:198308] 15 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:198308] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:198706] 19 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:198706] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:199455] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:199455] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:199568] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:199568] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:199953] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:199953] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:200338] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:200338] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:200456] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:200456] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:200570] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:200570] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:200685] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:200685] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:200800] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:200800] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:201327] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:201327] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:201442] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:201442] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:201832] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:201832] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:202220] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:202220] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+This test requires at least two processes
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[61894,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:202516] 3 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:202516] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:202549] 4 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:202549] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:202584] 4 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:202584] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:202664] 5 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:202664] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:202757] 6 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:202757] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:202799] 7 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:202799] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:202903] 8 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:202903] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:202964] 8 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:202964] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:203019] 9 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:203019] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:203073] 9 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:203073] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:203129] 10 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:203129] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:203187] 10 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:203187] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:203324] 11 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:203324] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:203552] 13 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:203552] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:203624] 13 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:203624] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:203883] 15 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:203883] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:203963] 15 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:203963] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:204042] 16 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:204042] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:204232] 17 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:204232] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:204430] 18 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:204430] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:204526] 18 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:204526] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:204853] 20 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:204853] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:204956] 20 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:204956] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:205453] 22 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:205453] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+--------------------------------------------------------------------------
+Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+unusual; your job may behave unpredictably (and/or abort) after this.
+
+  Local host: thin001
+  Location: mtl_ofi_component.c:509
+  Error: Invalid argument (22)
+--------------------------------------------------------------------------
+[thin001.hpc.rd.areasciencepark.it:205703] 23 more processes have sent help message help-mtl-ofi.txt / OFI call fail
+[thin001.hpc.rd.areasciencepark.it:205703] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages

@@ -1,1 +1,1 @@
-slurmstepd: error: *** JOB 341550 ON epyc003 CANCELLED AT 2024-02-01T21:22:39 ***
+/var/spool/slurm/d/job341569/slurm_script: line 26: 8: command not found
