@@ -44,7 +44,7 @@ void exchange();
 data_t* merge(data_t*, int, data_t*, int, compare_t);
 // data_t* global_merge(data_t*, int, int, MPI_Datatype, data_t*, int);
 int mpi_partition(data_t*, int, int, compare_t, void*);
-void mpi_qicksort(data_t**, int*, int, int, int, MPI_Datatype, compare_t);
+void mpi_quicksort(data_t**, int*, int, int, int, MPI_Datatype, compare_t);
 
 int main(int argc, char** argv){
 
@@ -129,31 +129,35 @@ int main(int argc, char** argv){
     // ---------------------------------------------
     // Divide the array into chunks and scatter them to the processes
     // Generate local array to store the scattered data of the right size
-    // int chunk_size = (rank < N % num_processes) ? N / num_processes + 1 : N / num_processes;
-    int* chunk_sizes = (int*)malloc(num_processes*sizeof(int));
-    for (int i = 0; i < num_processes; i++){
-        chunk_sizes[i] = (i < N % num_processes) ? N / num_processes + 1 : N / num_processes;
-    }
-    printf("Process %d has chunk size %d\n", rank, chunk_sizes[rank]);
-    data_t* loc_data = (data_t*)malloc(chunk_sizes[rank]*sizeof(data_t));
-    printf("Process %d has allocated %d bytes\n", rank, chunk_sizes[rank]*sizeof(data_t));
+    int chunk_size = (rank < N % num_processes) ? N / num_processes + 1 : N / num_processes;
+    // int* chunk_sizes = (int*)malloc(num_processes*sizeof(int));
+    // for (int i = 0; i < num_processes; i++){
+    //     chunk_sizes[i] = (i < N % num_processes) ? N / num_processes + 1 : N / num_processes;
+    // }
+    printf("Process %d has chunk size %d\n", rank, chunk_size);
+    data_t* loc_data = (data_t*)malloc(chunk_size*sizeof(data_t));
+    // data_t* loc_data = (data_t*)malloc(chunk_sizes[rank]*sizeof(data_t));
+    printf("Process %d has allocated %d bytes\n", rank, chunk_size*sizeof(data_t));
+    // printf("Process %d has allocated %d bytes\n", rank, chunk_sizes[rank]*sizeof(data_t));
     divide(data, 0, N, MPI_DATA_T, loc_data, num_processes);
 
     // Print scattered arrays
     for (int i = 0; i < num_processes; i++){
         if (rank == i){
             printf("Process %d received:\n", rank);
-            show_array(loc_data, 0, chunk_sizes[rank], 0);
+            show_array(loc_data, 0, chunk_size, 0);
         }
         MPI_Barrier(MPI_COMM_WORLD);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
 
+    data_t* try = (data_t*)malloc(0*sizeof(data_t));
+
 
     // ---------------------------------------------
     // try on mpi_qicksort
-    mpi_qicksort(&loc_data, chunk_sizes, 0, num_processes - 1, rank, MPI_DATA_T, compare_ge);
+    mpi_quicksort(&loc_data, &chunk_size, 0, num_processes - 1, rank, MPI_DATA_T, compare_ge);
     MPI_Barrier(MPI_COMM_WORLD);
 
     // ---------------------------------------------
@@ -161,18 +165,25 @@ int main(int argc, char** argv){
     for (int i = 0; i < num_processes; i++){
         if (rank == i){
             printf("Process %d has sorted:\n", rank);
-            show_array(loc_data, 0, chunk_sizes[rank], 0);
+            show_array(loc_data, 0, chunk_size, 0);
         }
         MPI_Barrier(MPI_COMM_WORLD);
     }
+    // TODO: check why the first element is 0.000000
 
-    
+    for (int i = 0; i < num_processes; i++){
+        if (rank == i){
+            printf("Process %d has finished\n", rank);
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
 
 
     MPI_Type_free(&MPI_DATA_T);
     MPI_Finalize();
     free(data);
-    free(chunk_sizes);
+    free(try);
+    // free(chunk_sizes);
     // free(loc_data);
     // free(merged);
 
@@ -199,7 +210,6 @@ int partition(data_t* data, int start, int end, compare_t cmp_ge){
     // Partition around the pivot
     int pointbreak = start + 1;
 
-    // Parallelize this loop
     for (int i = start + 1; i < end; ++i){
         if (!cmp_ge((void*)&data[i], pivot)){
             
@@ -392,7 +402,7 @@ int mpi_partition(data_t* data, int start, int end, compare_t cmp_ge, void* pivo
     return pointbreak -1;
 }
 
-void mpi_qicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_rank, int rank, MPI_Datatype MPI_DATA_T, compare_t cmp_ge){
+void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_rank, int rank, MPI_Datatype MPI_DATA_T, compare_t cmp_ge){
     // Function that implements parallel quicksort using MPI
     // Given that each process has its own local array, the function
     // will exchange data between processes in order to have in the first half of the processes
@@ -404,108 +414,152 @@ void mpi_qicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_r
     // and store them into one single array, if the size of the array is not too big.
 
     int num_procs = last_rank - first_rank;
-    int pivot_rank = first_rank + num_procs / 2;
+
+    if (num_procs >= 1){
+    // if (1){
+        int pivot_rank = first_rank + num_procs / 2;
+        printf("Pivot rank is %d\n", pivot_rank);
 
 
-    // Select the median of the pivot array as the pivot
-    data_t* pivot = (data_t*)malloc(sizeof(data_t));
-    printf("Rank %d has arrived to line 404\n", rank);
-    data_t* pivots = (data_t*)malloc((num_procs+1)*sizeof(data_t));
-    MPI_Gather((*loc_data), 1, MPI_DATA_T, pivots, 1, MPI_DATA_T, 0, MPI_COMM_WORLD);
-    if (rank == 0){
-        par_quicksort(pivots, 0, num_procs, cmp_ge);
-        memcpy(pivot, &pivots[num_procs / 2], sizeof(data_t));
-        printf("Pivot found by rank %d is %f\n", rank, pivot->data[HOT]);
-    }
-
-
-    MPI_Barrier(MPI_COMM_WORLD);
-    free(pivots);
-    // Broadcast the pivot to all processes
-    printf("Rank %d is arriving to the broadcast\n", rank);
-    MPI_Bcast(pivot, 1, MPI_DATA_T, 0, MPI_COMM_WORLD);
-    printf("Pivot received from rank %d is %f\n", rank, ((data_t*)pivot)->data[HOT]);
-    MPI_Barrier(MPI_COMM_WORLD);
-
-
-
-    (void*)pivot;
-    // Partition the array
-    int pivot_pos = mpi_partition(*loc_data, 0, chunk_size[rank], cmp_ge, pivot);
-
-    printf("Rank %d pivot position is %d\n", rank, pivot_pos);
-    MPI_Barrier(MPI_COMM_WORLD);
-    free(pivot);
-    // Exchange data between processes
-    if (rank <= pivot_rank){
-        printf("Rank %d is less than pivot rank\n", rank);
-        // Send the number of elements to store to its corresponding process
-        int elements_to_send = chunk_size[rank] - (pivot_pos + 1);
-        printf("Rank %d has %d elements to send\n", rank, elements_to_send);
-        MPI_Send(&elements_to_send, 1, MPI_INT, rank + (last_rank/2)+1, 0, MPI_COMM_WORLD);
-        printf("Rank %d has sent %d elements to rank %d\n", rank, elements_to_send, rank + (last_rank/2)+1);
-        // Receive the number of elements from the corresponding process
-        int recv_elements;
-        MPI_Recv(&recv_elements, 1, MPI_INT, rank + (last_rank/2)+1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        printf("Rank %d has received %d elements from rank %d\n", rank, recv_elements, rank + (last_rank/2)+1);
-        // Allocate memory for the resulting data
-        recv_elements = (recv_elements > 0) ? recv_elements : 0;
-        int new_chunk_size = chunk_size[rank] - elements_to_send + recv_elements;
-        printf("Rank %d has %d elements to store\n", rank, new_chunk_size);
-        data_t* merged = (data_t*)malloc((new_chunk_size)*sizeof(data_t));
-        // Put in the merged array the elements that are smaller than the pivot
-        for (int i = 0; i <= pivot_pos; i++){
-            merged[i] = (*loc_data)[i];
+        // Select the median of the pivot array as the pivot
+        data_t* pivot = (data_t*)malloc(sizeof(data_t));
+        // printf("Rank %d has arrived to line 404\n", rank);
+        data_t* pivots = (data_t*)malloc((num_procs+1)*sizeof(data_t));
+        MPI_Gather((*loc_data), 1, MPI_DATA_T, pivots, 1, MPI_DATA_T, 0, MPI_COMM_WORLD);
+        if (rank == 0){
+            par_quicksort(pivots, 0, num_procs, cmp_ge);
+            memcpy(pivot, &pivots[num_procs / 2], sizeof(data_t));
+            // printf("Pivot found by rank %d is %f\n", rank, pivot->data[HOT]);
         }
-        // Send the elements that are greater than the pivot
-        MPI_Send(&(*loc_data)[pivot_pos + 1], elements_to_send, MPI_DATA_T, rank + (last_rank/2) +1, 0, MPI_COMM_WORLD);
-        // Now I don't need the local data anymore
-        free(*loc_data);
-        // Receive the elements that are greater than the pivot and put them in the merged array
-        MPI_Recv(&merged[pivot_pos + 1], recv_elements, MPI_DATA_T, rank + (last_rank/2) +1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        // Now the merged array is the new local data
-        *loc_data = merged;
-        chunk_size[rank] = new_chunk_size;
-        printf("Rank %d has %d elements\n", rank, chunk_size[rank]);
-        show_array(*loc_data, 0, chunk_size[rank], 0);
-        free(merged);
-    }
-    if (rank > pivot_rank){
-        printf("Rank %d is greater than pivot rank\n", rank);
-        // Receive the number of elements to store from the corresponding process
-        int recv_elements;
-        MPI_Recv(&recv_elements, 1, MPI_INT, rank - (last_rank/2) -1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        printf("Rank %d has received %d elements from rank %d\n", rank, recv_elements, rank - (last_rank/2) -1);
-        // Send the index of the pivot to its corresponding process
-        int elements_to_send = pivot_pos +1;
-        MPI_Send(&elements_to_send, 1, MPI_INT, rank - (last_rank/2) -1, 0, MPI_COMM_WORLD);
-        printf("Rank %d has sent %d elements to rank %d\n", rank, elements_to_send, rank - (last_rank/2) -1);
-        
-        // Allocate memory for the resulting data
-        int new_chunk_size = chunk_size[rank] - elements_to_send + recv_elements;
-        new_chunk_size = (new_chunk_size > 0) ? new_chunk_size : 0;
-        printf("Rank %d has %d elements to store\n", rank, new_chunk_size);
-        data_t* merged = (data_t*)malloc((new_chunk_size)*sizeof(data_t));
-        // Put in the merged array the elements that are greater than the pivot
-        for (int i = pivot_pos + 1; i < chunk_size[rank]; i++){
-            merged[i - (pivot_pos + 1) + recv_elements] = (*loc_data)[i];
+
+
+        MPI_Barrier(MPI_COMM_WORLD);
+        free(pivots);
+        // Broadcast the pivot to all processes
+        // printf("Rank %d is arriving to the broadcast\n", rank);
+        MPI_Bcast(pivot, 1, MPI_DATA_T, 0, MPI_COMM_WORLD);
+        // printf("Pivot received from rank %d is %f\n", rank, ((data_t*)pivot)->data[HOT]);
+        MPI_Barrier(MPI_COMM_WORLD);
+
+
+
+        (void*)pivot;
+        // Partition the array
+        int pivot_pos = mpi_partition(*loc_data, 0, *chunk_size, cmp_ge, pivot);
+
+        // printf("Rank %d pivot position is %d\n", rank, pivot_pos);
+        MPI_Barrier(MPI_COMM_WORLD);
+        free(pivot);
+        // Exchange data between processes
+        if (rank <= pivot_rank){
+            // printf("Rank %d is less than pivot rank\n", rank);
+            // Send the number of elements to store to its corresponding process
+            int elements_to_send = *chunk_size - (pivot_pos + 1);
+            // printf("Rank %d has %d elements to send\n", rank, elements_to_send);
+            MPI_Send(&elements_to_send, 1, MPI_INT, rank + (num_procs/2)+1, 0, MPI_COMM_WORLD);
+            // printf("Rank %d has sent %d elements to rank %d\n", rank, elements_to_send, rank + (last_rank/2)+1);
+            // Receive the number of elements from the corresponding process
+            int recv_elements;
+            MPI_Recv(&recv_elements, 1, MPI_INT, rank + (num_procs/2)+1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            // printf("Rank %d has received %d elements from rank %d\n", rank, recv_elements, rank + (last_rank/2)+1);
+            // Allocate memory for the resulting data
+            recv_elements = (recv_elements > 0) ? recv_elements : 0;
+            int new_chunk_size = *chunk_size - elements_to_send + recv_elements;
+            // printf("Rank %d has %d elements to store\n", rank, new_chunk_size);
+            data_t* merged = (data_t*)malloc((new_chunk_size)*sizeof(data_t));
+            // Put in the merged array the elements that are smaller than the pivot
+            for (int i = 0; i <= pivot_pos; i++){
+                merged[i] = (*loc_data)[i];
+            }
+            // Send the elements that are greater than the pivot
+            MPI_Send(&(*loc_data)[pivot_pos + 1], elements_to_send, MPI_DATA_T, rank + (num_procs/2) +1, 0, MPI_COMM_WORLD);
+            // Now I don't need the local data anymore
+            // free(*loc_data);
+            // Receive the elements that are greater than the pivot and put them in the merged array
+            MPI_Recv(&merged[pivot_pos + 1], recv_elements, MPI_DATA_T, rank + (num_procs/2) +1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            // Now the merged array is the new local data
+            *loc_data = merged;
+            data_t first = (*loc_data)[0];
+            *chunk_size = new_chunk_size;
+            // data_t **loc_data = realloc(*loc_data, new_chunk_size*sizeof(data_t));
+            // for (int i = 0; i < new_chunk_size; i++){
+            //     (*loc_data)[i] = merged[i];
+            // }
+            // memmove(*loc_data, merged, new_chunk_size*sizeof(data_t));
+            // printf("Rank %d has %d elements\n", rank, *chunk_size);
+            // show_array(*loc_data, 0, *chunk_size, 0);
+            free(merged);
+            *(loc_data)[0] = first;
         }
-        // Receive the elements that are smaller than the pivot and put them in the merged array
-        MPI_Recv(&merged[0], recv_elements, MPI_DATA_T, rank - (last_rank/2) -1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        // Send the elements that are smaller than the pivot
-        MPI_Send(&(*loc_data)[0], pivot_pos +1, MPI_DATA_T, rank - (last_rank/2) -1, 0, MPI_COMM_WORLD);
-        // Now I don't need the local data anymore
-        free(*loc_data);
-        // Now the merged array is the new local data
-        *loc_data = merged;
-        chunk_size[rank] = new_chunk_size;
-        printf("Rank %d has %d elements\n", rank, chunk_size[rank]);
-        show_array(*loc_data, 0, chunk_size[rank], 0);
-        free(merged);
+        if (rank > pivot_rank){
+            // printf("Rank %d is greater than pivot rank\n", rank);
+            // Receive the number of elements to store from the corresponding process
+            int recv_elements;
+            MPI_Recv(&recv_elements, 1, MPI_INT, rank - (num_procs/2) -1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            // printf("Rank %d has received %d elements from rank %d\n", rank, recv_elements, rank - (last_rank/2) -1);
+            // Send the index of the pivot to its corresponding process
+            int elements_to_send = pivot_pos +1;
+            MPI_Send(&elements_to_send, 1, MPI_INT, rank - (num_procs/2) -1, 0, MPI_COMM_WORLD);
+            // printf("Rank %d has sent %d elements to rank %d\n", rank, elements_to_send, rank - (last_rank/2) -1);
+            
+            // Allocate memory for the resulting data
+            int new_chunk_size = *chunk_size - elements_to_send + recv_elements;
+            new_chunk_size = (new_chunk_size > 0) ? new_chunk_size : 0;
+            // printf("Rank %d has %d elements to store\n", rank, new_chunk_size);
+            data_t* merged = (data_t*)malloc((new_chunk_size)*sizeof(data_t));
+            // Put in the merged array the elements that are greater than the pivot
+            for (int i = pivot_pos + 1; i < *chunk_size; i++){
+                merged[i - (pivot_pos + 1) + recv_elements] = (*loc_data)[i];
+            }
+            // Receive the elements that are smaller than the pivot and put them in the merged array
+            MPI_Recv(&merged[0], recv_elements, MPI_DATA_T, rank - (num_procs/2) -1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            // Send the elements that are smaller than the pivot
+            MPI_Send(&(*loc_data)[0], pivot_pos +1, MPI_DATA_T, rank - (num_procs/2) -1, 0, MPI_COMM_WORLD);
+            // Now I don't need the local data anymore
+            // free(*loc_data);
+            // Now the merged array is the new local data
+            *loc_data = merged;
+            data_t first = (*loc_data)[0];
+            *chunk_size = new_chunk_size;
+            // data_t **loc_data = realloc(*loc_data, new_chunk_size*sizeof(data_t));
+            // for (int i = 0; i < new_chunk_size; i++){
+            //     (*loc_data)[i] = merged[i];
+            // }
+            // memmove(*loc_data, merged, new_chunk_size*sizeof(data_t));
+            // printf("Rank %d has %d elements\n", rank, *chunk_size);
+            // show_array(*loc_data, 0, *chunk_size, 0);
+            free(merged);
+            *(loc_data)[0] = first;
+        }
+
+        MPI_Barrier(MPI_COMM_WORLD);
+        for (int i = 0; i <= num_procs; i++){
+            if (rank == i){
+                printf("Rank %d has sorted:\n", rank);
+                show_array(*loc_data, 0, *chunk_size, 0);
+            }
+            MPI_Barrier(MPI_COMM_WORLD);
+        }
+
+        if (rank <= pivot_rank){
+            // Call the function recursively on the two halves of the processes
+            mpi_quicksort(loc_data, chunk_size, first_rank, pivot_rank, rank, MPI_DATA_T, cmp_ge);
+            MPI_Barrier(MPI_COMM_WORLD);
+        }else{
+            // Call the function recursively on the two halves of the processes
+            mpi_quicksort(loc_data, chunk_size, pivot_rank + 1, last_rank, rank, MPI_DATA_T, cmp_ge);
+            MPI_Barrier(MPI_COMM_WORLD);
+        }
+        // printf("Recursion call");
+        // par_quicksort(*loc_data, 0, *chunk_size, cmp_ge);
+        // Call the function recursively on the two halves of the processes
+        // MPI_Barrier(MPI_COMM_WORLD);
+    }else{
+        // Call the par_quicksort function
+        // par_quicksort(*loc_data, 0, *chunk_size, cmp_ge);
+        printf("Base case reached!\n");
     }
 
-
-    // Call the function recursively on the two halves of the processes
 
 }
 
