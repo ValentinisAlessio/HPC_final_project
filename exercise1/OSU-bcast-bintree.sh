@@ -7,7 +7,7 @@
 #SBATCH --ntasks=256
 #SBATCH -p EPYC
 #SBATCH --exclusive
-#SBATCH --time=02:00:00
+#SBATCH --time=04:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ALESSIO.VALENTINIS@studenti.units.it
 
@@ -23,11 +23,7 @@ src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
 
 # Define variables
 #MESSAGE_SIZES=(1024 2048 4096 8192)  # Example message sizes
-np_values=()
-np_values+=(2)  # Include 2 initially
-for ((i = 8; i <= 256; i += 8)); do
-    np_values+=($i)
-done
+np_values=($(seq 2 1 256))  # Example number of processes
 
 
 # Define different process map_values to evaluate
