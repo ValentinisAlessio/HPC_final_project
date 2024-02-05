@@ -36,5 +36,5 @@ for np in {1..256}; do
     # Run MPI Bcast benchmark and capture output
     mpirun -np $np --map-by core --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 2 $src_path/osu_bcast -m 2048 -x 100 -i 10000 |\
     # Append results to CSV file
-    tail -n 21 | awk -v np="$np" '{printf "chain,core,%s,%s,%s\n",np,$1,$2}' | sed 's/,$//' >> $csv_file
+    tail -n 12 | awk -v np="$np" '{printf "chain,core,%s,%s,%s\n",np,$1,$2}' | sed 's/,$//' >> $csv_file
 done
