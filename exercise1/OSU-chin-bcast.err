@@ -1,1 +1,12 @@
-/var/spool/slurm/d/job341570/slurm_script: line 26: 8: command not found
+slurmstepd: error: *** JOB 343687 ON epyc004 CANCELLED AT 2024-02-05T14:18:40 DUE TO TIME LIMIT ***
+--------------------------------------------------------------------------
+ORTE has lost communication with a remote daemon.
+
+  HNP daemon   : [[48851,0],0] on node epyc004
+  Remote daemon: [[48851,0],1] on node epyc005
+
+This is usually due to either a failure of the TCP network
+connection to the node, or possibly an internal failure of
+the daemon itself. We cannot recover from this failure, and
+therefore will terminate the job.
+--------------------------------------------------------------------------
