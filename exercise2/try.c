@@ -152,7 +152,7 @@ int main(int argc, char** argv){
 
     MPI_Barrier(MPI_COMM_WORLD);
 
-    data_t* try = (data_t*)malloc(0*sizeof(data_t));
+    // data_t* try = (data_t*)malloc(0*sizeof(data_t));
 
 
     // ---------------------------------------------
@@ -180,9 +180,10 @@ int main(int argc, char** argv){
 
 
     MPI_Type_free(&MPI_DATA_T);
+    printf("Data freed\n");
     MPI_Finalize();
     free(data);
-    free(try);
+    // free(try);
     // free(chunk_sizes);
     // free(loc_data);
     // free(merged);
@@ -428,7 +429,7 @@ void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_
         MPI_Gather((*loc_data), 1, MPI_DATA_T, pivots, 1, MPI_DATA_T, 0, MPI_COMM_WORLD);
         if (rank == 0){
             par_quicksort(pivots, 0, num_procs, cmp_ge);
-            memcpy(pivot, &pivots[num_procs / 2], sizeof(data_t));
+            memcpy(pivot, &pivots[(num_procs / 2)], sizeof(data_t));
             // printf("Pivot found by rank %d is %f\n", rank, pivot->data[HOT]);
         }
 
@@ -556,7 +557,7 @@ void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_
         // MPI_Barrier(MPI_COMM_WORLD);
     }else{
         // Call the par_quicksort function
-        // par_quicksort(*loc_data, 0, *chunk_size, cmp_ge);
+        par_quicksort(*loc_data, 0, *chunk_size, cmp_ge);
         printf("Base case reached!\n");
     }
 
