@@ -40,9 +40,7 @@ verify_t show_array;
 int partition(data_t*, int, int, compare_t);
 void par_quicksort(data_t*, int, int, compare_t);
 void divide(data_t*, int, int, MPI_Datatype, data_t*, int);
-void exchange();
-data_t* merge(data_t*, int, data_t*, int, compare_t);
-// data_t* global_merge(data_t*, int, int, MPI_Datatype, data_t*, int);
+void gather(data_t*, int, int, MPI_Datatype, data_t*, int, int);
 int mpi_partition(data_t*, int, int, compare_t, void*);
 void mpi_quicksort(data_t**, int*, int, int, int, MPI_Datatype, compare_t);
 
@@ -141,6 +139,8 @@ int main(int argc, char** argv){
     // printf("Process %d has allocated %d bytes\n", rank, chunk_sizes[rank]*sizeof(data_t));
     divide(data, 0, N, MPI_DATA_T, loc_data, num_processes);
 
+    free(data);
+
     // Print scattered arrays
     for (int i = 0; i < num_processes; i++){
         if (rank == i){
@@ -178,11 +178,26 @@ int main(int argc, char** argv){
         MPI_Barrier(MPI_COMM_WORLD);
     }
 
+    // ---------------------------------------------
+    // // Gather the local arrays into a single array
+    // printf("Process %d has arrived to gather\n", rank);
+    // data_t* merged = (data_t*)malloc(N*sizeof(data_t));
+    // gather(merged, 0, N, MPI_DATA_T, loc_data, chunk_size, num_processes);
+    // printf("Process %d has gathered\n", rank);
+
+    // if (rank == 0){
+    //     printf("Array after sorting:\n");
+    //     show_array(merged, 0, N, 0);
+    // }
+
 
     MPI_Type_free(&MPI_DATA_T);
     printf("Data freed\n");
-    MPI_Finalize();
-    free(data);
+    // MPI_Finalize();
+    int finalize_retcode = MPI_Finalize();
+    if(0 == rank) fprintf(stderr, "Process, return_code\n");
+    fprintf(stderr, "%i, %i\n", rank, finalize_retcode);
+    // free(data);
     // free(try);
     // free(chunk_sizes);
     // free(loc_data);
@@ -312,71 +327,33 @@ void divide(data_t* data, int start, int end, MPI_Datatype MPI_DATA_T, data_t* l
     free(displs);
 }
 
-data_t* merge(data_t* left, int left_size, data_t* right, int right_size, compare_t cmp_ge){
-    // Function that merges two sorted arrays into a single sorted array
-    // Returns a pointer to the merged array
+void gather(data_t* data, int start, int end, MPI_Datatype MPI_DATA_T, data_t* loc_data, int chunk_size, int num_procs){
+    // Function that gathers the local arrays of the processes
+    // into a single array
 
-    data_t* merged = (data_t*)malloc((left_size + right_size)*sizeof(data_t));
-    int i = 0, j = 0, k = 0;
+    int size = end - start;
+    // int chunk_size = size / num_procs;
+    // int remainder = size % num_procs;
 
-    while (i < left_size && j < right_size) {
-        // Compare the elements from the left and right arrays
-        if (cmp_ge((void*)&left[i], (void*)&right[j])) {
-            merged[k] = right[j];
-            j++;
-        } else {
-            merged[k] = left[i];
-            i++;
-        }
-        k++;
+    int* sendcounts = (int*)malloc(num_procs*sizeof(int));
+    int* displs = (int*)malloc(num_procs*sizeof(int));
+
+    for (int i = 0; i < num_procs; i++){
+        sendcounts[i] = chunk_size;
+        // if (remainder > 0){
+        //     sendcounts[i] += 1;
+        //     remainder -= 1;
+        // }
+        displs[i] = start;
+        start += sendcounts[i];
     }
 
-    // Copy the remaining elements from the left array
-    while (i < left_size) {
-        merged[k] = left[i];
-        i++;
-        k++;
-    }
+    MPI_Gatherv(loc_data, sendcounts[0], MPI_DATA_T, data, sendcounts, displs, MPI_DATA_T, 0, MPI_COMM_WORLD);
 
-    // Copy the remaining elements from the right array
-    while (j < right_size) {
-        merged[k] = right[j];
-        j++;
-        k++;
-    }
-
-    return merged;
+    free(sendcounts);
+    free(displs);
 }
 
-// data_t* global_merge(data_t* data, int start, int end, MPI_Datatype MPI_DATA_T, data_t* loc_data, int num_procs){
-//     // Function that merges the sorted arrays of all the processes
-//     // into a single sorted array
-//     // Returns a pointer to the merged array
-
-//     int size = end - start;
-//     int chunk_size = size / num_procs;
-//     int remainder = size % num_procs;
-
-//     int* sendcounts = (int*)malloc(num_procs*sizeof(int));
-//     int* displs = (int*)malloc(num_procs*sizeof(int));
-
-//     for (int i = 0; i < num_procs; i++){
-//         sendcounts[i] = chunk_size;
-//         if (remainder > 0){
-//             sendcounts[i] += 1;
-//             remainder -= 1;
-//         }
-//         displs[i] = start;
-//         start += sendcounts[i];
-//     }
-
-//     MPI_Gatherv(loc_data, sendcounts[0], MPI_DATA_T, data, sendcounts, displs, MPI_DATA_T, 0, MPI_COMM_WORLD);
-
-//     free(sendcounts);
-//     free(displs);
-    
-//     return data;
-// }
 
 int mpi_partition(data_t* data, int start, int end, compare_t cmp_ge, void* pivot){
     // Function that partitions the array into two parts given a pivot
@@ -479,6 +456,7 @@ void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_
             // Receive the elements that are greater than the pivot and put them in the merged array
             MPI_Recv(&merged[pivot_pos + 1], recv_elements, MPI_DATA_T, rank + (num_procs/2) +1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             // Now the merged array is the new local data
+            printf("Rank %d, pointer %p\n", rank, &(*loc_data)[2]);
             *loc_data = merged;
             data_t first = (*loc_data)[0];
             *chunk_size = new_chunk_size;
@@ -490,7 +468,9 @@ void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_
             // printf("Rank %d has %d elements\n", rank, *chunk_size);
             // show_array(*loc_data, 0, *chunk_size, 0);
             free(merged);
+            merged = NULL;
             *(loc_data)[0] = first;
+            printf("Rank %d, pointer %p\n",rank, &(*loc_data)[2]);
         }
         if (rank > pivot_rank){
             // printf("Rank %d is greater than pivot rank\n", rank);
@@ -530,6 +510,7 @@ void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_
             // printf("Rank %d has %d elements\n", rank, *chunk_size);
             // show_array(*loc_data, 0, *chunk_size, 0);
             free(merged);
+            merged = NULL;
             *(loc_data)[0] = first;
         }
 
@@ -545,16 +526,13 @@ void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_
         if (rank <= pivot_rank){
             // Call the function recursively on the two halves of the processes
             mpi_quicksort(loc_data, chunk_size, first_rank, pivot_rank, rank, MPI_DATA_T, cmp_ge);
-            MPI_Barrier(MPI_COMM_WORLD);
+            //MPI_Barrier(MPI_COMM_WORLD);
         }else{
             // Call the function recursively on the two halves of the processes
             mpi_quicksort(loc_data, chunk_size, pivot_rank + 1, last_rank, rank, MPI_DATA_T, cmp_ge);
-            MPI_Barrier(MPI_COMM_WORLD);
+            // MPI_Barrier(MPI_COMM_WORLD);
         }
-        // printf("Recursion call");
-        // par_quicksort(*loc_data, 0, *chunk_size, cmp_ge);
-        // Call the function recursively on the two halves of the processes
-        // MPI_Barrier(MPI_COMM_WORLD);
+        
     }else{
         // Call the par_quicksort function
         par_quicksort(*loc_data, 0, *chunk_size, cmp_ge);
