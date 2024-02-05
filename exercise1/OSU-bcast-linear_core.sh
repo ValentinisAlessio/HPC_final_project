@@ -32,7 +32,7 @@ src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
 echo "Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)" > $csv_file
 
 # Loop through number of processes
-for np in $np_values; do
+for np in {1..256}; do
     echo "Running MPI Bcast benchmark: map=$mapping, np=$np, broadcast_algo=$broadcast_algo ..."
     # Run MPI Bcast benchmark and capture output
     mpirun -np $np --map-by core --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 1 $src_path/osu_bcast -m 2048 -x 100 -i 10000 |\

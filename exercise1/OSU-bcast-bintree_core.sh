@@ -36,7 +36,7 @@ echo "Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)" > $csv_file
 for np in {1..256}; do
     echo "Running MPI Bcast benchmark: map=$mapping, np=$np, broadcast_algo=$broadcast_algo ..."
     # Run MPI Bcast benchmark and capture output
-    mpirun -np $np --map-by core --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 5 $src_path/osu_bcast -m 1024 -x 100 -i 10000 |\
+    mpirun -np $np --map-by core --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 5 $src_path/osu_bcast -m 2048 -x 100 -i 10000 |\
     # Append results to CSV file
     tail -n 11 | awk -v np="$np" '{printf "bin_tree,core,%s,%s,%s\n",np,$1,$2}' | sed 's/,$//' >> $csv_file
 done
