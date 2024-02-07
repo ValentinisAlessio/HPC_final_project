@@ -15,10 +15,10 @@
 module load openMPI/4.1.5/gnu/12.2.1
 
 # Specify the path to the result file
-csv_file="results_def/bcast_def_results_wu_socket.csv"
+csv_file="../results_def/bcast_def_results_wu_socket.csv"
 
 # Go to the directory where the benchmark is located
-src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
+src_path="../../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
 
 
 # Define variables

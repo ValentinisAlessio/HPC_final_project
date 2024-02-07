@@ -1,8 +1,8 @@
 #!/bin/bash
 # Script to automatize OSU-benchmark routines for boocking broadcast operation, varying the number of processes and the message size
 #SBATCH --job-name=hpcex1
-#SBATCH --output=bcast-chain-node.out
-#SBATCH --error=bcast-chain-node.err
+#SBATCH --output=bcast-chain-socket.out
+#SBATCH --error=bcast-chain-socket.err
 #SBATCH --nodes=2
 #SBATCH --ntasks=256
 #SBATCH -p EPYC
@@ -15,10 +15,10 @@
 module load openMPI/4.1.5/gnu/12.2.1
 
 # Specify the path to the result file
-csv_file="results_def/bcast_chain_results_wu_node.csv"
+csv_file="../results_def/bcast_chain_results_wu_socket.csv"
 
 # Go to the directory where the benchmark is located
-src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
+src_path="../../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
 
 
 # Define variables
@@ -34,7 +34,7 @@ echo "Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)" > $csv_file
 for np in {1..256}; do
     echo "Running MPI Bcast benchmark: map=$mapping, np=$np, broadcast_algo=$broadcast_algo ..."
     # Run MPI Bcast benchmark and capture output
-    mpirun -np $np --map-by node --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 2 $src_path/osu_bcast -m 2048 -x 100 -i 10000 |\
+    mpirun -np $np --map-by socket --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 2 $src_path/osu_bcast -m 2048 -x 100 -i 10000 |\
     # Append results to CSV file
-    tail -n 12 | awk -v np="$np" '{printf "chain,node,%s,%s,%s\n",np,$1,$2}' | sed 's/,$//' >> $csv_file
+    tail -n 12 | awk -v np="$np" '{printf "chain,socket,%s,%s,%s\n",np,$1,$2}' | sed 's/,$//' >> $csv_file
 done
