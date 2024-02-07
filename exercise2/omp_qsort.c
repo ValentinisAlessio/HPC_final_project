@@ -151,15 +151,26 @@ int main ( int argc, char **argv )
     }    
     #endif
 
+    #if defined(_OPENMP)
     // Try to sort the array
-    printf("Sorting array of size %d\n", N);
-    show_array(data, 0, N, 0);
-    printf("Size of data: %ld\n", sizeof(data));
+    // printf("Sorting array of size %d\n", N);
+    // show_array(data, 0, N, 0);
+    // printf("Size of data: %ld\n", sizeof(data));
     par_quicksort(data, 0, N, compare_ge);
-    printf("Sorted array:\n");
-    show_array(data, 0, N, 0);  
+    // printf("Sorted array:\n");
+    // show_array(data, 0, N, 0); 
+    #else
+    // Try to sort the array
+    quicksort(data, 0, N, compare_ge);
+    #endif 
     
+    int sorted = verify_sorting(data, 0, N, 0);
+    //printf("Array is sorted: %s\n", sorted ? "true" : "false");
+
+
+    printf("Array is sorted: %s\n", sorted ? "true" : "false");
     free( data );
+
 
     return 0;
 }
@@ -290,7 +301,8 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
     #define CHECK
     #endif
 
-    if (start < end){    
+    int size = end - start;
+    if (size > 2){    
         // Partition the array
         int pivot = partition(data, start, end, cmp_ge);
         // int pivot = par_partition(data, start, end, cmp_ge);
@@ -298,11 +310,20 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
         CHECK;  // Verify partitioning
 
         // Sort the left and right side
-        #pragma omp task shared(data)
+        #pragma omp task 
+        {
         par_quicksort(data, start, pivot, cmp_ge);
-        #pragma omp task shared(data)
+        }
+        #pragma omp task 
+        {
         par_quicksort(data, pivot + 1, end, cmp_ge);
+        }
 
+    } else {
+        // Sort the array of size 2
+        if ( (size == 2) && cmp_ge((void*)&data[start], (void*)&data[end-1]) )
+            SWAP((void*)&data[start], (void*)&data[end-1], sizeof(data_t));
+    
     }
 }
 
