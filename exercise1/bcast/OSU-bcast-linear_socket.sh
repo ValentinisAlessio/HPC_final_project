@@ -29,10 +29,11 @@ src_path="../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
 # map_values="core socket node"
 
 # Create CSV file and add headers
-echo "Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)" > $csv_file
+# echo "Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)" > $csv_file
 
 # Loop through number of processes
-for np in {1..256}; do
+# for np in {1..256}; do
+for np in {217..256}; do
     echo "Running MPI Bcast benchmark: map=$mapping, np=$np, broadcast_algo=$broadcast_algo ..."
     # Run MPI Bcast benchmark and capture output
     mpirun -np $np --map-by socket --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_bcast_algorithm 1 $src_path/osu_bcast -m 2048 -x 100 -i 10000 |\
