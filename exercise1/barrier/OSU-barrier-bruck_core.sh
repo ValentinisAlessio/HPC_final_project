@@ -29,7 +29,7 @@ src_path="../../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking/"
 # map_values="core socket node"
 
 # Create CSV file and add headers
-echo "Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)" > $csv_file
+echo "Algorithm,Allocation,Processes,Avg Latency(us)" > $csv_file
 
 # Loop through number of processes
 # for mapping in $map_values; do
@@ -38,6 +38,6 @@ for np in {1..256}; do
     # Run MPI Bcast benchmark and capture output
     mpirun -np $np --map-by core --mca coll_tuned_use_dynamic_rules true --mca coll_tuned_barrier_algorithm 4 $src_path/osu_barrier -x 100 -i 10000 |\
     # Append results to CSV file
-        tail -n 1 | awk -v np="$np" '{printf "bruck,core,%s,%s,%s\n",np,$1,$2}' | sed 's/,$//' >> $csv_file
+        tail -n 1 | awk -v np="$np" '{printf "bruck,core,%s,%s\n",np,$1,$2}' | sed 's/,$//' >> $csv_file
 done
 # done
