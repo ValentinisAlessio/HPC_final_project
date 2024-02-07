@@ -1,0 +1,24 @@
+This test requires at least two processes
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[49906,1],0]
+  Exit code:    1
+--------------------------------------------------------------------------
+slurmstepd: error: *** JOB 344071 ON epyc004 CANCELLED AT 2024-02-05T23:39:41 DUE TO TIME LIMIT ***
+--------------------------------------------------------------------------
+ORTE has lost communication with a remote daemon.
+
+  HNP daemon   : [[40107,0],0] on node epyc004
+  Remote daemon: [[40107,0],1] on node epyc005
+
+This is usually due to either a failure of the TCP network
+connection to the node, or possibly an internal failure of
+the daemon itself. We cannot recover from this failure, and
+therefore will terminate the job.
+--------------------------------------------------------------------------
