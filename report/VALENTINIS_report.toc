@@ -1,0 +1,9 @@
+\contentsline {part}{I\hspace {1em}Exercise 1}{1}{part.1}%
+\contentsline {section}{\numberline {1}Broadcast operation}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Data collecting process}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Latency analysis}{3}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Fix algorithm and vary allocation}{3}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}Compare algorithms fixing allocation}{4}{subsubsection.1.2.2}%
+\contentsline {subsubsection}{\numberline {1.2.3}Fixing allocation and vary message size}{4}{subsubsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.3}Broadcast performance model}{5}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Barrier operation}{5}{section.2}%
