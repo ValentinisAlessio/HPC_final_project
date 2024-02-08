@@ -1,13 +1,400 @@
-This test requires at least two processes
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
 --------------------------------------------------------------------------
-Primary job  terminated normally, but 1 process returned
-a non-zero exit code. Per user-direction, the job has been aborted.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-mpirun detected that one or more processes exited with non-zero status, thus causing
-the job to be terminated. The first process to do so was:
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
 
-  Process name: [[48699,1],0]
-  Exit code:    1
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
 --------------------------------------------------------------------------
-slurmstepd: error: *** JOB 344070 ON epyc002 CANCELLED AT 2024-02-05T23:39:11 DUE TO TIME LIMIT ***
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+/var/spool/slurm/d/job348569/slurm_script: line 41: results_def/bcast_linear_results_wu_socket.csv: No such file or directory
+--------------------------------------------------------------------------
+mpirun was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ../../osu-micro-benchmarks-7.3/c/mpi/collective/blocking//osu_bcast
+Node: epyc004
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
