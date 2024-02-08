@@ -103,32 +103,32 @@ int main(int argc, char** argv){
     // ---------------------------------------------
     //  generate the array
     //
-    if (rank == 0){
-        data_t *data = (data_t*)malloc(N*sizeof(data_t));
-        long int seed;
-        #if defined(_OPENMP)
-        #pragma omp parallel
-        {
-            int me             = omp_get_thread_num();
-            short int seed     = time(NULL) % ( (1 << sizeof(short int))-1 );
-            short int seeds[3] = {seed-me, seed+me, seed+me*2};
+    data_t *data = (data_t*)malloc(N*sizeof(data_t));
+    long int seed;
+    #if defined(_OPENMP)
+    #pragma omp parallel
+    {
+        int me             = omp_get_thread_num();
+        short int seed     = time(NULL) % ( (1 << sizeof(short int))-1 );
+        short int seeds[3] = {seed-me, seed+me, seed+me*2};
 
-        #pragma omp for
-            for ( int i = 0; i < N; i++ )
-            data[i].data[HOT] = erand48( seeds );
-        }
-        #else
-        {
-            seed = time(NULL);
-            srand48(seed);
-            
-            PRINTF("ssed is % ld\n", seed);
-            
-            for ( int i = 0; i < N; i++ )
-            data[i].data[HOT] = drand48();
-        }    
-        #endif
-    
+    #pragma omp for
+        for ( int i = 0; i < N; i++ )
+        data[i].data[HOT] = erand48( seeds );
+    }
+    #else
+    {
+        seed = time(NULL);
+        srand48(seed);
+        
+        PRINTF("ssed is % ld\n", seed);
+        
+        for ( int i = 0; i < N; i++ )
+        data[i].data[HOT] = drand48();
+    }    
+    #endif
+
+    if (rank == 0){
         printf("Generating array of size %d\n", N);
         printf("Array before sorting:\n");
         show_array(data, 0, N, 0);
