@@ -211,6 +211,7 @@ int main(int argc, char** argv){
 
     // printf("Rank %d has loc_data of size %d\n", rank, chunk_size);
     //free(data);
+    free(loc_data);
     // free(sorted);
     // free(sorted);
     // free(merged);
@@ -412,9 +413,10 @@ void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_
     // and store them into one single array, if the size of the array is not too big.
 
     int num_procs = last_rank - first_rank;
-
+    
     if (num_procs >= 1){
     // if (1){
+
         int pivot_rank = first_rank + num_procs / 2;
         printf("Pivot rank is %d\n", pivot_rank);
 
@@ -424,14 +426,15 @@ void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_
         // printf("Rank %d has arrived to line 404\n", rank);
         data_t* pivots = (data_t*)malloc((num_procs+1)*sizeof(data_t));
         MPI_Gather((*loc_data), 1, MPI_DATA_T, pivots, 1, MPI_DATA_T, 0, MPI_COMM_WORLD);
+
         if (rank == 0){
             par_quicksort(pivots, 0, num_procs, cmp_ge);
             memcpy(pivot, &pivots[(num_procs / 2)], sizeof(data_t));
-            // printf("Pivot found by rank %d is %f\n", rank, pivot->data[HOT]);
+            printf("Pivot found by rank %d is %f\n", rank, pivot->data[HOT]);
         }
 
 
-        MPI_Barrier(MPI_COMM_WORLD);
+        //MPI_Barrier(MPI_COMM_WORLD);
         free(pivots);
         // Broadcast the pivot to all processes
         // printf("Rank %d is arriving to the broadcast\n", rank);
@@ -449,7 +452,9 @@ void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_
         // MPI_Barrier(MPI_COMM_WORLD);
         free(pivot);
         // Exchange data between processes
-        if (rank <= pivot_rank){
+        
+        //if (rank < pivot_rank || (num_procs % 2 != 0 && rank == pivot_rank)){
+        if (rank <= pivot_rank){  
             // printf("Rank %d is less than pivot rank\n", rank);
             // Send the number of elements to store to its corresponding process
             int elements_to_send = *chunk_size - (pivot_pos + 1);
@@ -752,7 +757,14 @@ int verify_global_sorting( data_t *loc_data, int start, int end, MPI_Datatype MP
 
     if (rank >= 0 && rank < num_procs - 1) {
         // Send the last element of loc_data to the next process (rank + 1)
-        MPI_Send(&loc_data[end - start - 1], 1, MPI_DATA_T, rank + 1, 0, MPI_COMM_WORLD);
+        if (end - start > 0)
+            MPI_Send(&loc_data[end - start - 1], 1, MPI_DATA_T, rank + 1, 0, MPI_COMM_WORLD);
+        else{
+            // If the array is empty, send a dummy element
+            data_t dummy;
+            dummy.data[HOT] = -1;
+            MPI_Send(&dummy, 1, MPI_DATA_T, rank + 1, 0, MPI_COMM_WORLD);
+        }
     }
 
     if (rank >0 && rank <= num_procs - 1) {
