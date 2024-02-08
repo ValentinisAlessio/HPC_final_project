@@ -103,32 +103,32 @@ int main(int argc, char** argv){
     // ---------------------------------------------
     //  generate the array
     //
-    data_t *data = (data_t*)malloc(N*sizeof(data_t));
-    long int seed;
-    #if defined(_OPENMP)
-    #pragma omp parallel
-    {
-        int me             = omp_get_thread_num();
-        short int seed     = time(NULL) % ( (1 << sizeof(short int))-1 );
-        short int seeds[3] = {seed-me, seed+me, seed+me*2};
-
-    #pragma omp for
-        for ( int i = 0; i < N; i++ )
-        data[i].data[HOT] = erand48( seeds );
-    }
-    #else
-    {
-        seed = time(NULL);
-        srand48(seed);
-        
-        PRINTF("ssed is % ld\n", seed);
-        
-        for ( int i = 0; i < N; i++ )
-        data[i].data[HOT] = drand48();
-    }    
-    #endif
-    
     if (rank == 0){
+        data_t *data = (data_t*)malloc(N*sizeof(data_t));
+        long int seed;
+        #if defined(_OPENMP)
+        #pragma omp parallel
+        {
+            int me             = omp_get_thread_num();
+            short int seed     = time(NULL) % ( (1 << sizeof(short int))-1 );
+            short int seeds[3] = {seed-me, seed+me, seed+me*2};
+
+        #pragma omp for
+            for ( int i = 0; i < N; i++ )
+            data[i].data[HOT] = erand48( seeds );
+        }
+        #else
+        {
+            seed = time(NULL);
+            srand48(seed);
+            
+            PRINTF("ssed is % ld\n", seed);
+            
+            for ( int i = 0; i < N; i++ )
+            data[i].data[HOT] = drand48();
+        }    
+        #endif
+    
         printf("Generating array of size %d\n", N);
         printf("Array before sorting:\n");
         show_array(data, 0, N, 0);
@@ -168,7 +168,11 @@ if (num_processes > 1){ // Run this section only if there are more than 1 proces
     int own_chunk_size = (N >= chunk_size * (rank + 1)) ? chunk_size : (N - chunk_size * rank);
 
     // Sorting array with quick sort for every chunk as called by process
-    par_quicksort(chunk, 0, own_chunk_size, compare_ge);
+    #pragma omp parallel
+    {
+        #pragma omp master
+            par_quicksort(chunk, 0, own_chunk_size, compare_ge);
+    }
 
     // ---------------------------------------------
     // Return the sorted data to the master process by recursively merging two sorted arrays
@@ -213,7 +217,11 @@ if (num_processes > 1){ // Run this section only if there are more than 1 proces
 
 }else{  // Run this section if there is only 1 process
     printf("Running on 1 process\n");
-    par_quicksort(data, 0, N, compare_ge);
+    #pragma omp parallel
+    {
+        #pragma omp master
+        par_quicksort(data, 0, N, compare_ge);
+    }
     tend = CPU_TIME;
     printf("Array after sorting:\n");
     show_array(data, 0, N, 0);
