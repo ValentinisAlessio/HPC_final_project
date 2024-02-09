@@ -166,13 +166,13 @@ int main(int argc, char** argv){
     free(data);
 
     // Print scattered arrays
-    // for (int i = 0; i < num_processes; i++){
-    //     if (rank == i){
-    //         printf("Process %d received:\n", rank);
-    //         show_array(loc_data, 0, chunk_size, 0);
-    //     }
-    //     MPI_Barrier(MPI_COMM_WORLD);
-    // }
+    for (int i = 0; i < num_processes; i++){
+        if (rank == i){
+            printf("Process %d received:\n", rank);
+            show_array(loc_data, 0, chunk_size, 0);
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
 
     MPI_Barrier(MPI_COMM_WORLD);
 
@@ -651,7 +651,11 @@ void mpi_quicksort1 (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T
         MPI_Comm_split(comm, rank <= pivot_rank, rank, &left_comm);
         MPI_Comm_split(comm, rank > pivot_rank, rank, &right_comm);
 
-        if (rank <= pivot_rank){
+        if (num_procs % 2 != 0 && rank == pivot_rank){
+            mpi_quicksort1(loc_data, chunk_size, MPI_DATA_T, left_comm);
+        }
+
+        if (rank < pivot_rank || (num_procs % 2 == 0 && rank == pivot_rank)){
             int elements_to_send = *chunk_size - (pivot_pos + 1);
             MPI_Send(&elements_to_send, 1, MPI_INT, rank + pivot_rank + 1, 0, comm);
             int recv_elements;
