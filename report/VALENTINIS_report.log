@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.11.16)  8 FEB 2024 00:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.11.16)  9 FEB 2024 12:25
 entering extended mode
 **./VALENTINIS_report.tex
 (VALENTINIS_report.tex
@@ -656,12 +656,35 @@ Package caption Info: New subtype `subfigure' on input line 239.
 Package caption Info: New subtype `subtable' on input line 239.
 \c@subtable=\count326
 )
+(C:\Users\aleva\AppData\Roaming\MiKTeX\tex/latex/geometry\geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(C:\Program Files\MiKTeX\tex/generic/iftex\ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(C:\Program Files\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+))
+\Gm@cnth=\count327
+\Gm@cntv=\count328
+\c@Gm@tempcnt=\count329
+\Gm@bindingoffset=\dimen308
+\Gm@wd@mp=\dimen309
+\Gm@odd@mp=\dimen310
+\Gm@even@mp=\dimen311
+\Gm@layoutwidth=\dimen312
+\Gm@layoutheight=\dimen313
+\Gm@layouthoffset=\dimen314
+\Gm@layoutvoffset=\dimen315
+\Gm@dimlist=\toks44
+
+(C:\Users\aleva\AppData\Roaming\MiKTeX\tex/latex/geometry\geometry.cfg))
 (C:\Program Files\MiKTeX\tex/latex/float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count327
-\float@exts=\toks44
+\c@float@type=\count330
+\float@exts=\toks45
 \float@box=\box65
-\@float@everytoks=\toks45
+\@float@everytoks=\toks46
 \@floatcapt=\box66
 )
 (C:\Program Files\MiKTeX\tex/latex/hyperref\hyperref.sty
@@ -669,9 +692,6 @@ Package: hyperref 2021-02-27 v7.00k Hypertext links for LaTeX
 
 (C:\Program Files\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
-)
-(C:\Program Files\MiKTeX\tex/generic/iftex\iftex.sty
-Package: iftex 2020/03/06 v1.0d TeX engine tests
 )
 (C:\Program Files\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
@@ -705,9 +725,9 @@ Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 (C:\Program Files\MiKTeX\tex/latex/kvoptions\kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 )
-\@linkdim=\dimen308
-\Hy@linkcounter=\count328
-\Hy@pagecounter=\count329
+\@linkdim=\dimen316
+\Hy@linkcounter=\count331
+\Hy@pagecounter=\count332
 
 (C:\Program Files\MiKTeX\tex/latex/hyperref\pd1enc.def
 File: pd1enc.def 2021-02-27 v7.00k Hyperref: PDFDocEncoding definition (HO)
@@ -724,7 +744,7 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 (C:\Program Files\MiKTeX\tex/generic/etexcmds\etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count330
+\Hy@SavedSpaceFactor=\count333
 
 (C:\Program Files\MiKTeX\tex/latex/hyperref\puenc.def
 File: puenc.def 2021-02-27 v7.00k Hyperref: PDF Unicode definition (HO)
@@ -739,9 +759,9 @@ Package hyperref Info: Plain pages OFF on input line 4207.
 Package hyperref Info: Backreferencing OFF on input line 4212.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4445.
-\c@Hy@tempcnt=\count331
+\c@Hy@tempcnt=\count334
 LaTeX Info: Redefining \url on input line 4804.
-\XeTeXLinkMargin=\dimen309
+\XeTeXLinkMargin=\dimen317
 
 (C:\Program Files\MiKTeX\tex/generic/bitset\bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -750,9 +770,9 @@ Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count332
-\Field@Width=\dimen310
-\Fld@charsize=\dimen311
+\Fld@menulength=\count335
+\Field@Width=\dimen318
+\Fld@charsize=\dimen319
 Package hyperref Info: Hyper figures OFF on input line 6075.
 Package hyperref Info: Link nesting OFF on input line 6080.
 Package hyperref Info: Hyper index ON on input line 6083.
@@ -768,9 +788,9 @@ Package: atbegshi-ltx 2020/08/17 v1.0a Emulation of the original atbegshi packa
 ge
 with kernel methods
 )
-\Hy@abspage=\count333
-\c@Item=\count334
-\c@Hfootnote=\count335
+\Hy@abspage=\count336
+\c@Item=\count337
+\c@Hfootnote=\count338
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
@@ -782,8 +802,8 @@ Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atvery packag
 e
 with kernel methods
 )
-\Fld@listcount=\count336
-\c@bookmark@seq@number=\count337
+\Fld@listcount=\count339
+\c@bookmark@seq@number=\count340
 
 (C:\Program Files\MiKTeX\tex/latex/rerunfilecheck\rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
@@ -819,48 +839,48 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip64
 \bibsep=\skip65
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count338
+\c@NAT@ctr=\count341
 )
 (C:\Program Files\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count339
+\l__color_backend_stack_int=\count342
 \l__pdf_internal_box=\box67
 )
 (VALENTINIS_report.aux)
 \openout1 = `VALENTINIS_report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
 
 (C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count340
-\scratchdimen=\dimen312
+\scratchcounter=\count343
+\scratchdimen=\dimen320
 \scratchbox=\box68
-\nofMPsegments=\count341
-\nofMParguments=\count342
-\everyMPshowfont=\toks46
-\MPscratchCnt=\count343
-\MPscratchDim=\dimen313
-\MPnumerator=\count344
-\makeMPintoPDFobject=\count345
-\everyMPtoPDFconversion=\toks47
+\nofMPsegments=\count344
+\nofMParguments=\count345
+\everyMPshowfont=\toks47
+\MPscratchCnt=\count346
+\MPscratchDim=\dimen321
+\MPnumerator=\count347
+\makeMPintoPDFobject=\count348
+\everyMPtoPDFconversion=\toks48
 ) (C:\Program Files\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -873,13 +893,47 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.17} into 
 your preamble.
- on input line 30.
+ on input line 31.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring ON on input line 30.
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(93.95122pt, 426.39256pt, 93.95122pt)
+* v-part:(T,H,B)=(93.95122pt, 607.06755pt, 93.95122pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=426.39256pt
+* \textheight=607.06755pt
+* \oddsidemargin=21.68123pt
+* \evensidemargin=21.68123pt
+* \topmargin=-15.31877pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package hyperref Info: Link coloring ON on input line 31.
 (C:\Program Files\MiKTeX\tex/latex/hyperref\nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 
@@ -889,11 +943,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 (C:\Program Files\MiKTeX\tex/generic/gettitlestring\gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count346
+\c@section@level=\count349
 )
-LaTeX Info: Redefining \ref on input line 30.
-LaTeX Info: Redefining \pageref on input line 30.
-LaTeX Info: Redefining \nameref on input line 30.
+LaTeX Info: Redefining \ref on input line 31.
+LaTeX Info: Redefining \pageref on input line 31.
+LaTeX Info: Redefining \nameref on input line 31.
 
 (VALENTINIS_report.out) (VALENTINIS_report.out)
 \@outlinefile=\write4
@@ -914,18 +968,13 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout5 = `VALENTINIS_report.toc'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 39--40
+Underfull \hbox (badness 10000) in paragraph at lines 40--41
 
  []
 
 [1
 
 {C:/Users/aleva/AppData/Local/MiKTeX/pdftex/config/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 51--52
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 52--53
 
  []
@@ -935,39 +984,149 @@ Underfull \hbox (badness 10000) in paragraph at lines 53--54
 
  []
 
-[2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 106--107
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
 
  []
 
-[4] [5] (VALENTINIS_report.aux)
+[2]
+<../exercise1/plots/bcast_default_1byte.png, id=95, 433.62pt x 289.08pt>
+File: ../exercise1/plots/bcast_default_1byte.png Graphic file (type png)
+<use ../exercise1/plots/bcast_default_1byte.png>
+Package pdftex.def Info: ../exercise1/plots/bcast_default_1byte.png  used on in
+put line 88.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/bcast_linear_1byte.png, id=97, 433.62pt x 289.08pt>
+File: ../exercise1/plots/bcast_linear_1byte.png Graphic file (type png)
+<use ../exercise1/plots/bcast_linear_1byte.png>
+Package pdftex.def Info: ../exercise1/plots/bcast_linear_1byte.png  used on inp
+ut line 94.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/bcast_chain_1byte.png, id=98, 433.62pt x 289.08pt>
+File: ../exercise1/plots/bcast_chain_1byte.png Graphic file (type png)
+<use ../exercise1/plots/bcast_chain_1byte.png>
+Package pdftex.def Info: ../exercise1/plots/bcast_chain_1byte.png  used on inpu
+t line 100.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/bcast_bintree_1byte.png, id=99, 433.62pt x 289.08pt>
+File: ../exercise1/plots/bcast_bintree_1byte.png Graphic file (type png)
+<use ../exercise1/plots/bcast_bintree_1byte.png>
+Package pdftex.def Info: ../exercise1/plots/bcast_bintree_1byte.png  used on in
+put line 106.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+ [3 <../exercise1/plots/bcast_default_1byte.png> <../exercise1/plots/bcast_line
+ar_1byte.png> <../exercise1/plots/bcast_chain_1byte.png> <../exercise1/plots/bc
+ast_bintree_1byte.png>]
+<../exercise1/plots/bcast_all_1byte.png, id=111, 722.7pt x 433.62pt>
+File: ../exercise1/plots/bcast_all_1byte.png Graphic file (type png)
+<use ../exercise1/plots/bcast_all_1byte.png>
+Package pdftex.def Info: ../exercise1/plots/bcast_all_1byte.png  used on input 
+line 131.
+(pdftex.def)             Requested size: 383.7507pt x 230.24757pt.
 
-Package rerunfilecheck Warning: File `VALENTINIS_report.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
 
-Package rerunfilecheck Info: Checksums for `VALENTINIS_report.out':
-(rerunfilecheck)             Before: F3D52318DE48987591D0FC88A5DA0B5D;1071
-(rerunfilecheck)             After:  15EDB3AB08F5BA450F591D68F7CCAC8E;1683.
+ []
+
+<../exercise1/plots/bcast_all_64byte.png, id=112, 433.62pt x 289.08pt>
+File: ../exercise1/plots/bcast_all_64byte.png Graphic file (type png)
+<use ../exercise1/plots/bcast_all_64byte.png>
+Package pdftex.def Info: ../exercise1/plots/bcast_all_64byte.png  used on input
+ line 154.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/bcast_all_512byte.png, id=113, 433.62pt x 289.08pt>
+File: ../exercise1/plots/bcast_all_512byte.png Graphic file (type png)
+<use ../exercise1/plots/bcast_all_512byte.png>
+Package pdftex.def Info: ../exercise1/plots/bcast_all_512byte.png  used on inpu
+t line 160.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/bcast_all_2048byte.png, id=114, 433.62pt x 289.08pt>
+File: ../exercise1/plots/bcast_all_2048byte.png Graphic file (type png)
+<use ../exercise1/plots/bcast_all_2048byte.png>
+Package pdftex.def Info: ../exercise1/plots/bcast_all_2048byte.png  used on inp
+ut line 166.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+[4 <../exercise1/plots/bcast_all_1byte.png>] [5 <../exercise1/plots/bcast_all_6
+4byte.png> <../exercise1/plots/bcast_all_512byte.png> <../exercise1/plots/bcast
+_all_2048byte.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 189--190
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 190--191
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 191--192
+
+ []
+
+<../exercise1/plots/barrier_default.png, id=131, 433.62pt x 289.08pt>
+File: ../exercise1/plots/barrier_default.png Graphic file (type png)
+<use ../exercise1/plots/barrier_default.png>
+Package pdftex.def Info: ../exercise1/plots/barrier_default.png  used on input 
+line 222.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/barrier_linear.png, id=132, 433.62pt x 289.08pt>
+File: ../exercise1/plots/barrier_linear.png Graphic file (type png)
+<use ../exercise1/plots/barrier_linear.png>
+Package pdftex.def Info: ../exercise1/plots/barrier_linear.png  used on input l
+ine 228.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/barrier_ring.png, id=133, 433.62pt x 289.08pt>
+File: ../exercise1/plots/barrier_ring.png Graphic file (type png)
+<use ../exercise1/plots/barrier_ring.png>
+Package pdftex.def Info: ../exercise1/plots/barrier_ring.png  used on input lin
+e 234.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/barrier_bruck.png, id=134, 433.62pt x 289.08pt>
+File: ../exercise1/plots/barrier_bruck.png Graphic file (type png)
+<use ../exercise1/plots/barrier_bruck.png>
+Package pdftex.def Info: ../exercise1/plots/barrier_bruck.png  used on input li
+ne 240.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[6] [7 <../exercise1/plots/barrier_default.png> <../exercise1/plots/barrier_lin
+ear.png> <../exercise1/plots/barrier_ring.png> <../exercise1/plots/barrier_bruc
+k.png>]
+<../exercise1/plots/barrier_core.png, id=153, 722.7pt x 433.62pt>
+File: ../exercise1/plots/barrier_core.png Graphic file (type png)
+<use ../exercise1/plots/barrier_core.png>
+Package pdftex.def Info: ../exercise1/plots/barrier_core.png  used on input lin
+e 264.
+(pdftex.def)             Requested size: 383.7507pt x 230.24757pt.
+ [8 <../exercise1/plots/barrier_core.png>] (VALENTINIS_report.aux)
+Package rerunfilecheck Info: File `VALENTINIS_report.out' has not changed.
+(rerunfilecheck)             Checksum: 5EDDCA62DF002EB779BAD750670D59B6;2704.
  ) 
 Here is how much of TeX's memory you used:
- 34059 strings out of 479321
- 774970 string characters out of 2866500
- 1168378 words of memory out of 3000000
- 50963 multiletter control sequences out of 15000+600000
- 407934 words of font info for 44 fonts, out of 8000000 for 9000
+ 34724 strings out of 479321
+ 787828 string characters out of 2866500
+ 1183211 words of memory out of 3000000
+ 51586 multiletter control sequences out of 15000+600000
+ 409846 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,5n,131p,848b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 102i,8n,131p,848b,633s stack positions out of 5000i,500n,10000p,200000b,80000s
  <C:\Users\aleva\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1000.pk><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/
 Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program File
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX/font
-s/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX/fonts/type1/publi
-c/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm
-/cmti10.pfb>
-Output written on VALENTINIS_report.pdf (5 pages, 108523 bytes).
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Program Files/MiKTeX/font
+s/type1/public/amsfonts/cm/cmbx9.pfb><C:/Program Files/MiKTeX/fonts/type1/publi
+c/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><
+C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Fi
+les/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX/fo
+nts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmti10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmti8.pfb
+><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on VALENTINIS_report.pdf (8 pages, 852877 bytes).
 PDF statistics:
- 99 PDF objects out of 1000 (max. 8388607)
- 16 named destinations out of 1000 (max. 500000)
- 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 216 PDF objects out of 1000 (max. 8388607)
+ 29 named destinations out of 1000 (max. 500000)
+ 190 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -194,13 +194,13 @@ int main(int argc, char** argv){
 
     // ---------------------------------------------
     // Show the sorted array
-    // for (int i = 0; i < num_processes; i++){
-    //     if (rank == i){
-    //         printf("Process %d has sorted:\n", rank);
-    //         show_array(loc_data, 0, chunk_size, 0);
-    //     }
-    //     //MPI_Barrier(MPI_COMM_WORLD);
-    // }
+    for (int i = 0; i < num_processes; i++){
+        if (rank == i){
+            printf("Process %d has sorted:\n", rank);
+            show_array(loc_data, 0, chunk_size, 0);
+        }
+        //MPI_Barrier(MPI_COMM_WORLD);
+    }
     // TODO: check why the first element is 0.000000
 
     // ---------------------------------------------
