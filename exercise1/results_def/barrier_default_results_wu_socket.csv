@@ -1,4 +1,4 @@
-Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)
+Algorithm,Allocation,Processes,Avg Latency(us)
 default,socket,2,0.74
 default,socket,3,1.67
 default,socket,4,1.75
@@ -6,7 +6,7 @@ default,socket,5,1.83
 default,socket,6,2.41
 default,socket,7,2.88
 default,socket,8,1.99
-default,socket,9,2.80
+default,socket,9,2.8
 default,socket,10,2.54
 default,socket,11,2.77
 default,socket,12,3.32
@@ -21,7 +21,7 @@ default,socket,20,3.38
 default,socket,21,3.78
 default,socket,22,3.95
 default,socket,23,4.03
-default,socket,24,4.20
+default,socket,24,4.2
 default,socket,25,5.25
 default,socket,26,4.22
 default,socket,27,4.83
@@ -42,7 +42,7 @@ default,socket,41,5.05
 default,socket,42,5.09
 default,socket,43,5.03
 default,socket,44,5.05
-default,socket,45,5.00
+default,socket,45,5.0
 default,socket,46,5.07
 default,socket,47,4.99
 default,socket,48,4.96
@@ -56,8 +56,8 @@ default,socket,55,5.06
 default,socket,56,5.11
 default,socket,57,5.22
 default,socket,58,5.96
-default,socket,59,6.30
-default,socket,60,5.50
+default,socket,59,6.3
+default,socket,60,5.5
 default,socket,61,5.61
 default,socket,62,5.74
 default,socket,63,6.28
@@ -75,21 +75,21 @@ default,socket,74,5.02
 default,socket,75,5.91
 default,socket,76,4.88
 default,socket,77,5.92
-default,socket,78,5.30
+default,socket,78,5.3
 default,socket,79,5.96
 default,socket,80,5.07
 default,socket,81,5.96
 default,socket,82,5.31
 default,socket,83,5.84
-default,socket,84,5.30
-default,socket,85,6.00
+default,socket,84,5.3
+default,socket,85,6.0
 default,socket,86,5.16
 default,socket,87,5.94
 default,socket,88,4.92
 default,socket,89,5.93
 default,socket,90,5.01
-default,socket,91,6.20
-default,socket,92,5.20
+default,socket,91,6.2
+default,socket,92,5.2
 default,socket,93,5.94
 default,socket,94,5.12
 default,socket,95,5.97
@@ -105,8 +105,8 @@ default,socket,104,5.66
 default,socket,105,6.33
 default,socket,106,5.12
 default,socket,107,6.14
-default,socket,108,5.10
-default,socket,109,7.60
+default,socket,108,5.1
+default,socket,109,7.6
 default,socket,110,5.24
 default,socket,111,6.36
 default,socket,112,5.24
@@ -127,12 +127,12 @@ default,socket,126,5.18
 default,socket,127,6.08
 default,socket,128,6.07
 default,socket,129,9.06
-default,socket,130,9.40
+default,socket,130,9.4
 default,socket,131,83.91
 default,socket,132,9.78
 default,socket,133,394.22
 default,socket,134,11.36
-default,socket,135,12.20
+default,socket,135,12.2
 default,socket,136,13.42
 default,socket,137,13.67
 default,socket,138,14.45
@@ -154,7 +154,7 @@ default,socket,153,100.69
 default,socket,154,28.74
 default,socket,155,29.07
 default,socket,156,31.28
-default,socket,157,96.30
+default,socket,157,96.3
 default,socket,158,31.56
 default,socket,159,31.05
 default,socket,160,298.93
@@ -179,7 +179,7 @@ default,socket,178,70.48
 default,socket,179,122.19
 default,socket,180,43.57
 default,socket,181,129.02
-default,socket,182,237.80
+default,socket,182,237.8
 default,socket,183,78.66
 default,socket,184,125.88
 default,socket,185,48.03
@@ -189,7 +189,7 @@ default,socket,188,477.61
 default,socket,189,603.71
 default,socket,190,123.82
 default,socket,191,49.77
-default,socket,192,52.30
+default,socket,192,52.3
 default,socket,193,120.28
 default,socket,194,121.43
 default,socket,195,118.53
@@ -197,7 +197,7 @@ default,socket,196,477.16
 default,socket,197,108.74
 default,socket,198,129.59
 default,socket,199,53.45
-default,socket,200,441.00
+default,socket,200,441.0
 default,socket,201,98.12
 default,socket,202,382.85
 default,socket,203,464.42
@@ -234,14 +234,14 @@ default,socket,233,249.68
 default,socket,234,269.96
 default,socket,235,323.61
 default,socket,236,117.76
-default,socket,237,491.90
+default,socket,237,491.9
 default,socket,238,451.35
 default,socket,239,456.36
 default,socket,240,93.58
 default,socket,241,361.22
 default,socket,242,113.93
-default,socket,243,99.60
-default,socket,244,426.70
+default,socket,243,99.6
+default,socket,244,426.7
 default,socket,245,474.57
 default,socket,246,107.48
 default,socket,247,95.16

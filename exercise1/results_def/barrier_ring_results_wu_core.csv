@@ -1,4 +1,4 @@
-Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)
+Algorithm,Allocation,Processes,Avg Latency(us)
 ring,core,2,0.71
 ring,core,3,1.16
 ring,core,4,1.56
@@ -12,9 +12,9 @@ ring,core,11,6.99
 ring,core,12,7.37
 ring,core,13,8.68
 ring,core,14,9.34
-ring,core,15,9.60
+ring,core,15,9.6
 ring,core,16,10.06
-ring,core,17,11.30
+ring,core,17,11.3
 ring,core,18,11.86
 ring,core,19,12.31
 ring,core,20,12.76
@@ -44,10 +44,10 @@ ring,core,43,31.48
 ring,core,44,29.68
 ring,core,45,31.69
 ring,core,46,33.89
-ring,core,47,32.40
+ring,core,47,32.4
 ring,core,48,33.87
 ring,core,49,35.77
-ring,core,50,34.90
+ring,core,50,34.9
 ring,core,51,35.21
 ring,core,52,36.17
 ring,core,53,37.46
@@ -64,13 +64,13 @@ ring,core,63,44.83
 ring,core,64,45.37
 ring,core,65,48.63
 ring,core,66,49.84
-ring,core,67,49.10
+ring,core,67,49.1
 ring,core,68,49.38
 ring,core,69,49.87
 ring,core,70,52.62
 ring,core,71,52.88
 ring,core,72,51.77
-ring,core,73,54.40
+ring,core,73,54.4
 ring,core,74,54.39
 ring,core,75,54.69
 ring,core,76,56.25
@@ -105,14 +105,14 @@ ring,core,104,73.84
 ring,core,105,73.23
 ring,core,106,74.07
 ring,core,107,74.64
-ring,core,108,74.80
+ring,core,108,74.8
 ring,core,109,77.35
-ring,core,110,76.90
+ring,core,110,76.9
 ring,core,111,77.02
 ring,core,112,79.15
 ring,core,113,80.27
 ring,core,114,80.97
-ring,core,115,81.90
+ring,core,115,81.9
 ring,core,116,82.25
 ring,core,117,83.24
 ring,core,118,85.78
@@ -123,7 +123,7 @@ ring,core,122,88.97
 ring,core,123,89.23
 ring,core,124,90.97
 ring,core,125,91.08
-ring,core,126,93.20
+ring,core,126,93.2
 ring,core,127,94.19
 ring,core,128,93.72
 ring,core,129,102.49
@@ -139,7 +139,7 @@ ring,core,138,108.18
 ring,core,139,112.07
 ring,core,140,111.49
 ring,core,141,113.27
-ring,core,142,111.70
+ring,core,142,111.7
 ring,core,143,112.33
 ring,core,144,113.29
 ring,core,145,112.99
@@ -149,7 +149,7 @@ ring,core,148,118.15
 ring,core,149,116.65
 ring,core,150,116.63
 ring,core,151,118.64
-ring,core,152,120.60
+ring,core,152,120.6
 ring,core,153,121.99
 ring,core,154,123.88
 ring,core,155,121.04
@@ -165,7 +165,7 @@ ring,core,164,128.41
 ring,core,165,129.09
 ring,core,166,129.12
 ring,core,167,128.33
-ring,core,168,133.60
+ring,core,168,133.6
 ring,core,169,129.26
 ring,core,170,132.09
 ring,core,171,134.43
@@ -199,7 +199,7 @@ ring,core,198,160.76
 ring,core,199,157.71
 ring,core,200,155.72
 ring,core,201,158.23
-ring,core,202,162.00
+ring,core,202,162.0
 ring,core,203,165.14
 ring,core,204,162.36
 ring,core,205,163.01
@@ -220,7 +220,7 @@ ring,core,219,177.38
 ring,core,220,173.71
 ring,core,221,176.71
 ring,core,222,173.35
-ring,core,223,177.10
+ring,core,223,177.1
 ring,core,224,177.34
 ring,core,225,180.09
 ring,core,226,179.99
@@ -229,19 +229,19 @@ ring,core,228,182.31
 ring,core,229,181.87
 ring,core,230,188.21
 ring,core,231,188.03
-ring,core,232,185.80
+ring,core,232,185.8
 ring,core,233,184.82
 ring,core,234,191.63
 ring,core,235,191.55
 ring,core,236,187.04
-ring,core,237,190.80
+ring,core,237,190.8
 ring,core,238,188.66
 ring,core,239,192.72
 ring,core,240,191.44
 ring,core,241,195.22
 ring,core,242,194.35
 ring,core,243,195.51
-ring,core,244,194.90
+ring,core,244,194.9
 ring,core,245,197.11
 ring,core,246,200.86
 ring,core,247,198.18

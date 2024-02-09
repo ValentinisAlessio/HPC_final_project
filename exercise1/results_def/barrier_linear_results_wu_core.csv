@@ -1,4 +1,4 @@
-Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)
+Algorithm,Allocation,Processes,Avg Latency(us)
 linear,core,2,0.29
 linear,core,3,0.39
 linear,core,4,0.45
@@ -10,7 +10,7 @@ linear,core,9,1.23
 linear,core,10,1.32
 linear,core,11,1.55
 linear,core,12,1.53
-linear,core,13,1.80
+linear,core,13,1.8
 linear,core,14,2.32
 linear,core,15,2.09
 linear,core,16,2.27
@@ -22,7 +22,7 @@ linear,core,21,2.96
 linear,core,22,3.05
 linear,core,23,4.31
 linear,core,24,3.34
-linear,core,25,3.50
+linear,core,25,3.5
 linear,core,26,3.68
 linear,core,27,3.78
 linear,core,28,3.98
@@ -30,7 +30,7 @@ linear,core,29,4.09
 linear,core,30,4.32
 linear,core,31,4.54
 linear,core,32,4.88
-linear,core,33,4.70
+linear,core,33,4.7
 linear,core,34,5.07
 linear,core,35,4.99
 linear,core,36,5.31
@@ -39,7 +39,7 @@ linear,core,38,5.71
 linear,core,39,5.87
 linear,core,40,7.85
 linear,core,41,7.34
-linear,core,42,7.70
+linear,core,42,7.7
 linear,core,43,8.23
 linear,core,44,7.63
 linear,core,45,7.38
@@ -67,9 +67,9 @@ linear,core,66,12.33
 linear,core,67,12.73
 linear,core,68,13.06
 linear,core,69,14.18
-linear,core,70,14.00
+linear,core,70,14.0
 linear,core,71,13.76
-linear,core,72,13.60
+linear,core,72,13.6
 linear,core,73,14.63
 linear,core,74,15.22
 linear,core,75,14.75
@@ -93,7 +93,7 @@ linear,core,92,20.38
 linear,core,93,20.43
 linear,core,94,21.56
 linear,core,95,21.84
-linear,core,96,21.30
+linear,core,96,21.3
 linear,core,97,20.76
 linear,core,98,25.42
 linear,core,99,23.54
@@ -103,7 +103,7 @@ linear,core,102,23.55
 linear,core,103,23.65
 linear,core,104,23.79
 linear,core,105,23.86
-linear,core,106,26.10
+linear,core,106,26.1
 linear,core,107,26.54
 linear,core,108,25.59
 linear,core,109,25.64
@@ -132,7 +132,7 @@ linear,core,131,33.64
 linear,core,132,34.31
 linear,core,133,46.73
 linear,core,134,35.74
-linear,core,135,35.40
+linear,core,135,35.4
 linear,core,136,35.99
 linear,core,137,36.78
 linear,core,138,37.06
@@ -140,14 +140,14 @@ linear,core,139,34.62
 linear,core,140,35.73
 linear,core,141,34.58
 linear,core,142,35.57
-linear,core,143,36.90
+linear,core,143,36.9
 linear,core,144,36.57
 linear,core,145,38.14
 linear,core,146,37.92
 linear,core,147,38.12
 linear,core,148,38.56
 linear,core,149,39.83
-linear,core,150,40.80
+linear,core,150,40.8
 linear,core,151,41.09
 linear,core,152,42.35
 linear,core,153,43.76
@@ -156,7 +156,7 @@ linear,core,155,44.16
 linear,core,156,43.69
 linear,core,157,46.98
 linear,core,158,46.78
-linear,core,159,49.60
+linear,core,159,49.6
 linear,core,160,47.06
 linear,core,161,48.83
 linear,core,162,48.39
@@ -174,15 +174,15 @@ linear,core,173,55.97
 linear,core,174,57.86
 linear,core,175,55.25
 linear,core,176,55.52
-linear,core,177,57.80
+linear,core,177,57.8
 linear,core,178,54.52
-linear,core,179,69.70
-linear,core,180,60.20
+linear,core,179,69.7
+linear,core,180,60.2
 linear,core,181,59.88
-linear,core,182,60.30
+linear,core,182,60.3
 linear,core,183,61.21
 linear,core,184,61.11
-linear,core,185,60.50
+linear,core,185,60.5
 linear,core,186,62.45
 linear,core,187,64.41
 linear,core,188,63.53
@@ -207,19 +207,19 @@ linear,core,206,73.34
 linear,core,207,76.54
 linear,core,208,78.44
 linear,core,209,77.87
-linear,core,210,75.40
-linear,core,211,74.80
+linear,core,210,75.4
+linear,core,211,74.8
 linear,core,212,76.36
 linear,core,213,76.06
 linear,core,214,77.57
 linear,core,215,79.39
 linear,core,216,84.06
 linear,core,217,78.99
-linear,core,218,80.30
+linear,core,218,80.3
 linear,core,219,78.44
 linear,core,220,83.65
 linear,core,221,80.96
-linear,core,222,83.40
+linear,core,222,83.4
 linear,core,223,84.56
 linear,core,224,92.14
 linear,core,225,83.91
@@ -230,9 +230,9 @@ linear,core,229,88.92
 linear,core,230,85.31
 linear,core,231,85.81
 linear,core,232,90.62
-linear,core,233,90.20
+linear,core,233,90.2
 linear,core,234,87.82
-linear,core,235,89.30
+linear,core,235,89.3
 linear,core,236,90.74
 linear,core,237,91.55
 linear,core,238,89.96
