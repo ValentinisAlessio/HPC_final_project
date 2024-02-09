@@ -10,7 +10,7 @@
 #endif
 #define HOT       0
 
-#define SIZE 10
+#define SIZE 100
 
 typedef struct {
     double data[SIZE];
@@ -95,20 +95,24 @@ int main(int argc, char** argv){
 
     MPI_Comm_size(MPI_COMM_WORLD, &num_processes);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Datatype MPI_DATA_T;
+    MPI_Type_contiguous(sizeof(data_t), MPI_BYTE, &MPI_DATA_T);
+    MPI_Type_commit(&MPI_DATA_T);
 
     // ---------------------------------------------
     //  generate the array
     //
 
     // start the clock
+    int chunk_size = (rank < N % num_processes) ? N / num_processes + 1 : N / num_processes;
     double start_time = MPI_Wtime();
-    data_t *data = (data_t*)malloc(N*sizeof(data_t));
-    long int seed;
+    data_t *data = (data_t*)malloc(chunk_size*sizeof(data_t));
+    long int seed = rank;
     #if defined(_OPENMP)
     #pragma omp parallel
     {
         int me             = omp_get_thread_num();
-        short int seed     = time(NULL) % ( (1 << sizeof(short int))-1 );
+        //short int seed     = time(NULL) % ( (1 << sizeof(short int))-1 );
         short int seeds[3] = {seed-me, seed+me, seed+me*2};
 
     #pragma omp for
@@ -117,7 +121,7 @@ int main(int argc, char** argv){
     }
     #else
     {
-        seed = time(NULL);
+        //seed = time(NULL);
         srand48(seed);
         
         PRINTF("ssed is % ld\n", seed);
@@ -144,32 +148,29 @@ int main(int argc, char** argv){
 
     // ---------------------------------------------
     // Create custom MPI data type for data_t
-    MPI_Datatype MPI_DATA_T;
-    MPI_Type_contiguous(sizeof(data_t), MPI_BYTE, &MPI_DATA_T);
-    MPI_Type_commit(&MPI_DATA_T);
 
     // ---------------------------------------------
     // Divide the array into chunks and scatter them to the processes
     // Generate local array to store the scattered data of the right size
-    int chunk_size = (rank < N % num_processes) ? N / num_processes + 1 : N / num_processes;
+    // int chunk_size = (rank < N % num_processes) ? N / num_processes + 1 : N / num_processes;
     // int* chunk_sizes = (int*)malloc(num_processes*sizeof(int));
     // for (int i = 0; i < num_processes; i++){
     //     chunk_sizes[i] = (i < N % num_processes) ? N / num_processes + 1 : N / num_processes;
     // }
     printf("Process %d has chunk size %d\n", rank, chunk_size);
-    data_t* loc_data = (data_t*)malloc(chunk_size*sizeof(data_t));
+    // data_t* loc_data = (data_t*)malloc(chunk_size*sizeof(data_t));
     // data_t* loc_data = (data_t*)malloc(chunk_sizes[rank]*sizeof(data_t));
     // printf("Process %d has allocated %d bytes\n", rank, chunk_size*sizeof(data_t));
     // printf("Process %d has allocated %d bytes\n", rank, chunk_sizes[rank]*sizeof(data_t));
-    divide(data, 0, N, MPI_DATA_T, loc_data, num_processes);
+    //divide(data, 0, N, MPI_DATA_T, loc_data, num_processes);
 
-    free(data);
+    //free(data);
 
     // Print scattered arrays
     for (int i = 0; i < num_processes; i++){
         if (rank == i){
             printf("Process %d received:\n", rank);
-            show_array(loc_data, 0, chunk_size, 0);
+            show_array(data, 0, chunk_size, 0);
         }
         MPI_Barrier(MPI_COMM_WORLD);
     }
@@ -187,7 +188,7 @@ int main(int argc, char** argv){
     // else
     // mpi_quicksort(&loc_data, &chunk_size, 2, 3, rank, MPI_DATA_T, compare_ge);
 
-    mpi_quicksort1(&loc_data, &chunk_size, MPI_DATA_T, MPI_COMM_WORLD);
+    mpi_quicksort1(&data, &chunk_size, MPI_DATA_T, MPI_COMM_WORLD);
     
 
     MPI_Barrier(MPI_COMM_WORLD);
@@ -197,7 +198,7 @@ int main(int argc, char** argv){
     for (int i = 0; i < num_processes; i++){
         if (rank == i){
             printf("Process %d has sorted:\n", rank);
-            show_array(loc_data, 0, chunk_size, 0);
+            show_array(data, 0, chunk_size, 0);
         }
         //MPI_Barrier(MPI_COMM_WORLD);
     }
@@ -233,7 +234,7 @@ int main(int argc, char** argv){
     double time = end_time - start_time;
     // ---------------------------------------------
     // Verify the results
-    int test = verify_global_sorting(loc_data, 0, chunk_size, MPI_DATA_T, rank, num_processes, 0);
+    int test = verify_global_sorting(data, 0, chunk_size, MPI_DATA_T, rank, num_processes, 0);
 
     if (rank == 0){
         printf("Test result is %d\n", test);
@@ -242,7 +243,7 @@ int main(int argc, char** argv){
 
     // printf("Rank %d has loc_data of size %d\n", rank, chunk_size);
     //free(data);
-    free(loc_data);
+    free(data);
     // free(sorted);
     // free(sorted);
     // free(merged);
@@ -627,6 +628,7 @@ void mpi_quicksort(data_t** loc_data, int* chunk_size, int first_rank, int last_
 
 }
 
+
 void mpi_quicksort1 (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T, MPI_Comm comm){
     int rank, num_procs;
     MPI_Comm_rank(comm, &rank);
@@ -649,10 +651,14 @@ void mpi_quicksort1 (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T
 
         MPI_Comm left_comm, right_comm;
         MPI_Comm_split(comm, rank <= pivot_rank, rank, &left_comm);
-        MPI_Comm_split(comm, rank > pivot_rank, rank, &right_comm);
 
+        // To manage the case where the number of processes is odd
+        (num_procs % 2 == 0) ? MPI_Comm_split(comm, rank > pivot_rank, rank, &right_comm) : MPI_Comm_split(comm, rank >= pivot_rank, rank, &right_comm);
+
+        // To avoid deadlock, the pivot process will call the function recursively
         if (num_procs % 2 != 0 && rank == pivot_rank){
             mpi_quicksort1(loc_data, chunk_size, MPI_DATA_T, left_comm);
+            mpi_quicksort1(loc_data, chunk_size, MPI_DATA_T, right_comm);
         }
 
         if (rank < pivot_rank || (num_procs % 2 == 0 && rank == pivot_rank)){
