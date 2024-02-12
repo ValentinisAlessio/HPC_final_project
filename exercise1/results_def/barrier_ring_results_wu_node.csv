@@ -1,4 +1,4 @@
-Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)
+Algorithm,Allocation,Processes,Avg Latency(us)
 ring,node,2,9.52
 ring,node,3,10.84
 ring,node,4,19.27
@@ -10,10 +10,10 @@ ring,node,9,40.33
 ring,node,10,47.58
 ring,node,11,50.21
 ring,node,12,57.21
-ring,node,13,58.70
+ring,node,13,58.7
 ring,node,14,66.17
 ring,node,15,67.33
-ring,node,16,74.40
+ring,node,16,74.4
 ring,node,17,75.91
 ring,node,18,84.15
 ring,node,19,85.52
@@ -30,17 +30,17 @@ ring,node,29,133.27
 ring,node,30,139.91
 ring,node,31,142.28
 ring,node,32,149.25
-ring,node,33,149.90
+ring,node,33,149.9
 ring,node,34,159.29
 ring,node,35,160.08
-ring,node,36,168.60
+ring,node,36,168.6
 ring,node,37,169.52
 ring,node,38,177.71
 ring,node,39,177.68
 ring,node,40,188.48
 ring,node,41,189.36
-ring,node,42,196.40
-ring,node,43,197.70
+ring,node,42,196.4
+ring,node,43,197.7
 ring,node,44,205.37
 ring,node,45,206.62
 ring,node,46,215.57
@@ -77,7 +77,7 @@ ring,node,76,436.67
 ring,node,77,439.13
 ring,node,78,449.59
 ring,node,79,454.65
-ring,node,80,465.50
+ring,node,80,465.5
 ring,node,81,469.52
 ring,node,82,480.16
 ring,node,83,483.42
@@ -100,11 +100,11 @@ ring,node,99,604.25
 ring,node,100,621.04
 ring,node,101,621.75
 ring,node,102,634.36
-ring,node,103,635.80
-ring,node,104,651.00
+ring,node,103,635.8
+ring,node,104,651.0
 ring,node,105,651.39
 ring,node,106,662.94
-ring,node,107,664.00
+ring,node,107,664.0
 ring,node,108,679.65
 ring,node,109,679.98
 ring,node,110,692.71
@@ -146,7 +146,7 @@ ring,node,145,945.18
 ring,node,146,956.12
 ring,node,147,959.81
 ring,node,148,974.63
-ring,node,149,976.60
+ring,node,149,976.6
 ring,node,150,989.83
 ring,node,151,991.91
 ring,node,152,1001.77
@@ -159,13 +159,13 @@ ring,node,158,1046.96
 ring,node,159,1051.35
 ring,node,160,1062.03
 ring,node,161,1066.13
-ring,node,162,1077.70
+ring,node,162,1077.7
 ring,node,163,1078.77
 ring,node,164,1098.37
 ring,node,165,1095.15
 ring,node,166,1113.52
 ring,node,167,1110.03
-ring,node,168,1125.90
+ring,node,168,1125.9
 ring,node,169,1128.76
 ring,node,170,1144.69
 ring,node,171,1142.26
@@ -176,7 +176,7 @@ ring,node,175,1172.19
 ring,node,176,1188.05
 ring,node,177,1188.81
 ring,node,178,1203.05
-ring,node,179,1202.10
+ring,node,179,1202.1
 ring,node,180,1217.38
 ring,node,181,1222.97
 ring,node,182,1237.08
@@ -196,7 +196,7 @@ ring,node,195,1323.24
 ring,node,196,1338.02
 ring,node,197,1342.82
 ring,node,198,1353.72
-ring,node,199,1358.10
+ring,node,199,1358.1
 ring,node,200,1369.11
 ring,node,201,1371.73
 ring,node,202,1393.83
@@ -209,17 +209,17 @@ ring,node,208,1434.29
 ring,node,209,1427.18
 ring,node,210,1445.56
 ring,node,211,1447.94
-ring,node,212,1469.40
+ring,node,212,1469.4
 ring,node,213,1461.07
 ring,node,214,1482.63
 ring,node,215,1481.41
-ring,node,216,1496.30
+ring,node,216,1496.3
 ring,node,217,1497.73
 ring,node,218,1506.18
 ring,node,219,1510.59
 ring,node,220,1521.67
 ring,node,221,1531.06
-ring,node,222,1542.60
+ring,node,222,1542.6
 ring,node,223,1541.61
 ring,node,224,1554.85
 ring,node,225,1560.59
@@ -232,7 +232,7 @@ ring,node,231,1607.41
 ring,node,232,1624.57
 ring,node,233,1616.72
 ring,node,234,1629.16
-ring,node,235,1638.70
+ring,node,235,1638.7
 ring,node,236,1651.16
 ring,node,237,1653.64
 ring,node,238,1666.18

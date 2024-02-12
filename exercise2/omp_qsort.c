@@ -79,6 +79,23 @@ typedef struct {
 #define MIN(a,b) ( (a)->data[HOT] < (b)->data[HOT]? (a) : (b));
 #define MAX(a,b) ( (a)->data[HOT] > (b)->data[HOT]? (a) : (b));
 
+#if defined(_OPENMP)
+
+// measure the wall-clock time
+#define CPU_TIME (clock_gettime( CLOCK_REALTIME, &ts ), (double)ts.tv_sec + \
+                  (double)ts.tv_nsec * 1e-9)
+
+// measure the cpu thread time
+#define CPU_TIME_th (clock_gettime( CLOCK_THREAD_CPUTIME_ID, &myts ), (double)myts.tv_sec +     \
+                     (double)myts.tv_nsec * 1e-9)
+
+#else
+
+// measure ther cpu process time
+#define CPU_TIME (clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ), (double)ts.tv_sec + \
+                  (double)ts.tv_nsec * 1e-9)
+#endif
+
 // ================================================================
 //  FUNCTION PROTOTYPES
 // ================================================================
@@ -128,6 +145,9 @@ int main ( int argc, char **argv )
     
     data_t *data = (data_t*)malloc(N*sizeof(data_t));
     long int seed;
+    struct timespec ts;
+    int    nthreads = 1;
+    double tstart = CPU_TIME;
     #if defined(_OPENMP)
     #pragma omp parallel
     {
@@ -163,12 +183,13 @@ int main ( int argc, char **argv )
     // Try to sort the array
     quicksort(data, 0, N, compare_ge);
     #endif 
-    
+    double tend = CPU_TIME;
     int sorted = verify_sorting(data, 0, N, 0);
     //printf("Array is sorted: %s\n", sorted ? "true" : "false");
 
 
     printf("Array is sorted: %s\n", sorted ? "true" : "false");
+    printf("Time to sort the array: %f\n", tend - tstart);
     free( data );
 
 

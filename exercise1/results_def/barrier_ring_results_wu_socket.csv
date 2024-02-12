@@ -1,4 +1,4 @@
-Algorithm,Allocation,Processes,MessageSize,Avg Latency(us)
+Algorithm,Allocation,Processes,Avg Latency(us)
 ring,socket,2,3.72
 ring,socket,3,4.94
 ring,socket,4,8.22
@@ -6,8 +6,8 @@ ring,socket,5,9.41
 ring,socket,6,12.22
 ring,socket,7,13.87
 ring,socket,8,17.89
-ring,socket,9,16.80
-ring,socket,10,21.60
+ring,socket,9,16.8
+ring,socket,10,21.6
 ring,socket,11,24.03
 ring,socket,12,26.04
 ring,socket,13,28.18
@@ -17,7 +17,7 @@ ring,socket,16,37.36
 ring,socket,17,39.14
 ring,socket,18,40.69
 ring,socket,19,42.27
-ring,socket,20,45.50
+ring,socket,20,45.5
 ring,socket,21,49.39
 ring,socket,22,49.58
 ring,socket,23,53.38
@@ -25,7 +25,7 @@ ring,socket,24,54.59
 ring,socket,25,59.36
 ring,socket,26,59.45
 ring,socket,27,62.88
-ring,socket,28,66.70
+ring,socket,28,66.7
 ring,socket,29,67.35
 ring,socket,30,71.53
 ring,socket,31,70.94
@@ -65,7 +65,7 @@ ring,socket,64,150.26
 ring,socket,65,151.69
 ring,socket,66,171.71
 ring,socket,67,155.08
-ring,socket,68,159.30
+ring,socket,68,159.3
 ring,socket,69,160.49
 ring,socket,70,164.06
 ring,socket,71,167.31
@@ -92,7 +92,7 @@ ring,socket,91,220.08
 ring,socket,92,224.95
 ring,socket,93,230.89
 ring,socket,94,230.08
-ring,socket,95,234.70
+ring,socket,95,234.7
 ring,socket,96,233.83
 ring,socket,97,239.42
 ring,socket,98,240.46
@@ -118,8 +118,8 @@ ring,socket,117,292.22
 ring,socket,118,296.31
 ring,socket,119,295.92
 ring,socket,120,312.07
-ring,socket,121,352.90
-ring,socket,122,644.60
+ring,socket,121,352.9
+ring,socket,122,644.6
 ring,socket,123,669.85
 ring,socket,124,557.61
 ring,socket,125,562.24
@@ -128,7 +128,7 @@ ring,socket,127,573.52
 ring,socket,128,622.04
 ring,socket,129,681.57
 ring,socket,130,592.39
-ring,socket,131,785.10
+ring,socket,131,785.1
 ring,socket,132,769.16
 ring,socket,133,774.39
 ring,socket,134,682.52
@@ -137,7 +137,7 @@ ring,socket,136,872.72
 ring,socket,137,719.13
 ring,socket,138,702.86
 ring,socket,139,586.33
-ring,socket,140,596.30
+ring,socket,140,596.3
 ring,socket,141,783.06
 ring,socket,142,743.82
 ring,socket,143,799.15
@@ -156,7 +156,7 @@ ring,socket,155,793.07
 ring,socket,156,925.37
 ring,socket,157,938.08
 ring,socket,158,815.96
-ring,socket,159,670.00
+ring,socket,159,670.0
 ring,socket,160,842.49
 ring,socket,161,749.16
 ring,socket,162,838.91
@@ -170,7 +170,7 @@ ring,socket,169,841.71
 ring,socket,170,885.82
 ring,socket,171,857.49
 ring,socket,172,842.65
-ring,socket,173,878.70
+ring,socket,173,878.7
 ring,socket,174,836.96
 ring,socket,175,893.58
 ring,socket,176,859.82
@@ -179,7 +179,7 @@ ring,socket,178,1047.43
 ring,socket,179,857.17
 ring,socket,180,961.38
 ring,socket,181,920.87
-ring,socket,182,899.50
+ring,socket,182,899.5
 ring,socket,183,872.27
 ring,socket,184,970.66
 ring,socket,185,827.22
@@ -208,17 +208,17 @@ ring,socket,207,813.82
 ring,socket,208,1011.45
 ring,socket,209,784.33
 ring,socket,210,1201.82
-ring,socket,211,976.30
-ring,socket,212,863.40
+ring,socket,211,976.3
+ring,socket,212,863.4
 ring,socket,213,903.83
-ring,socket,214,984.10
+ring,socket,214,984.1
 ring,socket,215,843.59
 ring,socket,216,867.11
 ring,socket,217,962.49
 ring,socket,218,1071.91
 ring,socket,219,891.76
 ring,socket,220,1062.87
-ring,socket,221,921.90
+ring,socket,221,921.9
 ring,socket,222,1063.38
 ring,socket,223,1129.81
 ring,socket,224,1336.33
@@ -236,8 +236,8 @@ ring,socket,235,1115.42
 ring,socket,236,1020.54
 ring,socket,237,1105.55
 ring,socket,238,1274.36
-ring,socket,239,1152.60
-ring,socket,240,980.40
+ring,socket,239,1152.6
+ring,socket,240,980.4
 ring,socket,241,1432.67
 ring,socket,242,998.43
 ring,socket,243,955.82
@@ -247,7 +247,7 @@ ring,socket,246,902.49
 ring,socket,247,957.56
 ring,socket,248,882.84
 ring,socket,249,1064.85
-ring,socket,250,960.30
+ring,socket,250,960.3
 ring,socket,251,1054.72
 ring,socket,252,903.03
 ring,socket,253,693.75

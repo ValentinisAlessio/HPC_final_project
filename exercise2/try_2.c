@@ -127,7 +127,7 @@ int main(int argc, char** argv){
         data[i].data[HOT] = drand48();
     }    
     #endif
-    
+
     if (rank == 0){
         printf("Generating array of size %d\n", N);
         printf("Array before sorting:\n");
@@ -168,7 +168,11 @@ if (num_processes > 1){ // Run this section only if there are more than 1 proces
     int own_chunk_size = (N >= chunk_size * (rank + 1)) ? chunk_size : (N - chunk_size * rank);
 
     // Sorting array with quick sort for every chunk as called by process
-    par_quicksort(chunk, 0, own_chunk_size, compare_ge);
+    #pragma omp parallel
+    {
+        #pragma omp master
+            par_quicksort(chunk, 0, own_chunk_size, compare_ge);
+    }
 
     // ---------------------------------------------
     // Return the sorted data to the master process by recursively merging two sorted arrays
@@ -213,7 +217,11 @@ if (num_processes > 1){ // Run this section only if there are more than 1 proces
 
 }else{  // Run this section if there is only 1 process
     printf("Running on 1 process\n");
-    par_quicksort(data, 0, N, compare_ge);
+    #pragma omp parallel
+    {
+        #pragma omp master
+        par_quicksort(data, 0, N, compare_ge);
+    }
     tend = CPU_TIME;
     printf("Array after sorting:\n");
     show_array(data, 0, N, 0);
