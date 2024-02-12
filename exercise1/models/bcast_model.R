@@ -11,7 +11,7 @@ cor(data_bcast)
 data_bcast$Allocation = as.factor(data_bcast$Allocation)
 data_bcast$Algorithm = as.factor(data_bcast$Algorithm)
 
-head(data)
+head(data_bcast)
 
 # Create a linear model
 model = lm(Avg.Latency.us. ~ . , data = data_bcast)
@@ -19,11 +19,11 @@ model = lm(Avg.Latency.us. ~ . , data = data_bcast)
 summary(model)
 
 # Merge the default factor levels with bin_tree
-library(forcats)
-data_bcast$Algorithm = fct_collapse(data_bcast$Algorithm, "bin_tree" = c("bin_tree", "default", "linear"))
+# library(forcats)
+# data_bcast$Algorithm = fct_collapse(data_bcast$Algorithm, "bin_tree" = c("bin_tree", "default", "linear"))
 
 # Create a linear model
-model1 = lm(Avg.Latency.us. ~ Algorithm + Allocation + Processes + MessageSize , data = data_bcast)
+model1 = lm(Avg.Latency.us. ~ Algorithm + Processes + MessageSize , data = data_bcast[data_bcast$Allocation == "core",])
 
 summary(model1)
 

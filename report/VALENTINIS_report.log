@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.11.16)  9 FEB 2024 12:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.11.16)  12 FEB 2024 09:34
 entering extended mode
 **./VALENTINIS_report.tex
 (VALENTINIS_report.tex
@@ -1022,7 +1022,7 @@ File: ../exercise1/plots/bcast_all_1byte.png Graphic file (type png)
 <use ../exercise1/plots/bcast_all_1byte.png>
 Package pdftex.def Info: ../exercise1/plots/bcast_all_1byte.png  used on input 
 line 131.
-(pdftex.def)             Requested size: 383.7507pt x 230.24757pt.
+(pdftex.def)             Requested size: 298.47348pt x 179.08218pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 140--141
 
@@ -1046,67 +1046,68 @@ File: ../exercise1/plots/bcast_all_2048byte.png Graphic file (type png)
 Package pdftex.def Info: ../exercise1/plots/bcast_all_2048byte.png  used on inp
 ut line 166.
 (pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
-[4 <../exercise1/plots/bcast_all_1byte.png>] [5 <../exercise1/plots/bcast_all_6
-4byte.png> <../exercise1/plots/bcast_all_512byte.png> <../exercise1/plots/bcast
-_all_2048byte.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 189--190
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 190--191
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 191--192
-
- []
-
-<../exercise1/plots/barrier_default.png, id=131, 433.62pt x 289.08pt>
-File: ../exercise1/plots/barrier_default.png Graphic file (type png)
-<use ../exercise1/plots/barrier_default.png>
-Package pdftex.def Info: ../exercise1/plots/barrier_default.png  used on input 
-line 222.
-(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
-<../exercise1/plots/barrier_linear.png, id=132, 433.62pt x 289.08pt>
-File: ../exercise1/plots/barrier_linear.png Graphic file (type png)
-<use ../exercise1/plots/barrier_linear.png>
-Package pdftex.def Info: ../exercise1/plots/barrier_linear.png  used on input l
-ine 228.
-(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
-<../exercise1/plots/barrier_ring.png, id=133, 433.62pt x 289.08pt>
-File: ../exercise1/plots/barrier_ring.png Graphic file (type png)
-<use ../exercise1/plots/barrier_ring.png>
-Package pdftex.def Info: ../exercise1/plots/barrier_ring.png  used on input lin
-e 234.
-(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
-<../exercise1/plots/barrier_bruck.png, id=134, 433.62pt x 289.08pt>
-File: ../exercise1/plots/barrier_bruck.png Graphic file (type png)
-<use ../exercise1/plots/barrier_bruck.png>
-Package pdftex.def Info: ../exercise1/plots/barrier_bruck.png  used on input li
-ne 240.
-(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] [7 <../exercise1/plots/barrier_default.png> <../exercise1/plots/barrier_lin
-ear.png> <../exercise1/plots/barrier_ring.png> <../exercise1/plots/barrier_bruc
-k.png>]
+[4 <../exercise1/plots/bcast_all_1byte.png>] [5 <../exercise1/plots/bcast_all_6
+4byte.png> <../exercise1/plots/bcast_all_512byte.png> <../exercise1/plots/bcast
+_all_2048byte.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 200--201
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 202--203
+
+ []
+
+[6]
+<../exercise1/plots/barrier_default.png, id=139, 433.62pt x 289.08pt>
+File: ../exercise1/plots/barrier_default.png Graphic file (type png)
+<use ../exercise1/plots/barrier_default.png>
+Package pdftex.def Info: ../exercise1/plots/barrier_default.png  used on input 
+line 233.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/barrier_linear.png, id=140, 433.62pt x 289.08pt>
+File: ../exercise1/plots/barrier_linear.png Graphic file (type png)
+<use ../exercise1/plots/barrier_linear.png>
+Package pdftex.def Info: ../exercise1/plots/barrier_linear.png  used on input l
+ine 239.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/barrier_ring.png, id=141, 433.62pt x 289.08pt>
+File: ../exercise1/plots/barrier_ring.png Graphic file (type png)
+<use ../exercise1/plots/barrier_ring.png>
+Package pdftex.def Info: ../exercise1/plots/barrier_ring.png  used on input lin
+e 245.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+<../exercise1/plots/barrier_bruck.png, id=142, 433.62pt x 289.08pt>
+File: ../exercise1/plots/barrier_bruck.png Graphic file (type png)
+<use ../exercise1/plots/barrier_bruck.png>
+Package pdftex.def Info: ../exercise1/plots/barrier_bruck.png  used on input li
+ne 251.
+(pdftex.def)             Requested size: 134.31215pt x 89.54329pt.
+ [7 <../exercise1/plots/barrier_default.png> <../exercise1/plots/barrier_linear
+.png> <../exercise1/plots/barrier_ring.png> <../exercise1/plots/barrier_bruck.p
+ng>]
 <../exercise1/plots/barrier_core.png, id=153, 722.7pt x 433.62pt>
 File: ../exercise1/plots/barrier_core.png Graphic file (type png)
 <use ../exercise1/plots/barrier_core.png>
 Package pdftex.def Info: ../exercise1/plots/barrier_core.png  used on input lin
-e 264.
-(pdftex.def)             Requested size: 383.7507pt x 230.24757pt.
- [8 <../exercise1/plots/barrier_core.png>] (VALENTINIS_report.aux)
+e 274.
+(pdftex.def)             Requested size: 298.47348pt x 179.08218pt.
+ [8 <../exercise1/plots/barrier_core.png>] [9] (VALENTINIS_report.aux)
 Package rerunfilecheck Info: File `VALENTINIS_report.out' has not changed.
 (rerunfilecheck)             Checksum: 5EDDCA62DF002EB779BAD750670D59B6;2704.
  ) 
 Here is how much of TeX's memory you used:
- 34724 strings out of 479321
- 787828 string characters out of 2866500
- 1183211 words of memory out of 3000000
+ 34725 strings out of 479321
+ 787834 string characters out of 2866500
+ 1182211 words of memory out of 3000000
  51586 multiletter control sequences out of 15000+600000
  409846 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1124,9 +1125,9 @@ nts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX/fonts/type1/publ
 ic/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/
 cm/cmti10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmti8.pfb
 ><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on VALENTINIS_report.pdf (8 pages, 852877 bytes).
+Output written on VALENTINIS_report.pdf (9 pages, 858827 bytes).
 PDF statistics:
- 216 PDF objects out of 1000 (max. 8388607)
- 29 named destinations out of 1000 (max. 500000)
+ 220 PDF objects out of 1000 (max. 8388607)
+ 30 named destinations out of 1000 (max. 500000)
  190 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -128,7 +128,7 @@
 	% INSERT IMAGE OF ALL MAP BY CORE
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=0.9\linewidth]{../exercise1/plots/bcast_all_1byte}
+		\includegraphics[width=0.7\linewidth]{../exercise1/plots/bcast_all_1byte}
 		\caption{Latency vs n. processes by algorithm}
 		\label{fig:bcastall1byte}
 	\end{figure}
@@ -176,12 +176,23 @@
 	As a conclusive step of the analysis I attempted to formulate a performance model to try to better understand the not-so-straight-forward dynamics playing into these algorithms. 
 	At firt I gave a try at estimating both latency and bandwidth within point-to-point communications employing again the OSU-microbenchmark library. The intention was to try and develop the Hockney model I found explained in some articles. However, the results obtained didn't fit well with the collected data, suggesting me to try something different. Maybe biased by my mathematical backgroud, or by some freshly sustained exams, I opted for the implementation of a linear model.
 	
+	With the use of the software R, my first attempt was to try and model the \textit{Average Latency} parameter on all the other parameters. This approach resulted not to be the most appropriate, other from the fact that not all the covariates resulted to be statistically relevant, such as, for example the \textit{Message Size} and the \textit{default algorithm}, the percentage of variability descripted by the model, represented form the $R^2$ coefficient, resulted to be less than $3\%$.
+	This result is another evidence towards the fact that the Average Latency is not the actual linear combination between allocation, algorithm, message size and number of processors.
+	
+	This suggested me to try and fit a spline polinomial refression, with the help of a GAM model. Despite the fact that this model suggested that the effective spline degrees of freedom for the \textit{Processes} variable is 8, so not at all linear, while the Message Size, although continuing not to be statistically significant, it resulted to have a linear effect on the \textit{Average Latency}.
+	This model, although being far more complex and capable to capture some evident non linear  effects, resulted to be not more accurate than $3\%$, suggesting an even more intricated relationship between the variables.
+	
+	My last effort was to try and fix an allocation, to see if the results would be more significant.
+	Fixing the allocation to \textit{core}, which as said above, showed a more smooth and predictable behavior, the results resulted to be much more sensible.
+	In fact, starting from the statictic relevance of the variable, all of them showed a much lower p-value, included \textit{Message Size}, which before didn't seem to have an importance in estimating the Average Latency.
+	Other from this aspect the model was able to capture more than $65\%$ of the variability of the model, a value by far more relevant than the ones obtained before. This, although showing a sensible improving in the esitimation of the model, clearly states that a simple linear model is able to capture the majority of the variability, but anyway the real model underlying the \textit{Average Latency} variable has more complicated relations than a simple linear one, for example due to the virtual topology of the algorithm (think for example at the binary tree algorithm, which has $log_2$ operations with respect to the linear one).
+	
 	% INSERISCI PARTE RIGUARDO MODELLO LINEARE
 	
 	
 	\section{Barrier operation}
 	
-	In this second part of the exercise, I chose to analyze and study the performance model of the MPI\_Barrier algorithm. It's an operation that allows for the synchronization of different process within the same communicator. It consists in a construct that guarantees that by the end of the operation, all the processes have at least entered the operation.
+	In this second part of the exercise, I chose to analyze and study the performance model of the MPI\_Barrier algorithm. It's an operation that allows for the synchronization of different process within the same communicator. It consists in a construct that guarantees that by the end of the operation, all the processes have at least entered it.
 	This collective blocking operation becomes crucial when we want to synchronize the processes involved in some parts of our distributed programm to ensure coherent and predictable execution. Among the plethora of synchronization mechanisms, the barrier algorithm stands as a fundamental construct, enabling synchronization points within parallel programs.
 	By default, the library OpenMPI offers different implementation of this algorithm, always characterized by beculiar virtual topology of the cores, or by different hierarchy of the execution. In this study I have examined only four of the  several algorithms present.
 	
@@ -251,7 +262,6 @@
 	
 	Lastly, passing to the bruck algorithm, we can see some similar behavior to the default algorithm, with the same region division and almost the same behavior, suggesting that this algorithm may have an optimal hierarchy of communication, making it suitable for the default implementation.
 	
-	\newpage
 	
 	\subsubsection{Compare algorithms fixing allocation}
 	
@@ -261,7 +271,7 @@
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=0.9\linewidth]{../exercise1/plots/barrier_core}
+		\includegraphics[width=0.7\linewidth]{../exercise1/plots/barrier_core}
 		\caption{Latency vs n. processes by algorithm}
 		\label{fig:barriercore}
 	\end{figure}
@@ -276,6 +286,13 @@
 	\subsection{Barrier performance model}
 	
 	Similar to the first part of the exercise, in this section my aim is to develop a statistical model that can explain the latency measurements as a function of the others degrees of freedom.
+	
+	Differently from the first part, here a simple linear model that included all covariates showed to have fairly good results.
+	Analyzing statistical importance of the variables, we can state that all of them have a low p-value, except from the one related to the Default algorithm, which as we have seen from the qualitative analysis, almost perfectly mimics the bruck algorithm.
+	As far as percentage of variability explained, I have obtained a $R^2=55\%$, which is a farly good result, but yet doesn't model all the complex variability of the underlying real model.
+	
+	Similarly to the analysis conducted before, I chose to analyze also the single allocation case, focussing on the \textit{core} case.
+	In this case, just considering the core allocation case, showed a considerable improvement in the model, showing similar statistical importance of the variables, but boosting the $R^2$ value to more than $80\%$. This shows how the barrier operation, instead of the broadcast one, has a "simpler" real model that regulates it, that can be fairly decently be estimated by a simple linear model.
 	
 	% INSERIRE PARTE DI ANALISI STATISTICA
 	 
