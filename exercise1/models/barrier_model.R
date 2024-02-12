@@ -17,6 +17,11 @@ model_barrier = lm(Avg.Latency.us. ~ Algorithm + Allocation + Processes , data =
 
 summary(model_barrier)
 
+# Consider only core allocation
+model1 = lm(Avg.Latency.us. ~ Algorithm + Processes , data = data_barrier[data_barrier$Allocation == "core",])
+
+summary(model1)
+
 #try with a GAM
 library(mgcv)
 model_gam_barrier = gam(Avg.Latency.us. ~ Algorithm + Allocation + s(Processes), data = data_barrier)
