@@ -7,7 +7,7 @@ DEPS = $(INCDIR)/par_quicksort.h
 CFLAGS = -c -I$(INCDIR)
 OFLAGS = -O3 -march=native -fopenmp
 
-OBJECTS = $(OBJDIR)/par_quicksort.o $(OBJDIR)/main1.o
+OBJECTS = $(OBJDIR)/par_quicksort.o $(OBJDIR)/main.o
 
 main1: $(OBJECTS)
 	$(CC) $(OFLAGS) $^ -o $@

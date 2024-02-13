@@ -3,7 +3,7 @@
 #SBATCH --output=job.out
 #SBATCH --error=job.err
 #SBATCH --get-user-env
-#SBATCH -p THIN
+#SBATCH -p EPYC
 #SBATCH --nodes=1
 #SBATCH --ntasks=8
 #SBATCH --time=00:30:00
@@ -16,7 +16,8 @@ pwd
 hostname
 
 module load openMPI/4.1.5/gnu/12.2.1
-module load architecture/Intel
+module load architecture/AMD
+
 
 make
 

@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <string.h>
 #include <time.h>
 #include <math.h>
 #include <unistd.h>
@@ -31,22 +32,22 @@
 // ================================================================
 
 
-#if defined(_OPENMP)
+// #if defined(_OPENMP)
 
-// measure the wall-clock time
-#define CPU_TIME (clock_gettime( CLOCK_REALTIME, &ts ), (double)ts.tv_sec + \
-                  (double)ts.tv_nsec * 1e-9)
+// // measure the wall-clock time
+// #define CPU_TIME (clock_gettime( CLOCK_REALTIME, &ts ), (double)ts.tv_sec + \
+//                   (double)ts.tv_nsec * 1e-9)
 
-// measure the cpu thread time
-#define CPU_TIME_th (clock_gettime( CLOCK_THREAD_CPUTIME_ID, &myts ), (double)myts.tv_sec +     \
-                     (double)myts.tv_nsec * 1e-9)
+// // measure the cpu thread time
+// #define CPU_TIME_th (clock_gettime( CLOCK_THREAD_CPUTIME_ID, &myts ), (double)myts.tv_sec +     \
+//                      (double)myts.tv_nsec * 1e-9)
 
-#else
+// #else
 
-// measure ther cpu process time
-#define CPU_TIME (clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ), (double)ts.tv_sec + \
-                  (double)ts.tv_nsec * 1e-9)
-#endif
+// // measure ther cpu process time
+// #define CPU_TIME (clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ), (double)ts.tv_sec + \
+//                   (double)ts.tv_nsec * 1e-9)
+// #endif
 
 
 #if defined(DEBUG)
@@ -99,9 +100,17 @@ verify_t verify_sorting;
 verify_t show_array;
 
 // Declare partitioning and sorting functions
-int partition(data_t *, int, int, compare_t);
+extern inline int partitioning(data_t *, int, int, compare_t);
+extern inline int mpi_partitioning(data_t *, int, int, compare_t);
+
+// Quicksort in distributed memory
+void mpi_quicksort(data_t**, int*, MPI_Datatype, MPI_Comm);
+
+// Serial quicksort
 void quicksort(data_t *, int, int, compare_t);
 
+// Quicksort in shared memory
 void par_quicksort(data_t *, int, int, compare_t);
 
-data_t* merge(data_t *, int, data_t *, int, compare_t);
+// Global verification function
+int verify_global_sorting(data_t*, int, int, MPI_Datatype, int, int, int);

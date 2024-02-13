@@ -119,7 +119,10 @@ void quicksort(data_t *, int, int, compare_t);
 
 void par_quicksort(data_t *, int, int, compare_t);
 
-data_t* merge(data_t *, int, data_t *, int, compare_t);
+//data_t* merge(data_t *, int, data_t *, int, compare_t);
+
+void openmp_quicksort(data_t**, int);
+void merge(data_t*, data_t*, data_t*, size_t, size_t, compare_t);
 
 int main ( int argc, char **argv )
 {
@@ -147,7 +150,6 @@ int main ( int argc, char **argv )
     long int seed;
     struct timespec ts;
     int    nthreads = 1;
-    double tstart = CPU_TIME;
     #if defined(_OPENMP)
     #pragma omp parallel
     {
@@ -171,12 +173,19 @@ int main ( int argc, char **argv )
     }    
     #endif
 
+    double tstart = CPU_TIME;
     #if defined(_OPENMP)
     // Try to sort the array
     // printf("Sorting array of size %d\n", N);
     // show_array(data, 0, N, 0);
     // printf("Size of data: %ld\n", sizeof(data));
-    par_quicksort(data, 0, N, compare_ge);
+    #pragma omp parallel
+    {
+        #pragma omp single
+        par_quicksort(data, 0, N, compare_ge);
+        #pragma omp taskwait
+    }
+    //openmp_quicksort(&data, N);
     // printf("Sorted array:\n");
     // show_array(data, 0, N, 0); 
     #else
@@ -186,6 +195,8 @@ int main ( int argc, char **argv )
     double tend = CPU_TIME;
     int sorted = verify_sorting(data, 0, N, 0);
     //printf("Array is sorted: %s\n", sorted ? "true" : "false");
+
+    //show_array(data, 0, N, 0);
 
 
     printf("Array is sorted: %s\n", sorted ? "true" : "false");
@@ -331,13 +342,18 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
         CHECK;  // Verify partitioning
 
         // Sort the left and right side
-        #pragma omp task 
-        {
-        par_quicksort(data, start, pivot, cmp_ge);
-        }
-        #pragma omp task 
-        {
-        par_quicksort(data, pivot + 1, end, cmp_ge);
+        if (size > 8){
+            #pragma omp task 
+            {
+            par_quicksort(data, start, pivot, cmp_ge);
+            }
+            #pragma omp task 
+            {
+            par_quicksort(data, pivot + 1, end, cmp_ge);
+            }
+        }else{
+            quicksort(data, start, pivot, cmp_ge);
+            quicksort(data, pivot + 1, end, cmp_ge);
         }
 
     } else {
@@ -348,40 +364,40 @@ void par_quicksort(data_t* data, int start, int end, compare_t cmp_ge){
     }
 }
 
-data_t* merge(data_t* data1, int n1, data_t* data2, int n2, compare_t cmp_ge){
+// data_t* merge(data_t* data1, int n1, data_t* data2, int n2, compare_t cmp_ge){
 
-    // Allocate memory for the merged array
-    data_t* merged = (data_t*)malloc((n1 + n2)*sizeof(data_t));
-    int i =0, j = 0, k;
+//     // Allocate memory for the merged array
+//     data_t* merged = (data_t*)malloc((n1 + n2)*sizeof(data_t));
+//     int i =0, j = 0, k;
 
-    // Merge the two arrays
-    for (k = 0; k < n1 + n2; k++){
-        if (i>=n1){
-            merged[k] = data2[j];
-            j++;
-        }
-        else if (j>=n2){
-            merged[k] = data1[i];
-            i++;
-        }
+//     // Merge the two arrays
+//     for (k = 0; k < n1 + n2; k++){
+//         if (i>=n1){
+//             merged[k] = data2[j];
+//             j++;
+//         }
+//         else if (j>=n2){
+//             merged[k] = data1[i];
+//             i++;
+//         }
 
-        // Indeces are in bounds
-        // i < n1 && j < n2
-        else if (cmp_ge((void*)&data1[i], (void*)&data2[j])){
-            merged[k] = data1[i];
-            i++;
-        }
-        else{
-            merged[k] = data2[j];
-            j++;
-        }
-    }
+//         // Indeces are in bounds
+//         // i < n1 && j < n2
+//         else if (cmp_ge((void*)&data1[i], (void*)&data2[j])){
+//             merged[k] = data1[i];
+//             i++;
+//         }
+//         else{
+//             merged[k] = data2[j];
+//             j++;
+//         }
+//     }
 
-    free(data1);
-    free(data2);
+//     free(data1);
+//     free(data2);
 
-    return merged;
-}
+//     return merged;
+// }
 
 // =================================================================================================
 // Verification functions (for debugging)
@@ -444,4 +460,76 @@ int compare_ge(const void* a, const void* b){
 
     // return 1 if A >= B, 0 if A < B
     return (A->data[HOT] >= B->data[HOT]);
+}
+
+#if defined(_OPENMP)
+void openmp_quicksort(data_t** data, int N){
+  int size;
+  // Get the amount of threads
+  #pragma omp parallel
+  {
+    #pragma omp master
+    {
+
+      size = omp_get_num_threads();
+
+    }
+
+  }
+
+  // Calculate the workload for each thread
+  int chunk_size = N / size; 
+  data_t* final = (*data);
+  // Sort the chunks in parallel
+  #pragma omp parallel for 
+    for (int i = 0; i < size; i++){
+      int offset_i  = (i     < N%size) ? i   : N%size;
+      int offset_i2 = ((i+1) < N%size) ? i+1 : N%size;
+
+      quicksort( final, chunk_size*i + offset_i, chunk_size*(i+1) + offset_i2, compare_ge );
+    
+    }
+
+  // Merge the chunks in into the final array ordered
+  data_t* tmp;
+  for (int i=1; i < size; i++){
+    int offset_i  = (i     < N%size) ? i   : N%size;
+    int offset_i2 = ((i+1) < N%size) ? i+1 : N%size;
+    int more      = (i+1) <= N%size;
+    tmp           = (data_t*)malloc((chunk_size*(i+1)+offset_i2)*sizeof(data_t));
+
+    merge(final, (*data)+chunk_size*i+offset_i, tmp, chunk_size*i + offset_i, chunk_size + more, compare_ge);
+
+    final = tmp;
+  }
+
+  *data = final;
+}
+#endif
+
+void merge(data_t* arr1, data_t* arr2, data_t* arr3, size_t n1, size_t n2, compare_t cmp_ge){
+    int i=0, j=0, k=0;
+
+    while (i < n1 && j < n2) {
+        if (arr1[i].data[HOT] < arr2[j].data[HOT]){
+            arr3[k].data[HOT] = arr1[i].data[HOT];
+            i++;
+        } else {
+            arr3[k].data[HOT] = arr2[j].data[HOT];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr3[k].data[HOT] = arr1[i].data[HOT];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr3[k].data[HOT] = arr2[j].data[HOT];
+        j++;
+        k++;
+    }
 }
