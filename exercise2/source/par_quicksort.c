@@ -354,7 +354,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
         MPI_Comm_free(&left_comm);
         MPI_Comm_free(&right_comm);
     }else{
-        #ifdef _OPENMP
+        #if defined(_OPENMP)
             #pragma omp parallel
             {
                 #pragma omp single
