@@ -70,7 +70,7 @@ void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
         }
 }
 
-#if difeined(_OPENMP)
+#if defined(_OPENMP)
 
 void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
     int size = end - start;
