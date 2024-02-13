@@ -365,6 +365,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
         #else
             quicksort(*loc_data, 0, *chunk_size, compare_ge);
 	    #endif
+    }
 }
 
 // =================================================================================================
