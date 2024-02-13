@@ -5,7 +5,7 @@ OBJDIR = objects
 DEPS = $(INCDIR)/par_quicksort.h
 
 CFLAGS = -c -I$(INCDIR)
-OFLAGS = -O3 -march=native -fopenmp
+OFLAGS = -fopenmp
 
 OBJECTS = $(OBJDIR)/par_quicksort.o $(OBJDIR)/main.o
 
