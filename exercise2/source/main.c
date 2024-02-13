@@ -74,7 +74,7 @@ int main(int argc, char** argv){
 
     // DEBUGGING PRINTS
     // Show the sorted array
-    // for (int i = 0; i < n_processes; i++){
+    // for (int i = 0; i < num_processes; i++){
     //     if (rank == i){
     //         printf("---------------------------------------\n");
     //         printf("Process %d has generated:\n", rank);
@@ -104,7 +104,7 @@ int main(int argc, char** argv){
 
     // DEBUGGING PRINTS
     //MPI_Barrier(MPI_COMM_WORLD);
-    // for (int i = 0; i < n_processes; i++){
+    // for (int i = 0; i < num_processes; i++){
     //     if (rank == i){
     //         printf("---------------------------------------\n");
     //         printf("Process %d has sorted:\n", rank);
@@ -124,7 +124,7 @@ int main(int argc, char** argv){
     
     if (rank == 0){
         printf("\n");
-	if (global_check == n_processes){
+	if (global_check == num_processes){
         #if defined(DEBUG)
         printf("#######################################\n");
 	    printf("Array sorted correctly!\n");
