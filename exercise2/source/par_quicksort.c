@@ -3,40 +3,40 @@
 #define SWAP(A,B,SIZE) do {int sz = (SIZE); char *a = (A); char *b = (B); \
 do { char _temp = *a;*a++ = *b;*b++ = _temp;} while (--sz);} while (0)
 
-// inline int partitioning(data_t* data, int start, int end, compare_t cmp_ge){
+int partitioning(data_t* data, int start, int end, compare_t cmp_ge){
 
-//     // Pick the median of the [0], [mid] and [end] element as pivot
-//     int mid = (start + end-1) / 2;
-//     if (cmp_ge((void*)&data[start], (void*)&data[mid]))
-//         SWAP((void*)&data[start], (void*)&data[mid], sizeof(data_t));
-//     if (cmp_ge((void*)&data[mid], (void*)&data[end-1]))
-//         SWAP((void*)&data[mid], (void*)&data[end-1], sizeof(data_t));
-//     if (cmp_ge((void*)&data[mid], (void*)&data[start]))
-//         SWAP((void*)&data[start], (void*)&data[mid], sizeof(data_t));
+    // Pick the median of the [0], [mid] and [end] element as pivot
+    int mid = (start + end-1) / 2;
+    if (cmp_ge((void*)&data[start], (void*)&data[mid]))
+        SWAP((void*)&data[start], (void*)&data[mid], sizeof(data_t));
+    if (cmp_ge((void*)&data[mid], (void*)&data[end-1]))
+        SWAP((void*)&data[mid], (void*)&data[end-1], sizeof(data_t));
+    if (cmp_ge((void*)&data[mid], (void*)&data[start]))
+        SWAP((void*)&data[start], (void*)&data[mid], sizeof(data_t));
 
-//     // Pick the first element as pivot
-//     void* pivot = (void*)&data[start];
+    // Pick the first element as pivot
+    void* pivot = (void*)&data[start];
 
-//     // Partition around the pivot
-//     int pointbreak = start + 1;
+    // Partition around the pivot
+    int pointbreak = start + 1;
 
-//     for (int i = start + 1; i < end; ++i){
-//         if (!cmp_ge((void*)&data[i], pivot)){
+    for (int i = start + 1; i < end; ++i){
+        if (!cmp_ge((void*)&data[i], pivot)){
             
-//             // Move elements less than pivot to the left side
-//             SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
+            // Move elements less than pivot to the left side
+            SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
 
-//             ++ pointbreak;
+            ++ pointbreak;
             
-//         }
-//     }
+        }
+    }
 
-//     // Put the pivot in the right place
-//     SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
+    // Put the pivot in the right place
+    SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
 
-//     // Return the pivot position
-//     return pointbreak - 1;
-// }
+    // Return the pivot position
+    return pointbreak - 1;
+}
 
 
 // Quicksort algorithm
@@ -103,32 +103,32 @@ void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
 
 #endif
 
-// inline int mpi_partitioning(data_t* data, int start, int end, compare_t cmp_ge, void* pivot){
-//     // Function that partitions the array into two parts given a pivot
-//     // and returns the position of the last element of the first part
+int mpi_partitioning(data_t* data, int start, int end, compare_t cmp_ge, void* pivot){
+    // Function that partitions the array into two parts given a pivot
+    // and returns the position of the last element of the first part
 
-//     // Partition around the pivot
-//     int pointbreak = start;
+    // Partition around the pivot
+    int pointbreak = start;
 
-//     // This can't be done in parallel because of possible data races in the exchanges and pointbreak increment
-//     // Could be done with a parallel for loop, synchronized by an atomic increment of pointbreak, but it would be slower
-//     for (int i = start; i < end; ++i){
-//         if (!cmp_ge((void*)&data[i], pivot)){
+    // This can't be done in parallel because of possible data races in the exchanges and pointbreak increment
+    // Could be done with a parallel for loop, synchronized by an atomic increment of pointbreak, but it would be slower
+    for (int i = start; i < end; ++i){
+        if (!cmp_ge((void*)&data[i], pivot)){
             
-//             // Move elements less than pivot to the left side
-//             SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
+            // Move elements less than pivot to the left side
+            SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
 
-//             ++ pointbreak;
+            ++ pointbreak;
             
-//         }
-//     }
+        }
+    }
 
-//     // We don't need to Put the pivot in the right place since the mpi pivot might not contain it!
-//     // SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
+    // We don't need to Put the pivot in the right place since the mpi pivot might not contain it!
+    // SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
 
-//     // Return the pivot position
-//     return pointbreak - 1;
-// }
+    // Return the pivot position
+    return pointbreak - 1;
+}
 
 void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T, MPI_Comm comm){
     int rank, num_procs;
