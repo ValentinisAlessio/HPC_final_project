@@ -138,32 +138,34 @@ verify_t show_array;
 
 int partitioning(data_t *, int, int, compare_t);
 
-static inline int mpi_partitioning(data_t * data, int start, int end, compare_t cmp_ge, void* pivot){
-    // Function that partitions the array into two parts given a pivot
-    // and returns the position of the last element of the first part
+// static inline int mpi_partitioning(data_t * data, int start, int end, compare_t cmp_ge, void* pivot){
+//     // Function that partitions the array into two parts given a pivot
+//     // and returns the position of the last element of the first part
 
-    // Partition around the pivot
-    int pointbreak = start;
+//     // Partition around the pivot
+//     int pointbreak = start;
 
-    // This can't be done in parallel because of possible data races in the exchanges and pointbreak increment
-    // Could be done with a parallel for loop, synchronized by an atomic increment of pointbreak, but it would be slower
-    for (int i = start; i < end; ++i){
-        if (!cmp_ge((void*)&data[i], pivot)){
+//     // This can't be done in parallel because of possible data races in the exchanges and pointbreak increment
+//     // Could be done with a parallel for loop, synchronized by an atomic increment of pointbreak, but it would be slower
+//     for (int i = start; i < end; ++i){
+//         if (!cmp_ge((void*)&data[i], pivot)){
             
-            // Move elements less than pivot to the left side
-            SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
+//             // Move elements less than pivot to the left side
+//             SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
 
-            ++ pointbreak;
+//             ++ pointbreak;
             
-        }
-    }
+//         }
+//     }
 
-    // We don't need to Put the pivot in the right place since the mpi pivot might not contain it!
-    // SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
+//     // We don't need to Put the pivot in the right place since the mpi pivot might not contain it!
+//     // SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
 
-    // Return the pivot position
-    return pointbreak - 1;
-}
+//     // Return the pivot position
+//     return pointbreak - 1;
+// }
+
+int mpi_partitioning(data_t *, int, int, compare_t, void*);
 
 // Quicksort in distributed memory
 void mpi_quicksort(data_t**, int*, MPI_Datatype, MPI_Comm);
