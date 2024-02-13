@@ -7,7 +7,6 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=16
 #SBATCH --time=00:30:00
-#SBATCH --mem=10000
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ALESSIO.VALENTINIS@studenti.units.it
 
