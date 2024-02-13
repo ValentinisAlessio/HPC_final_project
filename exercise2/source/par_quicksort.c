@@ -283,8 +283,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
                 MPI_Comm_split(comm, rank < pivot_rank, rank, &left_comm);
                 MPI_Comm_split(comm, rank >= pivot_rank, rank, &right_comm);
 
-            }
-            else{
+            }else{
                 MPI_Comm_split(comm, rank <= pivot_rank, rank, &left_comm);
                 MPI_Comm_split(comm, rank > pivot_rank, rank, &right_comm);
             }
@@ -304,8 +303,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             }
 
             // TODO: free the memory of the minor and major partition, reorder the code
-        }
-        else{ // If number of processes is even
+        }else{ // If number of processes is even
             // Define the communicators for the recursive calls
             MPI_Comm_split(comm, rank <= pivot_rank, rank, &left_comm);
             MPI_Comm_split(comm, rank > pivot_rank, rank, &right_comm);
