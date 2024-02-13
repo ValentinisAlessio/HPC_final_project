@@ -137,17 +137,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
 
     // Treat first the case of a single process. It's not the most frequent case, but we are talking about
     // skip a very little amount of work, and it makes the code much more readable.
-    if (num_procs == 1) {
-        #ifdef _OPENMP
-            #pragma omp parallel
-            {
-                #pragma omp single
-                par_quicksort(*loc_data, 0, *chunk_size, compare_ge);
-            }
-        #else
-            quicksort(*loc_data, 0, *chunk_size, compare_ge);
-	    #endif
-    } else {
+    if (num_procs > 1){
 
         //---------------------------------------------------------------------------------------------------------------------
         // (1) Divide the data into two parts and declare 2 communicators: left and right
@@ -365,7 +355,16 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
         }
         MPI_Comm_free(&left_comm);
         MPI_Comm_free(&right_comm);
-    }
+    }else{
+        #ifdef _OPENMP
+            #pragma omp parallel
+            {
+                #pragma omp single
+                par_quicksort(*loc_data, 0, *chunk_size, compare_ge);
+            }
+        #else
+            quicksort(*loc_data, 0, *chunk_size, compare_ge);
+	    #endif
 }
 
 // =================================================================================================
