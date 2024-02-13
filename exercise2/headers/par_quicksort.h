@@ -101,7 +101,7 @@ verify_t show_array;
 
 // Declare partitioning and sorting functions
 extern inline int partitioning(data_t *, int, int, compare_t);
-extern inline int mpi_partitioning(data_t *, int, int, compare_t);
+extern inline int mpi_partitioning(data_t *, int, int, compare_t, void*);
 
 // Quicksort in distributed memory
 void mpi_quicksort(data_t**, int*, MPI_Datatype, MPI_Comm);

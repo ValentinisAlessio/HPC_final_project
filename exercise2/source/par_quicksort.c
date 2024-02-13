@@ -60,8 +60,8 @@ void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 
         CHECK;
         
-        serial_quicksort( data, start, mid, cmp_ge );    // sort the left half
-        serial_quicksort( data, mid+1, end , cmp_ge );   // sort the right half
+        quicksort( data, start, mid, cmp_ge );    // sort the left half
+        quicksort( data, mid+1, end , cmp_ge );   // sort the right half
         }
     else
         {
@@ -72,7 +72,7 @@ void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 
 #if difeined(_OPENMP)
 
-void omp_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
+void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
     int size = end - start;
     if (size >  2) {
         int mid = partitioning(data, start, end, cmp_ge);
@@ -81,19 +81,18 @@ void omp_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
         CHECK; 
 	#pragma omp task
         {
-          // Sort the left half
-	  //printf("LEFT Recursive call by thread %d\n",omp_get_thread_num());
-          omp_quicksort(data, start, mid, cmp_ge);
-         }
-	
-         #pragma omp task
-         {
-          // Sort the right half
-          //printf("RIGHT Recursive call by thread %d\n",omp_get_thread_num());
-	  omp_quicksort(data, mid +  1, end, cmp_ge);
-         }
+        // Sort the left half
+        //printf("LEFT Recursive call by thread %d\n",omp_get_thread_num());
+        par_quicksort(data, start, mid, cmp_ge);
         }
-    	
+
+        #pragma omp task
+        {
+        // Sort the right half
+        //printf("RIGHT Recursive call by thread %d\n",omp_get_thread_num());
+        par_quicksort(data, mid +  1, end, cmp_ge);
+        }
+    }	
     else {
         // Handle small subarrays sequentially
         if ((size ==  2) && cmp_ge((void *)&data[start], (void *)&data[end -  1])) {
@@ -143,10 +142,10 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             #pragma omp parallel
             {
                 #pragma omp single
-                omp_quicksort(*loc_data, 0, *chunk_size, compare_ge);
+                par_quicksort(*loc_data, 0, *chunk_size, compare_ge);
             }
         #else
-            serial_quicksort(*loc_data, 0, *chunk_size, compare_ge);
+            quicksort(*loc_data, 0, *chunk_size, compare_ge);
 	    #endif
     } else {
 
@@ -167,7 +166,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
         // Gather the randomly selected elements from all processes
         MPI_Gather(&local_pivot, 1, MPI_DATA_T, pivots, 1, MPI_DATA_T, 0, comm);
         if (rank == 0){
-            omp_quicksort(pivots, 0, num_procs, compare_ge);
+            par_quicksort(pivots, 0, num_procs, compare_ge);
             memcpy(pivot, &pivots[(num_procs / 2)], sizeof(data_t));
         }
         // Send the pivot to all processes
