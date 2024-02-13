@@ -25,6 +25,6 @@ export OMP_NUM_THREADS=16
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 
-mpirun -np 1 ./main 100000
+mpirun -np 16 ./main 100000
 
 make clean
