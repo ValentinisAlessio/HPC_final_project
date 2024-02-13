@@ -81,6 +81,8 @@ typedef struct {
 // Define macros for min and max between data_t objects
 #define MIN(a,b) ( (a)->data[HOT] < (b)->data[HOT]? (a) : (b));
 #define MAX(a,b) ( (a)->data[HOT] > (b)->data[HOT]? (a) : (b));
+#define SWAP(A,B,SIZE) do {int sz = (SIZE); char *a = (A); char *b = (B); \
+do { char _temp = *a;*a++ = *b;*b++ = _temp;} while (--sz);} while (0)
 
 // ================================================================
 //  FUNCTION PROTOTYPES
@@ -100,7 +102,7 @@ verify_t verify_sorting;
 verify_t show_array;
 
 // Declare partitioning and sorting functions
-static inline int partitioning(data_t *, int, int, compare_t){
+static inline int partitioning(data_t * data, int start, int end, compare_t cmp_ge){
     // Pick the median of the [0], [mid] and [end] element as pivot
     int mid = (start + end-1) / 2;
     if (cmp_ge((void*)&data[start], (void*)&data[mid]))
@@ -134,7 +136,7 @@ static inline int partitioning(data_t *, int, int, compare_t){
     return pointbreak - 1;
 }
 
-static inline int mpi_partitioning(data_t *, int, int, compare_t, void*){
+static inline int mpi_partitioning(data_t * data, int start, int end, compare_t cmp_ge, void* pivot){
     // Function that partitions the array into two parts given a pivot
     // and returns the position of the last element of the first part
 
