@@ -3,7 +3,7 @@
 #define SWAP(A,B,SIZE) do {int sz = (SIZE); char *a = (A); char *b = (B); \
 do { char _temp = *a;*a++ = *b;*b++ = _temp;} while (--sz);} while (0)
 
-int partitioning(data_t* data, int start, int end, compare_t cmp_ge){
+inline int partitioning(data_t* data, int start, int end, compare_t cmp_ge){
 
     // Pick the median of the [0], [mid] and [end] element as pivot
     int mid = (start + end-1) / 2;
@@ -103,7 +103,7 @@ void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
 
 #endif
 
-int mpi_partitioning(data_t* data, int start, int end, compare_t cmp_ge, void* pivot){
+inline int mpi_partitioning(data_t* data, int start, int end, compare_t cmp_ge, void* pivot){
     // Function that partitions the array into two parts given a pivot
     // and returns the position of the last element of the first part
 
