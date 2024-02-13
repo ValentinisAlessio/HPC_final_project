@@ -21,7 +21,7 @@ module load architecture/AMD
 
 make
 
-export OMP_NUM_THREADS=1
+export OMP_NUM_THREADS=16
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 
