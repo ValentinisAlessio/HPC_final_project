@@ -171,7 +171,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
         if((num_procs % 2 != 0)){
 
             int minor_partition_left; // 1 if the minor partition of the chunk is the left one, 0 if it is the right one
-            int minor_partition_size;
+            int minor_partition_size=0;
             data_t* minor_partition; 
             data_t* maj_partition;           
 
