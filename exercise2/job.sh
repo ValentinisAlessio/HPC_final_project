@@ -5,7 +5,7 @@
 #SBATCH --get-user-env
 #SBATCH -p EPYC
 #SBATCH --nodes=1
-#SBATCH --ntasks=8
+#SBATCH --ntasks=16
 #SBATCH --time=00:30:00
 #SBATCH --mem=10000
 #SBATCH --mail-type=ALL
@@ -25,6 +25,6 @@ export OMP_NUM_THREADS=16
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 
-mpirun -np 8 ./main 100000
+mpirun -np 1 ./main 100000
 
 make clean
