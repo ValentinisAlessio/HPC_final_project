@@ -9,11 +9,11 @@ OFLAGS = -O3 -march=native -fopenmp
 
 OBJECTS = $(OBJDIR)/par_quicksort.o $(OBJDIR)/main.o
 
-main1: $(OBJECTS)
+main: $(OBJECTS)
 	$(CC) $(OFLAGS) $^ -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
-	$(CC) $(CFLAGS) -c $(OFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(OFLAGS) $< -o $@
 
 clean:
-	rm -f $(OBJDIR)/*.o main1
+	rm -f $(OBJDIR)/*.o main
