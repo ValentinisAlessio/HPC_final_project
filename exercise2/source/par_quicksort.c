@@ -130,7 +130,7 @@ int mpi_partitioning(data_t* data, int start, int end, compare_t cmp_ge, void* p
     return pointbreak - 1;
 }
 
-void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T, MPI_Comm comm){
+void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T, MPI_Comm comm, compare_t compare_ge){
     int rank, num_procs;
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &num_procs);
