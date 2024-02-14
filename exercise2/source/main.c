@@ -87,8 +87,8 @@ int main(int argc, char** argv){
     //-------------------------------------------------------------------------------------------------
 
     // Wait all processes to finish generating the data
-    MPI_Barrier(MPI_COMM_WORLD);
     double t_start, t_end;
+    MPI_Barrier(MPI_COMM_WORLD);
     t_start= MPI_Wtime();
 
     mpi_quicksort(&data, &chunk_size, MPI_DATA_T, MPI_COMM_WORLD);
