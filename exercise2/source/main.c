@@ -70,8 +70,6 @@ int main(int argc, char** argv){
     }    
     #endif
 
-    MPI_Barrier(MPI_COMM_WORLD);
-
     // DEBUGGING PRINTS
     // Show the sorted array
     // for (int i = 0; i < num_processes; i++){
@@ -95,6 +93,7 @@ int main(int argc, char** argv){
 
     mpi_quicksort(&data, &chunk_size, MPI_DATA_T, MPI_COMM_WORLD);
     
+    MPI_Barrier(MPI_COMM_WORLD);
     t_end = MPI_Wtime();
     double time = t_end - t_start;
 
@@ -132,11 +131,9 @@ int main(int argc, char** argv){
         #endif
 	    printf("Execution time: %f\n", time);
         } else {
-        #if defined(DEBUG)
 	    printf("#######################################\n");
         printf("!!!Array not sorted!!!\n");
         printf("#######################################\n");
-        #endif
         }
     }
 

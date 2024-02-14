@@ -156,7 +156,15 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
         // Gather the randomly selected elements from all processes
         MPI_Gather(&local_pivot, 1, MPI_DATA_T, pivots, 1, MPI_DATA_T, 0, comm);
         if (rank == 0){
-            par_quicksort(pivots, 0, num_procs, compare_ge);
+            #if defined(_OPENMP)
+                #pragma omp parallel
+                {
+                    #pragma omp single
+                    par_quicksort(pivots, 0, num_procs, compare_ge);
+                }
+            #else
+                quicksort(pivots, 0, num_procs, compare_ge);
+            #endif
             memcpy(pivot, &pivots[(num_procs / 2)], sizeof(data_t));
         }
         // Send the pivot to all processes
@@ -172,8 +180,8 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
 
             int minor_partition_left; // 1 if the minor partition of the chunk is the left one, 0 if it is the right one
             int minor_partition_size=0;
-            data_t* minor_partition; 
-            data_t* maj_partition;           
+            data_t* minor_partition=NULL; 
+            data_t* maj_partition=NULL;           
 
             if((rank == pivot_rank)){
                 int pivot_pos = mpi_partitioning(*loc_data, 0, *chunk_size, compare_ge, pivot);
@@ -256,7 +264,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             // MPI_Scatterv(&minor_partition[0], sendcounts, displs, MPI_DATA_T, &local_minor_partition[0], sendcounts[rank], MPI_DATA_T, pivot_rank, comm);
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // print if scatterv for successfull for rank
-            printf("rank %d has received from scatterv\n",rank);
+            // printf("rank %d has received from scatterv\n",rank);
             
             // Merge the local_minor_partition with the loc_data
             *loc_data = (data_t*)realloc(*loc_data, (*chunk_size + sendcounts[rank]) * sizeof(data_t));
