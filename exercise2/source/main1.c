@@ -8,7 +8,7 @@ int main(int argc, char** argv){
     // (1) INITIALIZATION 
     //.................................................................................................
 
-    int N = SIZE;
+    int N = N_dflt;
     //int nthreads;
     // {
     //     int a = 0;
