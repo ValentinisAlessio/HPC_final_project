@@ -340,7 +340,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             //*loc_data = (data_t*)realloc(*loc_data, new_chunk_size * sizeof(data_t));
             //MPI_Recv(&loc_data[pivot_pos + 1], recv_elements, MPI_DATA_T, rank + pivot_rank + 1, 0, comm, MPI_STATUS_IGNORE);
             *chunk_size = new_chunk_size;
-            mpi_quicksort(&merged, chunk_size, MPI_DATA_T, left_comm);
+            mpi_quicksort(&merged, chunk_size, MPI_DATA_T, left_comm, compare_ge);
             // mpi_quicksort(loc_data, chunk_size, MPI_DATA_T, left_comm, compare_ge);
             *loc_data = merged;
         }
