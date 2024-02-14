@@ -330,19 +330,19 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             MPI_Recv(&recv_elements, 1, MPI_INT, rank + pivot_rank + 1, 0, comm, MPI_STATUS_IGNORE);
             recv_elements = (recv_elements > 0) ? recv_elements : 0;
             int new_chunk_size = *chunk_size - elements_to_send + recv_elements;
-            // data_t* merged = (data_t*)malloc((new_chunk_size)*sizeof(data_t));
-            // for (int i = 0; i <= pivot_pos; i++){
-            //     merged[i] = (*loc_data)[i];
-            // }
+            data_t* merged = (data_t*)malloc((new_chunk_size)*sizeof(data_t));
+            for (int i = 0; i <= pivot_pos; i++){
+                merged[i] = (*loc_data)[i];
+            }
             MPI_Send(&(*loc_data)[pivot_pos + 1], elements_to_send, MPI_DATA_T, rank + pivot_rank + 1, 0, comm);
-            // free(*loc_data);
-            //MPI_Recv(&merged[pivot_pos + 1], recv_elements, MPI_DATA_T, rank + pivot_rank + 1, 0, comm, MPI_STATUS_IGNORE);
-            *loc_data = (data_t*)realloc(*loc_data, new_chunk_size * sizeof(data_t));
-            MPI_Recv(&loc_data[pivot_pos + 1], recv_elements, MPI_DATA_T, rank + pivot_rank + 1, 0, comm, MPI_STATUS_IGNORE);
+            free(*loc_data);
+            MPI_Recv(&merged[pivot_pos + 1], recv_elements, MPI_DATA_T, rank + pivot_rank + 1, 0, comm, MPI_STATUS_IGNORE);
+            //*loc_data = (data_t*)realloc(*loc_data, new_chunk_size * sizeof(data_t));
+            //MPI_Recv(&loc_data[pivot_pos + 1], recv_elements, MPI_DATA_T, rank + pivot_rank + 1, 0, comm, MPI_STATUS_IGNORE);
             *chunk_size = new_chunk_size;
-            // mpi_quicksort(&merged, chunk_size, MPI_DATA_T, left_comm);
-            mpi_quicksort(loc_data, chunk_size, MPI_DATA_T, left_comm, compare_ge);
-            //*loc_data = merged;
+            mpi_quicksort(&merged, chunk_size, MPI_DATA_T, left_comm);
+            // mpi_quicksort(loc_data, chunk_size, MPI_DATA_T, left_comm, compare_ge);
+            *loc_data = merged;
         }
         if (rank > pivot_rank){
             int recv_elements;
