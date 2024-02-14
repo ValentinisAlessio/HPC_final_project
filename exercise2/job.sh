@@ -20,21 +20,21 @@ module load architecture/AMD
 
 make
 
-OMP_THREADS=8
+OMP_THREADS=4
 
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 
-echo "Serial run"
+echo -e "Serial run"
 export OMP_NUM_THREADS=1
-./main 10000000
+mpirun -np 1 ./main 10000000
 
-echo "OMP run"
+echo -e "OMP run"
 export OMP_NUM_THREADS=$(OMP_THREADS)
 mpirun -np 1 ./main 10000000
 
-echo "MPI run"
-mpirun -np 16 ./main 10000000
+echo -e "MPI run"
+mpirun -np 64 ./main 10000000
 
 
 make clean
