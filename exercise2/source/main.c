@@ -89,12 +89,18 @@ int main(int argc, char** argv){
     // Wait all processes to finish generating the data
     double t_start, t_end;
     MPI_Barrier(MPI_COMM_WORLD);
-    t_start= MPI_Wtime();
+    if (num_processes > 1){
+        t_start= MPI_Wtime();
 
-    mpi_quicksort(&data, &chunk_size, MPI_DATA_T, MPI_COMM_WORLD);
-    
-    MPI_Barrier(MPI_COMM_WORLD);
-    t_end = MPI_Wtime();
+        mpi_quicksort(&data, &chunk_size, MPI_DATA_T, MPI_COMM_WORLD, compare_ge);
+        
+        MPI_Barrier(MPI_COMM_WORLD);
+        t_end = MPI_Wtime();
+    } else {
+        t_start = MPI_Wtime();
+        par_quicksort(data, 0, chunk_size-1, compare_ge);
+        t_end = MPI_Wtime();
+    }
     double time = t_end - t_start;
 
     //-------------------------------------------------------------------------------------------------
