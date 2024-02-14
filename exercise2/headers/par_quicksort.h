@@ -168,7 +168,7 @@ int partitioning(data_t *, int, int, compare_t);
 int mpi_partitioning(data_t *, int, int, compare_t, void*);
 
 // Quicksort in distributed memory
-void mpi_quicksort(data_t**, int*, MPI_Datatype, MPI_Comm, compare_t);
+void mpi_quicksort(data_t**, int*, MPI_Datatype, MPI_Comm);
 
 // Serial quicksort
 void quicksort(data_t *, int, int, compare_t);
