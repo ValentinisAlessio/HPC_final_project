@@ -300,11 +300,11 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             if (rank == pivot_rank){
                 switch (minor_partition_left){
                     case 1:
-                        mpi_quicksort(&maj_partition, chunk_size, MPI_DATA_T, right_comm);
+                        mpi_quicksort(&maj_partition, chunk_size, MPI_DATA_T, right_comm, compare_ge);
                         *loc_data = maj_partition;
                         break;
                     case 0:
-                        mpi_quicksort(&maj_partition, chunk_size, MPI_DATA_T, left_comm);
+                        mpi_quicksort(&maj_partition, chunk_size, MPI_DATA_T, left_comm, compare_ge);
                         *loc_data = maj_partition;
                         break;
                 }
@@ -341,7 +341,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             MPI_Recv(&loc_data[pivot_pos + 1], recv_elements, MPI_DATA_T, rank + pivot_rank + 1, 0, comm, MPI_STATUS_IGNORE);
             *chunk_size = new_chunk_size;
             // mpi_quicksort(&merged, chunk_size, MPI_DATA_T, left_comm);
-            mpi_quicksort(loc_data, chunk_size, MPI_DATA_T, left_comm);
+            mpi_quicksort(loc_data, chunk_size, MPI_DATA_T, left_comm, compare_ge);
             //*loc_data = merged;
         }
         if (rank > pivot_rank){
@@ -359,7 +359,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             MPI_Send(&(*loc_data)[0], pivot_pos +1, MPI_DATA_T, rank - (pivot_rank +1), 0, comm);
             free(*loc_data);
             *chunk_size = new_chunk_size;
-            mpi_quicksort(&merged, chunk_size, MPI_DATA_T, right_comm);
+            mpi_quicksort(&merged, chunk_size, MPI_DATA_T, right_comm, compare_ge);
             *loc_data = merged;
         }
         MPI_Comm_free(&left_comm);
