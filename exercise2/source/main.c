@@ -45,7 +45,7 @@ int main(int argc, char** argv){
     // ---------------------------------------------
     
     int chunk_size = (rank < N % num_processes) ? (N / num_processes) + 1 : N / num_processes;
-    data_t *data = (data_t*)malloc(N*sizeof(data_t));
+    data_t *data = (data_t*)malloc(chunk_size*sizeof(data_t));
     long int seed = rank;
 
     #if defined(_OPENMP)
