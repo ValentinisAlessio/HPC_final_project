@@ -86,7 +86,7 @@ int main(int argc, char** argv){
     // (3) Sort data and measure time
     //-------------------------------------------------------------------------------------------------
 
-    printf("Main entered by %d threads\n", nthreads);
+    printf("Main entered by %d threads\n", omp_get_num_threads());
 
     // Wait all processes to finish generating the data
     double t_start, t_end;
