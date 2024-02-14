@@ -13,12 +13,12 @@ int main(int argc, char** argv){
         if ( argc > ++a ) N = atoi(*(argv+a));
     }
 
-    // char* env_var = getenv("OMP_NUM_THREADS");
-    // if (env_var != NULL) {
-    //     int nthreads = atoi(env_var);
-    // } else {
-    //     printf("OMP_NUM_THREADS environment variable not set.\n");
-    // }
+    char* env_var = getenv("OMP_NUM_THREADS");
+    if (env_var != NULL) {
+        int nthreads = atoi(env_var);
+    } else {
+        printf("OMP_NUM_THREADS environment variable not set.\n");
+    }
 
     // ---------------------------------------------
     // (1) Initialize MPI
