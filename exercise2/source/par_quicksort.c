@@ -74,6 +74,7 @@ void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 
 void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
     int size = end - start;
+    printf("function entered with %d threads\n", omp_get_num_threads());
     if (size >  2) {
         int mid = partitioning(data, start, end, cmp_ge);
 
