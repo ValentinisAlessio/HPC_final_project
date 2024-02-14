@@ -5,7 +5,7 @@
 #SBATCH --get-user-env
 #SBATCH -p EPYC
 #SBATCH --nodes=1
-#SBATCH --ntasks=16
+#SBATCH --exclusive
 #SBATCH --time=00:30:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ALESSIO.VALENTINIS@studenti.units.it
