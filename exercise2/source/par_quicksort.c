@@ -79,21 +79,20 @@ void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
 
         // Use OpenMP to parallelize the recursive calls
         CHECK; 
-	#pragma omp task
+
+        // With the following pragma, the two recursive calls are put in a task queue and the first free thread will execute the next task
+        #pragma omp task
         {
         // Sort the left half
-        //printf("LEFT Recursive call by thread %d\n",omp_get_thread_num());
         par_quicksort(data, start, mid, cmp_ge);
         }
 
         #pragma omp task
         {
         // Sort the right half
-        //printf("RIGHT Recursive call by thread %d\n",omp_get_thread_num());
         par_quicksort(data, mid +  1, end, cmp_ge);
         }
-    }	
-    else {
+    } else {
         // Handle small subarrays sequentially
         if ((size ==  2) && cmp_ge((void *)&data[start], (void *)&data[end -  1])) {
             SWAP((void *)&data[start], (void *)&data[end -  1], sizeof(data_t));
@@ -123,8 +122,7 @@ int mpi_partitioning(data_t* data, int start, int end, compare_t cmp_ge, void* p
         }
     }
 
-    // We don't need to Put the pivot in the right place since the mpi pivot might not contain it!
-    // SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
+    // We don't need to put the pivot in the right place since the local array may not contain the pivot
 
     // Return the pivot position
     return pointbreak - 1;
@@ -295,8 +293,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
                 MPI_Comm_split(comm, rank <= pivot_rank, rank, &left_comm);
                 MPI_Comm_split(comm, rank > pivot_rank, rank, &right_comm);
             }
-            // // Define the communicators for the recursive
-            // Chiamare ricorsione per il pivot rank    
+            // Define the communicators for the recursive
             if (rank == pivot_rank){
                 switch (minor_partition_left){
                     case 1:
