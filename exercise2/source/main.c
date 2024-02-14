@@ -13,12 +13,12 @@ int main(int argc, char** argv){
         if ( argc > ++a ) N = atoi(*(argv+a));
     }
 
-    char* env_var = getenv("OMP_NUM_THREADS");
-    if (env_var != NULL) {
-        int nthreads = atoi(env_var);
-    } else {
-        printf("OMP_NUM_THREADS environment variable not set.\n");
-    }
+    // char* env_var = getenv("OMP_NUM_THREADS");
+    // if (env_var != NULL) {
+    //     int nthreads = atoi(env_var);
+    // } else {
+    //     printf("OMP_NUM_THREADS environment variable not set.\n");
+    // }
 
     // ---------------------------------------------
     // (1) Initialize MPI
@@ -89,12 +89,28 @@ int main(int argc, char** argv){
     // Wait all processes to finish generating the data
     double t_start, t_end;
     MPI_Barrier(MPI_COMM_WORLD);
-    t_start= MPI_Wtime();
+    if (num_processes == 1){
+        #if defined (_OPENMP)
+        t_start= MPI_Wtime();
+        #pragma omp parallel
+        {
+            #pragma omp single
+            par_quicksort(data, 0, chunk_size, compare_ge);
+        }
+        t_end = MPI_Wtime();
+        #else
+        t_start= MPI_Wtime();
+        quicksort(data, 0, chunk_size, compare_ge);
+        t_end = MPI_Wtime();
+        #endif
+    }else{
+        t_start= MPI_Wtime();
 
-    mpi_quicksort(&data, &chunk_size, MPI_DATA_T, MPI_COMM_WORLD, compare_ge);
-    
-    MPI_Barrier(MPI_COMM_WORLD);
-    t_end = MPI_Wtime();
+        mpi_quicksort(&data, &chunk_size, MPI_DATA_T, MPI_COMM_WORLD, compare_ge);
+        
+        MPI_Barrier(MPI_COMM_WORLD);
+        t_end = MPI_Wtime();
+    }
     double time = t_end - t_start;
 
     //-------------------------------------------------------------------------------------------------

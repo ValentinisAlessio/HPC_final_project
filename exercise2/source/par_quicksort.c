@@ -74,7 +74,7 @@ void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 
 void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
     int size = end - start;
-    printf("function entered with %d threads\n", omp_get_num_threads());
+    
     if (size >  2) {
         int mid = partitioning(data, start, end, cmp_ge);
 
@@ -82,17 +82,25 @@ void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
         CHECK; 
 
         // With the following pragma, the two recursive calls are put in a task queue and the first free thread will execute the next task
-        #pragma omp task
-        {
-        // Sort the left half
-        par_quicksort(data, start, mid, cmp_ge);
+        if (size > 20){
+            #pragma omp task
+            {
+            // Sort the left half
+            par_quicksort(data, start, mid, cmp_ge);
+            }
+        }else{
+            par_quicksort(data, start, mid, cmp_ge);
         }
-
-        #pragma omp task
-        {
         // Sort the right half
+        // #pragma omp task
+        // {
+        // // Sort the left half
+        // par_quicksort(data, start, mid, cmp_ge);
+        // }
+        // #pragma omp task
+        // {
         par_quicksort(data, mid +  1, end, cmp_ge);
-        }
+        // }
     } else {
         // Handle small subarrays sequentially
         if ((size ==  2) && cmp_ge((void *)&data[start], (void *)&data[end -  1])) {
