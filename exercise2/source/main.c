@@ -4,7 +4,7 @@ int main(int argc, char** argv){
 
     // Default values
     int N = N_dflt;
-    int nthreads=1;
+    int nthreads=omp_get_num_threads();
     
     /* check command-line arguments */
     {
@@ -85,6 +85,8 @@ int main(int argc, char** argv){
     //-------------------------------------------------------------------------------------------------
     // (3) Sort data and measure time
     //-------------------------------------------------------------------------------------------------
+
+    printf("Main entered by %d threads\n", nthreads);
 
     // Wait all processes to finish generating the data
     double t_start, t_end;
