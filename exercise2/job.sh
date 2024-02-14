@@ -14,27 +14,28 @@ date
 pwd
 hostname
 
+exec="./main"
+N=10000000
+MPI_procs=16
+OMP_threads=8
+
 module load openMPI/4.1.5/gnu/12.2.1
 module load architecture/AMD
 
 
 make
 
-OMP_THREADS=4
 
-export OMP_PLACES=cores
-export OMP_PROC_BIND=close
-
-echo -e "Serial run"
 export OMP_NUM_THREADS=1
-mpirun -np 1 ./main 10000000
+echo "Serial run"
+mpirun -np 1 $exe $N
 
-echo -e "OMP run"
-export OMP_NUM_THREADS=$(OMP_THREADS)
-mpirun -np 1 ./main 10000000
+export OMP_NUM_THREADS=$OMP_threads
+echo "OMP run"
+mpirun -np 1 $exe $N
 
-echo -e "MPI run"
-mpirun -np 64 ./main 10000000
+echo "MPI run"
+mpirun -np $MPI_procs --map-by socket $exe $N
 
 
 make clean
