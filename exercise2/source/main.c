@@ -100,7 +100,7 @@ int main(int argc, char** argv){
         t_start = omp_get_wtime();
         #pragma omp parallel
         {
-            #pragma omp single nowait
+            #pragma omp single
             par_quicksort(data, 0, chunk_size-1, compare_ge);
         }
         t_end = omp_get_wtime();
