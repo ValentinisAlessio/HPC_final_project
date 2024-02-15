@@ -14,9 +14,9 @@ date
 pwd
 hostname
 
-exec="./main"
-N=64000000
-MPI_procs=64
+##exec="./main"
+N=10000000
+MPI_procs=16
 OMP_threads=8
 
 module load openMPI/4.1.5/gnu/12.2.1
@@ -28,14 +28,14 @@ make
 
 export OMP_NUM_THREADS=1
 echo "Serial run"
-$exec $N
+./main $N
 
 export OMP_NUM_THREADS=$OMP_threads
 echo "OMP run with $OMP_threads threads"
-$exec $N
+./main $N
 
 echo "MPI run"
-mpirun -np $MPI_procs --map-by socket $exec $N
+mpirun -np $MPI_procs --map-by socket ./main $N
 
 
 make clean
