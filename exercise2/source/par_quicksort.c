@@ -82,9 +82,9 @@ void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
         CHECK; 
 
         if (size > L1_CACHE) {
-            #pragma omp task
+            #pragma omp task shared(data)
             par_quicksort(data, start, mid, cmp_ge);
-            #pragma omp task
+            #pragma omp task shared(data)
             par_quicksort(data, mid + 1, end, cmp_ge);
         } else {
             quicksort(data, start, mid, cmp_ge);
