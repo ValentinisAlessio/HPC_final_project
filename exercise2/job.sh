@@ -17,7 +17,7 @@ hostname
 exec="./main"
 N=64000000
 MPI_procs=64
-OMP_threads=2
+OMP_threads=8
 
 module load openMPI/4.1.5/gnu/12.2.1
 module load architecture/AMD
