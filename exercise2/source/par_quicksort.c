@@ -6,6 +6,7 @@ do { char _temp = *a;*a++ = *b;*b++ = _temp;} while (--sz);} while (0)
 int partitioning(data_t* data, int start, int end, compare_t cmp_ge){
 
     // Pick the median of the [0], [mid] and [end] element as pivot
+    // and put it in the first position
     int mid = (start + end-1) / 2;
     if (cmp_ge((void*)&data[start], (void*)&data[mid]))
         SWAP((void*)&data[start], (void*)&data[mid], sizeof(data_t));
@@ -39,7 +40,7 @@ int partitioning(data_t* data, int start, int end, compare_t cmp_ge){
 }
 
 
-// Quicksort algorithm
+// Serial quicksort algorithm
 void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 
     #if defined(DEBUG)
@@ -103,7 +104,7 @@ void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
 
 int mpi_partitioning(data_t* data, int start, int end, compare_t cmp_ge, void* pivot){
     // Function that partitions the array into two parts given a pivot
-    // and returns the position of the last element of the first part
+    // and returns the position of the last element of the first subarray
 
     // Partition around the pivot
     int pointbreak = start;
@@ -132,26 +133,39 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &num_procs);
 
-    // Treat first the case of a single process. It's not the most frequent case, but we are talking about
-    // skip a very little amount of work, and it makes the code much more readable.
+    // Treat first the case of multiple processes, as it is the most frequent one
     if (num_procs > 1){
 
         //---------------------------------------------------------------------------------------------------------------------
-        // (1) Divide the data into two parts and declare 2 communicators: left and right
+        // (1) Divide the processes into two halves and declare 2 communicators: left and right that will be used for the recursive calls
         int pivot_rank = (num_procs - 1) / 2;
         MPI_Comm left_comm, right_comm;
         //---------------------------------------------------------------------------------------------------------------------
         // (2) Select global pivot and broadcast it to all processes
+        /*----------------------------------------------------------------------
+        * 1. Each process selects a local pivot
+        * 2. Process 0 gathers all the local pivots
+        * 3. Process 0 selects the median of the pivots as the global pivot
+        * 4. Process 0 broadcasts the global pivot to all processes
+        * 5. Each process partitions its data into two parts using the global pivot
+        * 
+        * This process could produce some overhead, but should be able to balance the load within processes
+        ----------------------------------------------------------------------*/
         data_t* pivot = (data_t*)malloc(sizeof(data_t));
         data_t* pivots = (data_t*)malloc((num_procs+1)*sizeof(data_t));
+
         // Generate a random index within each chunk
         srand(time(NULL));
         int random_index = rand() % *chunk_size;
+
         // Select the random element from the local data
         data_t local_pivot;
         memcpy(&local_pivot, &(*loc_data)[random_index], sizeof(data_t));
+
         // Gather the randomly selected elements from all processes
         MPI_Gather(&local_pivot, 1, MPI_DATA_T, pivots, 1, MPI_DATA_T, 0, comm);
+
+        // Let process 0 select the median of the pivots as the global pivot
         if (rank == 0){
             #if defined(_OPENMP)
                 #pragma omp parallel
@@ -168,6 +182,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
         // Send the pivot to all processes
         MPI_Bcast(pivot, 1, MPI_DATA_T, 0, comm);
         //(void*)pivot;
+
         //---------------------------------------------------------------------------------------------------------------------
         // (3) Partition the data
         // FIRST WE DO IT FOR THE PIVOT RANK in the case of odd number of processes
