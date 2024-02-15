@@ -31,7 +31,7 @@ echo "Serial run"
 mpirun -np 1 $exec $N
 
 export OMP_NUM_THREADS=$OMP_threads
-echo "OMP run"
+echo "OMP run with $OMP_threads threads"
 mpirun -np 1 $exec $N
 
 echo "MPI run"

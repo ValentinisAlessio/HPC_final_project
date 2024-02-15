@@ -81,26 +81,16 @@ void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
         // Use OpenMP to parallelize the recursive calls
         CHECK; 
 
-        // With the following pragma, the two recursive calls are put in a task queue and the first free thread will execute the next task
-        if (size > 20){
-            #pragma omp task
-            {
-            // Sort the left half
+        if (size > L1_CACHE) {
+            #pragma omp task shared(data)
             par_quicksort(data, start, mid, cmp_ge);
-            }
-        }else{
-            par_quicksort(data, start, mid, cmp_ge);
+            #pragma omp task shared(data)
+            par_quicksort(data, mid + 1, end, cmp_ge);
+        } else {
+            quicksort(data, start, mid, cmp_ge);
+            quicksort(data, mid + 1, end, cmp_ge);
         }
-        // Sort the right half
-        // #pragma omp task
-        // {
-        // // Sort the left half
-        // par_quicksort(data, start, mid, cmp_ge);
-        // }
-        // #pragma omp task
-        // {
-        par_quicksort(data, mid +  1, end, cmp_ge);
-        // }
+        
     } else {
         // Handle small subarrays sequentially
         if ((size ==  2) && cmp_ge((void *)&data[start], (void *)&data[end -  1])) {
@@ -168,6 +158,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
                 {
                     #pragma omp single
                     par_quicksort(pivots, 0, num_procs, compare_ge);
+                    #pragma omp taskwait
                 }
             #else
                 quicksort(pivots, 0, num_procs, compare_ge);
@@ -373,6 +364,7 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             {
                 #pragma omp single
                 par_quicksort(*loc_data, 0, *chunk_size, compare_ge);
+                #pragma omp taskwait
             }
         #else
             quicksort(*loc_data, 0, *chunk_size, compare_ge);

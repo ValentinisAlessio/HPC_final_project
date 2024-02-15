@@ -212,40 +212,7 @@ do { char _temp = *a;*a++ = *b;*b++ = _temp;} while (--sz);} while (0)
 
 int par_partition(data_t* data, int start, int end, compare_t cmp_ge){
     
-    // // Pick the median of the [0], [mid] and [end] element as pivot
-    // int mid = (start + end) / 2;
-    // if(cmp_ge(data[start], data[mid]))
-    //     SWAP(&data[start], &data[mid], sizeof(data_t));
-    // if(cmp_ge(data[mid], data[end]))
-    //     SWAP(&data[mid], &data[end], sizeof(data_t));
-    // if(cmp_ge(data[start], data[end]))
-    //     SWAP(&data[start], &data[end], sizeof(data_t));
-
-    // Pick the first element as pivot
-    void* pivot = (void*)&data[start];
-
-    // Partition around the pivot
-    int pointbreak = start + 1;
-
-    // Parallelize this loop
-    #pragma omp parallel for shared(data, pivot, pointbreak)
-    for (int i = start + 1; i <= end; ++i){
-        if (!cmp_ge((void*)&data[i], pivot)){
-            
-            // Move elements less than pivot to the left side
-            SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
-
-            #pragma omp atomic
-            ++ pointbreak;
-            
-        }
-    }
-
-    // Put the pivot in the right place
-    SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
-
-    // Return the pivot position
-    return pointbreak - 1;
+    
 }
 
 int partition(data_t* data, int start, int end, compare_t cmp_ge){
