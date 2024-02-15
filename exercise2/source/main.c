@@ -88,7 +88,7 @@ int main(int argc, char** argv){
 
     #pragma omp parallel
     {
-        #pragma omp single
+        #pragma omp single nowait
         printf("Number of threads: %d\n", omp_get_num_threads());
     }
 
@@ -102,6 +102,7 @@ int main(int argc, char** argv){
         {
             #pragma omp single
             par_quicksort(data, 0, chunk_size, compare_ge);
+            #pragma omp taskwait
         }
         t_end = MPI_Wtime();
         #else
