@@ -13,7 +13,7 @@ main: $(OBJECTS)
 	$(CC) $(OFLAGS) $^ -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(OFLAGS) $< -o $@
 
 clean:
 	rm -f $(OBJDIR)/*.o main

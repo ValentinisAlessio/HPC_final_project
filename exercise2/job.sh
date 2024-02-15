@@ -29,11 +29,11 @@ make
 
 export OMP_NUM_THREADS=1
 echo "Serial run"
-mpirun -np 1 $exec $N
+$exec $N
 
 export OMP_NUM_THREADS=$OMP_threads
 echo "OMP run with $OMP_threads threads"
-mpirun -np 1 $exec $N
+$exec $N
 
 echo "MPI run"
 mpirun -np $MPI_procs --map-by socket $exec $N
