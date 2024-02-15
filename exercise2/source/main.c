@@ -19,7 +19,7 @@ int main(int argc, char** argv){
     } else {
         printf("OMP_NUM_THREADS environment variable not set.\n");
     }
-
+	printf("Working with N=%d", N);
     // ---------------------------------------------
     // (1) Initialize MPI
     // ---------------------------------------------

@@ -15,7 +15,7 @@ pwd
 hostname
 
 ##exec="./main"
-N=10000000
+N=100000000
 MPI_procs=16
 OMP_threads=8
 
