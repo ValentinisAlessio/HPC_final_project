@@ -18,7 +18,7 @@ module purge
 module load architecture/AMD
 module load openMPI/4.1.5/gnu/12.2.1
 
-csv_file="data/timings.csv"
+csv_file="data/timings$N.csv"
 
 
 make
@@ -32,15 +32,15 @@ export OMP_NUM_THREADS=4
 
 ./main $N
 
-echo "Size,Threads,Time" > timings$N.csv
+echo "Size,Threads,Time" > $csv_file
 
 for i in {1..64}
 do
     export OMP_NUM_THREADS=$i
     for j in {1..5}
     do 
-        echo -n "$N,$i," >> timings$N.csv
-        mpirun -np 1 --map-by node --bind-to socket ./main $N >> timings$N.csv
+        echo -n "$N,$i," >> $csv_file
+        mpirun -np 1 --map-by node --bind-to socket ./main $N >> $csv_file
     done
 done
 
