@@ -37,8 +37,7 @@ for i in {1..64}
 do
     for j in {1..5}
     do 
-        echo -n "$N,$i," >> $csv_file
-        mpirun -np $i --map-by socket ./main $N >> $csv_file
+        mpirun -np $i --map-by socket ./main $N | tail -n 1 | awk -v N="$N" -v nproc="$i" '{printf "%s,%s,%s\n",N,nproc,$1}' >> $csv_file
     done
 done
 

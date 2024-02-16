@@ -38,8 +38,7 @@ do
     for j in {1..5}
     do 
         let $size = $(($N * $i))
-        echo -n "$size,$i," >> $csv_file
-        mpirun -np $i --map-by socket ./main $size >> $csv_file
+        mpirun -np $i --map-by socket ./main $size | tail -n 1 | awk -v N="$size" -v nproc="$i" '{printf "%s,%s,%s\n",N,nproc,$1}' >> $csv_file
     done
 done
 
