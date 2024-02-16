@@ -153,7 +153,7 @@ int main(int argc, char** argv){
 	    printf("Array sorted correctly!\n");
         printf("#######################################\n");
         #endif
-	    printf("%d,%d,%f\n", num_processes,nthreads,time);
+	    printf("%f\n", time);
         } else {
 	    printf("#######################################\n");
         printf("!!!Array not sorted!!!\n");
