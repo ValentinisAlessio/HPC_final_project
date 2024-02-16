@@ -19,7 +19,7 @@ int main(int argc, char** argv){
     } else {
         printf("OMP_NUM_THREADS environment variable not set.\n");
     }
-	printf("Working with N=%d", N);
+	//printf("Working with N=%d\n", N);
     // ---------------------------------------------
     // (1) Initialize MPI
     // ---------------------------------------------
@@ -153,7 +153,7 @@ int main(int argc, char** argv){
 	    printf("Array sorted correctly!\n");
         printf("#######################################\n");
         #endif
-	    printf("Execution time: %f\n", time);
+	    printf("%d,%d,%f\n", num_processes,nthreads,time);
         } else {
 	    printf("#######################################\n");
         printf("!!!Array not sorted!!!\n");
