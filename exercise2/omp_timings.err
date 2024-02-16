@@ -1,0 +1,7 @@
+Lmod Warning: The architecture selection module has been deprecated. The
+module system will now autonomously handle the proper selection of binaries. 
+While processing the following module(s):
+    Module fullname   Module Filename
+    ---------------   ---------------
+    architecture/AMD  /orfeo/opt/modules/profiles/architecture/AMD.lua
+

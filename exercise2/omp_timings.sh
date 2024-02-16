@@ -18,13 +18,14 @@ module purge
 module load architecture/AMD
 module load openMPI/4.1.5/gnu/12.2.1
 
+N=64000000
+
 csv_file="data/timings$N.csv"
 
 
 make
 
 
-N = 64000000
 
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
@@ -39,8 +40,8 @@ do
     export OMP_NUM_THREADS=$i
     for j in {1..5}
     do 
-        echo -n "$N,$i," >> $csv_file
-        mpirun -np 1 --map-by node --bind-to socket ./main $N >> $csv_file
+	mpirun -np 1 --map-by node --bind-to socket ./main $N | tail -n 1 | awk -v N="$N" -v nthr="$i" '{printf "%s,%s,%s\n",N,nthr,$1}' >> $csv_file
+        ##echo -n "$N,$i,$out" >> $csv_file
     done
 done
 
