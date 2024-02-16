@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=smpi_timings
-#SBATCH --output=smpi_timings.out
-#SBATCH --error=smpi_timings.err
+#SBATCH --job-name=wmpi_timings
+#SBATCH --output=wmpi_timings.out
+#SBATCH --error=wmpi_timings.err
 #SBATCH --get-user-env
 #SBATCH -p EPYC
 #SBATCH --nodes=1
@@ -18,12 +18,12 @@ module purge
 module load architecture/AMD
 module load openMPI/4.1.5/gnu/12.2.1
 
-csv_file="data/smpi_timings$N.csv"
+csv_file="data/wmpi_timings$N.csv"
 
 make
 
 
-N = 64000000
+N = 10000000
 
 export OMP_PLACES=threads
 export OMP_PROC_BIND=close
@@ -37,8 +37,9 @@ for i in {1..64}
 do
     for j in {1..5}
     do 
-        echo -n "$N,$i," >> $csv_file
-        mpirun -np $i --map-by socket ./main $N >> $csv_file
+        let $size = $(($N * $i))
+        echo -n "$size,$i," >> $csv_file
+        mpirun -np $i --map-by socket ./main $size >> $csv_file
     done
 done
 
