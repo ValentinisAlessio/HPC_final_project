@@ -18,22 +18,23 @@ module purge
 module load architecture/AMD
 module load openMPI/4.1.5/gnu/12.2.1
 
+N=240000000
 csv_file="data/smpi_timings$N.csv"
 
 make
 
-
-N = 64000000
-
-export OMP_PLACES=threads
-export OMP_PROC_BIND=close
-export OMP_NUM_THREADS=2
-
-./main $N
-
 echo "Size,Cores,Time" > $csv_file
 
-for i in {1..64}
+export OMP_NUM_THREADS=1
+for i in {1..5}
+do
+	./main $N | tail -n 1 | awk -v N="$N" -v nproc="1" '{printf "%s,%s,%s\n",N,nproc,$1}' >> $csv_file
+done
+
+export OMP_NUM_THREADS=4
+
+
+for i in {2..64}
 do
     for j in {1..5}
     do 

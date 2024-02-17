@@ -18,7 +18,7 @@ module purge
 module load architecture/AMD
 module load openMPI/4.1.5/gnu/12.2.1
 
-N=64000000
+N=240000000
 
 csv_file="data/timings$N.csv"
 

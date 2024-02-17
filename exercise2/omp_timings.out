@@ -2,3 +2,6 @@ Fri Feb 16 02:23:40 PM CET 2024
 /u/dssc/avalentinis/HPC_final_project/exercise2
 epyc002.hpc.rd.areasciencepark.it
 make: 'main' is up to date.
+
+5.838732
+rm -f objects/*.o main
