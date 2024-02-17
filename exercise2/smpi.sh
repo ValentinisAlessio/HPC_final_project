@@ -34,7 +34,8 @@ done
 export OMP_NUM_THREADS=4
 
 
-for i in {2..64}
+#for i in {2..64}
+for i in {65..128}
 do
     for j in {1..5}
     do 

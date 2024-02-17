@@ -18,7 +18,7 @@ module purge
 module load architecture/AMD
 module load openMPI/4.1.5/gnu/12.2.1
 
-N=24000000
+N=2400000
 
 csv_file="data/wmpi_timings$N.csv"
 
@@ -31,7 +31,7 @@ export OMP_NUM_THREADS=1
 
 for i in {1..5}
 do
-	./main $N |tail -n 1 | awk -v N="$N" -v nproc="1" '{printf "%s,%s,%s\n",N,nproc,$1}' >> $csv_file
+	./main $N
 done
 
 export OMP_NUM_THREADS=4
