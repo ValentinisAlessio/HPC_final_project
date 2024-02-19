@@ -20,7 +20,7 @@ module load openMPI/4.1.5/gnu/12.2.1
 
 N=2400000
 
-csv_file="data/wmpi_timings$N.csv"
+csv_file="data/wmpi2_timings$N.csv"
 
 make
 
@@ -36,7 +36,8 @@ done
 
 export OMP_NUM_THREADS=4
 
-for i in {1..64}
+#for i in {1..64}
+for i in {65..128}
 do
     for j in {1..5}
     do 

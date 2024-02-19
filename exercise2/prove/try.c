@@ -191,7 +191,7 @@ int main(int argc, char** argv){
 
     // mpi_quicksort1(&data, &chunk_size, MPI_DATA_T, MPI_COMM_WORLD);
     if (num_processes > 1)
-    psrs(&data, &chunk_size, MPI_DATA_T, MPI_COMM_WORLD, compare_ge);
+    	mpi_quicksort(&loc_data, &chunk_size, 0, 1, rank, MPI_DATA_T, compare_ge);
     else{
     #pragma omp parallel
     {

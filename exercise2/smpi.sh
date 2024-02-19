@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=smpi_timings
-#SBATCH --output=smpi_timings.out
-#SBATCH --error=smpi_timings.err
+#SBATCH --job-name=smpi2_timings
+#SBATCH --output=smpi2_timings.out
+#SBATCH --error=smpi2_timings.err
 #SBATCH --get-user-env
 #SBATCH -p EPYC
 #SBATCH --nodes=1
@@ -19,7 +19,7 @@ module load architecture/AMD
 module load openMPI/4.1.5/gnu/12.2.1
 
 N=240000000
-csv_file="data/smpi_timings$N.csv"
+csv_file="data/smpi2_timings$N.csv"
 
 make
 
