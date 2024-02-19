@@ -31,7 +31,7 @@ export OMP_NUM_THREADS=1
 
 for i in {1..5}
 do
-	./main $N
+	./main $N | tail -n 1 | awk -v N="$N" -v nproc="1" '{printf "%s,%s,%s\n",N,nproc,$1}' >> $csv_file
 done
 
 export OMP_NUM_THREADS=4
