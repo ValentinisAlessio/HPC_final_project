@@ -73,7 +73,7 @@
 #define N_dflt    10000
 #endif
 
-#define L1_CACHE  31250 // Number of array elements that fit in a L1 cache of an Epyc Core
+#define L1_CACHE  65500 // Number of array elements that fit in a L1 cache of an Epyc Core
 
 // Define the data_t struct
 typedef struct {
