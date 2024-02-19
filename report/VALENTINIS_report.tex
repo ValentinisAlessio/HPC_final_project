@@ -58,7 +58,7 @@
 	For some of these operations message segmentation is inabled, so the message is divided in chunks, and these chunks are sequentially sent to the other processes. In particular we are referring to binary tree and chain.
 	
 	\subsection{Data collecting process}
-	The process of collecting data has been authomatized through the use of a bash script, available in the GitHub \href{https://github.com/ValentinisAlessio/HPC_final_project}{repository}. 
+	The process of collecting data has been authomatized through the use of a bash script, available in the GitHub repository \cite{repo}. 
 	To have a better view of the what happens with different mappings of the cores, the same gathering process has been brougth on varying the \textit{--map-by} parameter, and to collect as many data in one shot, the maximum message has been truncated to 2024 bytes, which is anyway well beyond the latency-dominated size region.
 	To allow for a better data gathering process, the different mapping of the cores (by core, by socket and by node), the different scripts have been separated.
 	
@@ -170,7 +170,7 @@
 	\end{figure}
 	
 	Varying message sizes we can observe more peculiar aspects of each implementations: while with a 1 byte message, the difference between implementations is pretty negligible as long we remain into the same node, varying message sizes, we can clearly see how the linear algorithm performs wprse and worse increasing the message size.
-	This behavior is due to two main factors: firstly the communication between processes is put as responsibility of the root process, which one by one sends the message to the other processes, while in all other algorithms the communication is organized in a more or less hierarchical way; secondly the linear approach is the only one among the analyzed ones that doesn't imply message segmentation, so in the linear algorithm the message is sent entirely from the root process to the remaining ones. The other methods, on the other hand, aside from the hierarchy of communications, allow for message segmentation, i.e. the message is divided in chunks and sent one chunk at the time via buffer-send (MPI\_ISend), as mentioned in the article (\textit{Here put link to article in the github repo of HPC}).
+	This behavior is due to two main factors: firstly the communication between processes is put as responsibility of the root process, which one by one sends the message to the other processes, while in all other algorithms the communication is organized in a more or less hierarchical way; secondly the linear approach is the only one among the analyzed ones that doesn't imply message segmentation, so in the linear algorithm the message is sent entirely from the root process to the remaining ones. The other methods, on the other hand, aside from the hierarchy of communications, allow for message segmentation, i.e. the message is divided in chunks and sent one chunk at the time via buffer-send (MPI\_ISend), as mentioned in the article \cite{bcast_article}.
 	
 	\subsection{Broadcast performance model}
 	As a conclusive step of the analysis I attempted to formulate a performance model to try to better understand the not-so-straight-forward dynamics playing into these algorithms. 
@@ -179,13 +179,19 @@
 	With the use of the software R, my first attempt was to try and model the \textit{Average Latency} parameter on all the other parameters. This approach resulted not to be the most appropriate, other from the fact that not all the covariates resulted to be statistically relevant, such as, for example the \textit{Message Size} and the \textit{default algorithm}, the percentage of variability descripted by the model, represented form the $R^2$ coefficient, resulted to be less than $3\%$.
 	This result is another evidence towards the fact that the Average Latency is not the actual linear combination between allocation, algorithm, message size and number of processors.
 	
-	This suggested me to try and fit a spline polinomial refression, with the help of a GAM model. Despite the fact that this model suggested that the effective spline degrees of freedom for the \textit{Processes} variable is 8, so not at all linear, while the Message Size, although continuing not to be statistically significant, it resulted to have a linear effect on the \textit{Average Latency}.
+	\input{../exercise1/models/compl_model_table.tex}
+	
+	This suggested me to try and fit a spline polinomial refression, with the help of a GAM model. Despite the fact that the effective spline degrees of freedom for the \textit{Processes} variable is 8, so not at all linear, the Message Size, although continuing not to be statistically significant, it resulted to have a linear effect on the \textit{Average Latency}.
 	This model, although being far more complex and capable to capture some evident non linear  effects, resulted to be not more accurate than $3\%$, suggesting an even more intricated relationship between the variables.
 	
-	My last effort was to try and fix an allocation, to see if the results would be more significant.
+	
+	
+	My last effort was to try and fix an allocation, to see if I would get more significant results.
 	Fixing the allocation to \textit{core}, which as said above, showed a more smooth and predictable behavior, the results resulted to be much more sensible.
-	In fact, starting from the statictic relevance of the variable, all of them showed a much lower p-value, included \textit{Message Size}, which before didn't seem to have an importance in estimating the Average Latency.
-	Other from this aspect the model was able to capture more than $65\%$ of the variability of the model, a value by far more relevant than the ones obtained before. This, although showing a sensible improving in the esitimation of the model, clearly states that a simple linear model is able to capture the majority of the variability, but anyway the real model underlying the \textit{Average Latency} variable has more complicated relations than a simple linear one, for example due to the virtual topology of the algorithm (think for example at the binary tree algorithm, which has $log_2$ operations with respect to the linear one).
+	In fact, starting from the statistic relevance of the variables, all of them showed a much lower p-value, included \textit{Message Size}, which before didn't seem to have an importance in estimating the Average Latency.
+	Other from this aspect, the model was able to capture more than $65\%$ of the variability of the model, a value by far more relevant than the ones obtained before. This, although showing a sensible improvements in the esitimation of the Latency, clearly states that a simple linear model is able to capture little more than the majority of the variability. Anyway, the real model underlying the \textit{Average Latency} variable seems to have more complicated relations than a simple linear one, for example due to the virtual topology of the algorithm (think for example at the binary tree algorithm, which has $log_2$ operations with respect to the linear one).
+	
+	\input{../exercise1/models/fixed_model_table.tex}
 	
 	% INSERISCI PARTE RIGUARDO MODELLO LINEARE
 	
@@ -194,7 +200,7 @@
 	
 	In this second part of the exercise, I chose to analyze and study the performance model of the MPI\_Barrier algorithm. It's an operation that allows for the synchronization of different process within the same communicator. It consists in a construct that guarantees that by the end of the operation, all the processes have at least entered it.
 	This collective blocking operation becomes crucial when we want to synchronize the processes involved in some parts of our distributed programm to ensure coherent and predictable execution. Among the plethora of synchronization mechanisms, the barrier algorithm stands as a fundamental construct, enabling synchronization points within parallel programs.
-	By default, the library OpenMPI offers different implementation of this algorithm, always characterized by beculiar virtual topology of the cores, or by different hierarchy of the execution. In this study I have examined only four of the  several algorithms present.
+	By default, the library OpenMPI offers different implementation of this algorithm, always characterized by beculiar virtual topology of the cores, or by different hierarchy of the execution \cite{barrier_article}. In this study I have examined only four of the  several algorithms present.
 	
 	\begin{itemize}
 		\item Default: this kind of implementation chooses authomatically the optimal way to synchronize the processes, based on their number and allocation.\\
@@ -291,9 +297,149 @@
 	Analyzing statistical importance of the variables, we can state that all of them have a low p-value, except from the one related to the Default algorithm, which as we have seen from the qualitative analysis, almost perfectly mimics the bruck algorithm.
 	As far as percentage of variability explained, I have obtained a $R^2=55\%$, which is a farly good result, but yet doesn't model all the complex variability of the underlying real model.
 	
+	\input{../exercise1/models/compl_model_table_bar.tex}
+	
 	Similarly to the analysis conducted before, I chose to analyze also the single allocation case, focussing on the \textit{core} case.
 	In this case, just considering the core allocation case, showed a considerable improvement in the model, showing similar statistical importance of the variables, but boosting the $R^2$ value to more than $80\%$. This shows how the barrier operation, instead of the broadcast one, has a "simpler" real model that regulates it, that can be fairly decently be estimated by a simple linear model.
 	
+	\input{../exercise1/models/fixed_model_table_bar.tex}
+	
 	% INSERIRE PARTE DI ANALISI STATISTICA
+	
+	\newpage
+	
+	\part{Exercise IIb}
+	
+	\section{Problem Statement: Parallel quicksort}
+	
+	The quicksort algorithm is the most known sorting algorithm used principally on arrays, based on the "divide and conquer" paradigm.
+	It's core execution is divided in four parts:
+	\begin{enumerate}
+		\item Select a pivot;
+		\item Partition the array around the pivot, putting the elements less than it in the first part, while the elements greater or equal to it, in the right part;
+		\item \textbf{Recursive step}: Do this process recursively on the two halves of the array;
+		\item \textbf{Base case}: when you have two elements in the array you are analyzing, swap their position if they are not ordered.
+	\end{enumerate}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\linewidth]{QuickSort2}
+		\caption[Illustration of Quicksort algorithm]{}
+		\label{fig:quicksort2}
+	\end{figure}
+	
+	
+	In this exercise, the goal was to order a sequence of \textit{data\_t} elements, which are arrays of doubles with size 8, based on one of their elements, for simplicity let's say the first. All detailed informations about the assignment can be found at the referenced pdf \cite{ex2}.
+	
+	The aim of this project was to try and implement a parallel version of this algorithm using both MPI and OpenMP standards.
+	
+	\section{Implementation choices}
+	Before starting to analyze implementation choices, a remark should be done in order to highlight a huge limitation of quicksort algorithm: by its nature it's not balanced, i.e. based on the choice of the pivot, the two recursions of the algorithm may have very different sizes. In some parts I tried some tricks to avoid this, but yet my solution is still far from optimal.
+	Timings will cover only the ordering part, not considering the random number generation.
+	
+	\subsection{OpenMP}
+	Regarding the OMP implementation, the only smart way I've come up for using multi-threading was on the recursion itself, in particular by spawning one task for each recursive call. This approach tries to parallelize two or more partition steps (which is the only thing the algorithm actually does). Of course this choice doesn't fully exploit the parallel power of a multithreading approach, as the optimal number of threads will not be the maximum achievable, but will strongly depend from the problem size, as for too little sizes, spawning more threads will only introduce more overhead, for which the parallel gain will not be able to overcome.
+	Also to avoid the problem of memory starvation of each thread or of spawning too many tasks, I've set a baseline, for which if the size of the recursive call is less than it, the algorithm will go on with the serial version. I've set that threshold in order to be able to fit the partition to analyze entirely on the L1 cache of the process, so each thread will be able to work more or less smoothlessly with the final partition he has to sort.
+	
+	\subsection{MPI}
+	As for what concerns the MPI part, I tried to first let each process spawn its own chunk of data, to avoid the time that would have been necessary to scatter one single array into multiple processes. This way I've been also able to overcome the problem that one process could not be able to store the entirety of the array.
+	
+	Concerning the algorithm itself, the main idea is:
+	\begin{enumerate}
+		\item Choose a global pivot between processes and broadcast it to all the processes: for this step I chose to opt for a random selection of elements between the processes and then to choose its median. This may produce some time loss, but hopefully can achieve a better balance between the data that will be stored in each process.
+		\item Let each process partition its array with respect to this pivot.
+		\item Let the processes with rank less than the pivot rank (which is chosen to be the middle one), exchange their major right part of the partition with the left part of the partiiton of the corresponding process with rank major than the pivot rank (look at figure \ref{fig:parallelquicksort}).
+		\item Do this step recursively for the two halves of the ranks. For this purpose I've created for each step two custom communicators in which to put the proper processes that will do the recursive call.
+		\item Once all the communication have finished, each rank has elements that are less or equal to the elements of the following ranks, so we only need to locally order the array, using serial or OMP implementation.
+	\end{enumerate}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[height=0.4\linewidth]{Parallel_quicksort}
+		\caption{Sketch of parallel quicksort}
+		\label{fig:parallelquicksort}
+	\end{figure}
+	
+	
+	Sticking to this algorithm, it would only work with a number of processes which is a power of two, but with some more steps, which of course will lead more overhead, expecially when computing the algorithm with an odd number of processes, I've been able to run this process with every number of processes. I've been able to achieve this by carefully managing the odd number of processes case: in this scenario, the pivot rank will perform first its partition phase, and detect which partition has the least number of elements and scatter this partition among the corresponding halves of the processes (the left-hand side if the minor partition is the left one, and viceversa). After doing this, he will enter in the opposite communicator (the right one if the minor partition is the left one and viceversa). Then all the other processes will go on as usual.
+	This introduces inevitably more overhead in the case of an odd number of processes, but makes this approach more general.
+	
+	\section{Result and analysis}
+	
+	In order to evaluate the performance of my parallel implementation, I used as main metrics 
+	\begin{itemize}
+		\item Time of execution;
+		\item Speedup, which is provided by the formula $$Sp(N,P)=\frac{time_{serial}(N)}{time_{parallel}(N)}$$ with $N$ size of the problem and $P$ number of processes.
+	\end{itemize}
+	
+	Each misuration was taken 5 times, and then I have considered the mean, in order to have a more robust result.
+	
+	\subsection{OpenMP execution time}
+	
+	To run this test, I've used the \textit{omp\_timings.sh} script, which takes the timings of each run by executing the program via \textit{mpirun -np 1} command, which ensures the execution by only one process, and by varying the number of threads used and mapping them by core with \textit{OMP\_PLACES=cores} and placing them close together with \textit{OMP\_PROC\_BIND=close}, making all the threads share the same L3 cache. 
+	
+	% INSERT PLOT RELATIVE TO TIME OF EXECUTION
+	
+	This plot represents the time of execution of the algorithm for a 64 million elements array for different number of threads.
+	It is evident that the execution time has a diminishing trend, that however doesn't perfectly follow an inverse proportionality relation. Furthermore we can observe that the execution time tend to stall from $40$ threads on, probably due to a "starvation" effect, where there are too many threads than work to be done, and the creation and synchronization of threads take too much time with respect to the work to be done. 
+	
+	% Se riesci prendi tempi con più dati per vedere se cambiano i tempi
+	
+	This trend is even more clear when we plot the speedup graph.
+	
+	% INSERIRE GRAFICO SPEERDUP OMP
+	
+	As we can see, the OMP speedup is far from linear (a part from the up-to 4 threads scenario), and better follows a logarithmic trend. This may be due to the usage of the \textit{task} construct, where the instrucions within each construct are put in a task-scheduling list, and the first free thread takes the first available task, in a queue fashion. This construct allws to have a static number of operating software threads decided at the beginning of the execution, but can introduce some cache related effects, as we can't manage which thread enters which task. I've tried to avoid this problem by switching to the serial algorithm if the array size fits entirely on the L1 cache of the operating threads, only marginally solving the problem.
+	
+	\subsection{MPI strong scalability}
+	
+	To run this test, I've used the \textit{smpi.sh} script, which takes the timings of each run via \textit{mpirun -np \#procs}, and mapping them by socket, minimizing, except from the first communication, the distance between operating processes, and as a consequence the time of communication. Here I've considered that each process would spawn 4 threads, which in the previous study resulted to be the most efficient number with respect to the number of elements.
+	
+	%INSERISCI GRAFICO TEMPISTICHE
+	
+	As we can see, for a sufficient large array, that would not lead to too less work to each process, the trend of the timings is similar to the OpenMP case.
+	In particular this is more explainable, as for increasing number of processes, the number of communications increases exponentially. This allows for rapid growth of the speedup for few number of elements, but as the number of processes increases, although the workload per process is decreasing, the time taken for the communications to setup each chunk before ordering takes more and more time.
+	
+	% INSERISCI GRAFICO SPEEDUP
+	
+	As before the speedup is not lenear, but this phenomenon is explainable, as specified above, by the inclreasingly higher time taken for the communications. However the trend results to be better than the simple logarithm, expecially when the number of processes are a power of two, as the communications are balanced and reduced to the minimum.
+	The generalization I've tried to assess inevitably produces some more overhead, showed by the worse speedup expecially with a prime number of processes.
+	
+	\subsection{MPI weak scalability}
+	
+	To run this test, I've used the \textit{wmpi.sh} script, which takes the timings of each run via \textit{mpirun -np \#procs}, always placing the map of the processes by socket, for the same reasons as before. I decided to keep the workload for each process constant at $240000$ elements, and set the number of threads to $4$.
+	
+	% INSERIRE PLOT TIMINGS
+	
+	As we can see, the algorithm doesn't scale perfectly when we are speaking of weak scalability, as the timings are not constant to the serial case, but we can see that for increasingly high number of processes, the timings tend to settle to a constant behavior.
+	
+	This is explainable by the fact that for too low number of processes, the array results to be too small to see the actual benefits of parallelism, but as the number of processes increase, yet the total size is very high, but also the time taken for communications increases with the number of processes.
+	
+	\section{Conclusions and further improvements}
+	
+	As we can see from the analysis, this implementation didn't result in an optimal linear parallelization, but it's not too surprising.
+	For its nature, quicksort is not a balanced algorithm, so its purely serial part results in a huge limitation in parallelization.
+	My approach focussed more on a try to carefully organize the generated data on each process, in order to then apply the serial or OMP quicksort to order each chunk. This avoids a huge roblem of a naive implementation of a parallel quicksort, which consists in:
+	\begin{itemize}
+		\item One process generates the data and scattes it among the processes;
+		\item Each process quicksorts its chunk;
+		\item Carefully merge the data back into one process.
+	\end{itemize}
+	This approach soffers two main issues: firstly the array we want to order may not iven fit into one single node memory, but aside this, the fareful merge done as last step, even if it's done in a binary tree fashion, results in a huge bottleneck for the computation. This way, by carefully managing the data at the beginning, we don't have to merge it into one single process, and let it scattered among processes.
+	
+	My solution, however, appears to be far from optimal, in a way due to the nature of the sorting algorithm, which is hardly perfectly parallelizable, and due to some improvements that could be done in the code, such as:
+	\begin{itemize}
+		\item Try and reduce the overhead of the algorithm when trying to select a good pivot, which consists in a gather operation followed by a sorting routine and by a scatter of the selected pivot. Maybe just randomly choose an element from a random process and broadcast it as a global pivot could lead to less time sent in that sense, but could imply a way worse load imbalance between processes.
+		\item Try and implement an algorithm that has a linear number of communication to the number of processes, such as the one referred in literature as Parallel Sorting through Regular Sampling. This approach, however, implies a prior sorting of the local chunk to select appropriate pivots and maintain load balance. This approach, however, which I had a try on implementing, resulted in way worse performance than the analyzed implementation, other than the fact that utilizing an MPI\_Alltoall operation, tends to fail with extremely high number of elements to transfer.
+		\item Try and implement a similar approach also in shared memory, which would require careful threads synchronization, but would it exploit full parallelization power?
+		\item Try with a different partitioning routine, for which I opted the classical serial approach, with a more parallelizable algorithm, such as Hoare partition routine.
+		\item Try and organize the partitions between threads using parallel sections instead tasks. This of course could avoid some cache related effects, statically binding the recursion call to the thread, but would spawn an exponentially higher number of threads, one for each recursive call, incurring in rapid exhaustion of the threads available on the machine.
+	\end{itemize}
+	
+	In conclusion, the solution I've come up with is hardly the best one achievable, but yet does its work to ease the computational time necessary to perform an already very efficient sorting algotithm such as quicksort on large arrays, exploiting multiple threads and processes.
+	
+	\newpage
+	\bibliographystyle{plain}
+	\bibliography{bib}
 	 
 \end{document}

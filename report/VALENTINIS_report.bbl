@@ -1,0 +1,27 @@
+\begin{thebibliography}{1}
+
+\bibitem{ex2}
+{Cozzini S, Tornatore L.}
+\newblock {Exercise 2}.
+\newblock
+  \url{https://github.com/Foundations-of-HPC/High-Performance-Computing-2023/blob/main/ASSIGNMENTS/exercise2/exercise2.v1.pdf},
+  2024.
+
+\bibitem{bcast_article}
+Juan-Antonio Rico-Gallego Emin~Nuriyev and Alexey Lastovetsky.
+\newblock Model-based selection of optimal mpi broadcast algorithms for
+  multi-core clusters.
+\newblock {\em Journal of Parallel and Distributed Computing}, vol. 165:1--16,
+  2022.
+
+\bibitem{barrier_article}
+George Bosilca Graham E. Fagg Edgar Gabriel Jack J.~Dongarra Jelena
+  Pjesivac-Grbovic, Thara~Angskun.
+\newblock Performance analysis of mpi collective operations.
+
+\bibitem{repo}
+{Valentinis A.}
+\newblock {HPC\_final\_project}.
+\newblock \url{https://github.com/ValentinisAlessio/HPC_final_project}, 2024.
+
+\end{thebibliography}

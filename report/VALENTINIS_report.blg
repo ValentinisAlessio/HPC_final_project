@@ -1,0 +1,63 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: VALENTINIS_report.aux
+Reallocating 'name_of_file' (item size: 1) to 6 items.
+The style file: plain.bst
+Reallocating 'name_of_file' (item size: 1) to 4 items.
+Database file #1: bib.bib
+Name 1 in "Emin Nuriyev, Juan-Antonio Rico-Gallego, and Alexey Lastovetsky" has a comma at the end for entry bcast_article
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jelena Pjesivac-Grbovic, Thara Angskun, George Bosilca, Graham E. Fagg, Edgar Gabriel Jack J. Dongarra" for entry barrier_article
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jelena Pjesivac-Grbovic, Thara Angskun, George Bosilca, Graham E. Fagg, Edgar Gabriel Jack J. Dongarra" for entry barrier_article
+while executing---line 1049 of file plain.bst
+Name 1 in "Emin Nuriyev, Juan-Antonio Rico-Gallego, and Alexey Lastovetsky" has a comma at the end for entry bcast_article
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Jelena Pjesivac-Grbovic, Thara Angskun, George Bosilca, Graham E. Fagg, Edgar Gabriel Jack J. Dongarra" for entry barrier_article
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Jelena Pjesivac-Grbovic, Thara Angskun, George Bosilca, Graham E. Fagg, Edgar Gabriel Jack J. Dongarra" for entry barrier_article
+while executing---line 1090 of file plain.bst
+Warning--empty journal in barrier_article
+Warning--empty year in barrier_article
+You've used 4 entries,
+            2118 wiz_defined-function locations,
+            516 strings with 4664 characters,
+and the built_in function-call counts, 936 in all, are:
+= -- 89
+> -- 34
+< -- 0
++ -- 14
+- -- 10
+* -- 45
+:= -- 167
+add.period$ -- 11
+call.type$ -- 4
+change.case$ -- 17
+chr.to.int$ -- 0
+cite$ -- 6
+duplicate$ -- 35
+empty$ -- 85
+format.name$ -- 10
+if$ -- 192
+int.to.chr$ -- 0
+int.to.str$ -- 4
+missing$ -- 2
+newline$ -- 22
+num.names$ -- 8
+pop$ -- 27
+preamble$ -- 1
+purify$ -- 13
+quote$ -- 0
+skip$ -- 28
+stack$ -- 0
+substring$ -- 36
+swap$ -- 3
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 16
+warning$ -- 2
+while$ -- 10
+width$ -- 5
+write$ -- 40
+(There were 6 error messages)
