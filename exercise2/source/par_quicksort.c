@@ -43,24 +43,11 @@ int partitioning(data_t* data, int start, int end, compare_t cmp_ge){
 // Serial quicksort algorithm
 void quicksort(data_t* data, int start, int end, compare_t cmp_ge){
 
-    #if defined(DEBUG)
-    #define CHECK {							\
-        if ( verify_partitioning( data, start, end, mid ) ) {		\
-        printf( "partitioning is wrong\n");				\
-        printf("%4d, %4d (%4d, %g) -> %4d, %4d  +  %4d, %4d\n",		\
-            start, end, mid, data[mid].data[HOT],start, mid, mid+1, end); \
-        show_array( data, start, end, 0 ); }}
-    #else
-    #define CHECK
-    #endif
-
     int size = end-start;
     if ( size > 2 )
         {
         int mid = partitioning( data, start, end, cmp_ge );
 
-        CHECK;
-        
         quicksort( data, start, mid, cmp_ge );    // sort the left half
         quicksort( data, mid+1, end , cmp_ge );   // sort the right half
         }
@@ -80,7 +67,6 @@ void par_quicksort(data_t *data, int start, int end, compare_t cmp_ge) {
         int mid = partitioning(data, start, end, cmp_ge);
 
         // Use OpenMP to parallelize the recursive calls
-        CHECK; 
 
         if (size > L1_CACHE) {
             #pragma omp task 
@@ -137,17 +123,17 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
     if (num_procs > 1){
 
         //---------------------------------------------------------------------------------------------------------------------
-        // (1) Divide the processes into two halves and declare 2 communicators: left and right that will be used for the recursive calls
+        // 1. Divide the processes into two halves and declare 2 communicators: left and right that will be used for the recursive calls
         int pivot_rank = (num_procs - 1) / 2;
         MPI_Comm left_comm, right_comm;
         //---------------------------------------------------------------------------------------------------------------------
-        // (2) Select global pivot and broadcast it to all processes
+        // 2. Select global pivot and broadcast it to all processes
         /*----------------------------------------------------------------------
-        * 1. Each process selects a local pivot
-        * 2. Process 0 gathers all the local pivots
-        * 3. Process 0 selects the median of the pivots as the global pivot
-        * 4. Process 0 broadcasts the global pivot to all processes
-        * 5. Each process partitions its data into two parts using the global pivot
+        * i. Each process selects a local pivot
+        * ii. Process 0 gathers all the local pivots
+        * iii. Process 0 selects the median of the pivots as the global pivot
+        * iv. Process 0 broadcasts the global pivot to all processes
+        * v. Each process partitions its data into two parts using the global pivot
         * 
         * This process could produce some overhead, but should be able to balance the load within processes
         ----------------------------------------------------------------------*/
@@ -185,8 +171,8 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
 
         //---------------------------------------------------------------------------------------------------------------------
         // (3) Partition the data
-        // FIRST WE DO IT FOR THE PIVOT RANK in the case of odd number of processes
-        // Idea: before beginning to order the subpartitions, the pivot rank can partition its data and send the minor partition
+        // First manage the case of an odd number of processes
+        // Before beginning to order the subpartitions, the pivot rank can partition its data and send the minor partition
         // to the other processes, in order to have a simpler recursive calls in the next steps
         // minor_partition_left = 1 if the minor partition of the chunk is the left one, 0 if it is the right one
         
@@ -205,42 +191,37 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
                     minor_partition_size = pivot_pos + 1;
                     // minor partition will be the left
                     minor_partition = (data_t*)malloc((minor_partition_size)*sizeof(data_t));
-                    //memcpy(minor_partition, *loc_data, minor_partition_size*sizeof(data_t));
                     for (int i = 0; i < minor_partition_size; i++){
                         minor_partition[i] = (*loc_data)[i];
                     }
                     maj_partition = (data_t*)malloc((*chunk_size - minor_partition_size)*sizeof(data_t));
-                    //memcpy(maj_partition, &(*loc_data)[pivot_pos+1], (*chunk_size - minor_partition_size)*sizeof(data_t));
                     for (int i = 0; i < (*chunk_size - minor_partition_size); i++){
                         maj_partition[i] = (*loc_data)[pivot_pos+1+i];
                     }
                     free(*loc_data);
                     *loc_data = maj_partition;
                     *chunk_size -= minor_partition_size;
-                    //free(maj_partition);
-                }
-                else{
+
+                }else{
+
                     minor_partition_left = 0;
                     minor_partition_size = *chunk_size - (pivot_pos+1);
                     // minor partition will be the right
                     minor_partition = (data_t*)malloc((minor_partition_size)*sizeof(data_t));
-                    //memcpy(minor_partition, &(*loc_data)[pivot_pos+1], minor_partition_size*sizeof(data_t));
                     for (int i = 0; i < minor_partition_size; i++){
                         minor_partition[i] = (*loc_data)[pivot_pos+1+i];
                     }
                     maj_partition = (data_t*)malloc(pivot_pos*sizeof(data_t));
-                    //memcpy(maj_partition, *loc_data, pivot_pos*sizeof(data_t));
                     for (int i = 0; i < pivot_pos; i++){
                         maj_partition[i] = (*loc_data)[i];
                     }
                     free(*loc_data);
                     *loc_data = maj_partition;
                     *chunk_size = pivot_pos;
-                    //free(maj_partition);
+                    
                 }
             }
             // Wait for the minor partition to be defined
-            //MPI_Barrier(comm); //USELESS
             // Broadcast the minor partition size to all processes
             MPI_Bcast(&minor_partition_left, 1, MPI_INT, pivot_rank, comm);
             MPI_Bcast(&minor_partition_size, 1, MPI_INT, pivot_rank, comm);
@@ -256,7 +237,6 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             int remainder = minor_partition_size % (num_procs - 1); // Exclude pivot rank process
 
             int start = 0;
-            // DUBBIO SE SIA DA FARE SOLO IN UN PROCESSO QUESTO!
             for (int i = 0; i < num_procs; i++){
                 if (i == pivot_rank){
                     sendcounts[i] = 0; // Root process does not receive any data
@@ -277,10 +257,11 @@ void mpi_quicksort (data_t** loc_data, int* chunk_size, MPI_Datatype MPI_DATA_T,
             MPI_Scatterv(&minor_partition[0], sendcounts, displs, MPI_DATA_T, &(*loc_data)[*chunk_size], sendcounts[rank], MPI_DATA_T, pivot_rank, comm);
             *chunk_size += sendcounts[rank];
 
-            MPI_Barrier(comm);
+            //MPI_Barrier(comm);
             // Clean up memory
             free(displs);
             free(sendcounts);
+            free(minor_partition);
 
             // Finally we can define the two communicators for the recursive calls
             if(minor_partition_left){
@@ -436,46 +417,11 @@ int verify_global_sorting( data_t *loc_data, int start, int end, MPI_Datatype MP
     }
 }
 
-int verify_partitioning(data_t* data, int start, int end, int mid){
-    int failure = 0;
-    int fail = 0;
-
-    for (int i = start; i< mid; i++)
-        if (compare((void*)&data[i], (void*)&data[mid]) >= 0 )
-            fail ++;
-
-    failure += fail;
-    if (fail){
-        printf("Left side error\n");
-        fail = 0;
-    }
-
-    for (int i = mid + 1; i <= end; i++)
-        if (compare((void*)&data[i], (void*)&data[mid]) < 0 )
-            fail ++;
-    
-    failure += fail;
-    if (fail){
-        printf("Right side error\n");
-    }
-
-    return failure;
-}
-
 int show_array(data_t* data, int start, int end, int not_used){
     for (int i = start; i < end; i++)
         printf("%f ", data[i].data[HOT]);
     printf("\n");
     return 0;
-}
-
-int compare(const void* a, const void* b){
-    data_t* A = (data_t*)a;
-    data_t* B = (data_t*)b;
-    double diff = A->data[HOT] - B->data[HOT];
-
-    // return 1 if A > B, 0 if A == B, -1 if A < B
-    return ((diff > 0) - (diff < 0));
 }
 
 int compare_ge(const void* a, const void* b){

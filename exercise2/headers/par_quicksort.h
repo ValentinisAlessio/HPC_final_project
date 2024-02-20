@@ -97,75 +97,13 @@ typedef int compare_t(const void *, const void *);
 typedef int verify_t(data_t *, int, int, int);
 
 // Declare the functions
-compare_t compare;      // compare function
 compare_t compare_ge;   // compare function for "greater or equal"
-verify_t verify_partitioning;
 verify_t verify_sorting;
 verify_t show_array;
 
-// Declare partitioning and sorting functions
-// static inline int partitioning(data_t * data, int start, int end, compare_t cmp_ge){
-//     // Pick the median of the [0], [mid] and [end] element as pivot
-//     int mid = (start + end-1) / 2;
-//     if (cmp_ge((void*)&data[start], (void*)&data[mid]))
-//         SWAP((void*)&data[start], (void*)&data[mid], sizeof(data_t));
-//     if (cmp_ge((void*)&data[mid], (void*)&data[end-1]))
-//         SWAP((void*)&data[mid], (void*)&data[end-1], sizeof(data_t));
-//     if (cmp_ge((void*)&data[mid], (void*)&data[start]))
-//         SWAP((void*)&data[start], (void*)&data[mid], sizeof(data_t));
-
-//     // Pick the first element as pivot
-//     void* pivot = (void*)&data[start];
-
-//     // Partition around the pivot
-//     int pointbreak = start + 1;
-
-//     for (int i = start + 1; i < end; ++i){
-//         if (!cmp_ge((void*)&data[i], pivot)){
-            
-//             // Move elements less than pivot to the left side
-//             SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
-
-//             ++ pointbreak;
-            
-//         }
-//     }
-
-//     // Put the pivot in the right place
-//     SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
-
-//     // Return the pivot position
-//     return pointbreak - 1;
-// }
 
 int partitioning(data_t *, int, int, compare_t);
 
-// static inline int mpi_partitioning(data_t * data, int start, int end, compare_t cmp_ge, void* pivot){
-//     // Function that partitions the array into two parts given a pivot
-//     // and returns the position of the last element of the first part
-
-//     // Partition around the pivot
-//     int pointbreak = start;
-
-//     // This can't be done in parallel because of possible data races in the exchanges and pointbreak increment
-//     // Could be done with a parallel for loop, synchronized by an atomic increment of pointbreak, but it would be slower
-//     for (int i = start; i < end; ++i){
-//         if (!cmp_ge((void*)&data[i], pivot)){
-            
-//             // Move elements less than pivot to the left side
-//             SWAP((void*)&data[i], (void*)&data[pointbreak], sizeof(data_t));
-
-//             ++ pointbreak;
-            
-//         }
-//     }
-
-//     // We don't need to Put the pivot in the right place since the mpi pivot might not contain it!
-//     // SWAP((void*)&data[start], (void*)&data[pointbreak - 1], sizeof(data_t));
-
-//     // Return the pivot position
-//     return pointbreak - 1;
-// }
 
 int mpi_partitioning(data_t *, int, int, compare_t, void*);
 
