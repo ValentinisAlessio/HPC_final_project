@@ -31,35 +31,6 @@
 //  MACROS and DATATYPES
 // ================================================================
 
-
-// #if defined(_OPENMP)
-
-// // measure the wall-clock time
-// #define CPU_TIME (clock_gettime( CLOCK_REALTIME, &ts ), (double)ts.tv_sec + \
-//                   (double)ts.tv_nsec * 1e-9)
-
-// // measure the cpu thread time
-// #define CPU_TIME_th (clock_gettime( CLOCK_THREAD_CPUTIME_ID, &myts ), (double)myts.tv_sec +     \
-//                      (double)myts.tv_nsec * 1e-9)
-
-// #else
-
-// // measure ther cpu process time
-// #define CPU_TIME (clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ), (double)ts.tv_sec + \
-//                   (double)ts.tv_nsec * 1e-9)
-// #endif
-
-
-#if defined(DEBUG)
-#define VERBOSE
-#endif
-
-#if defined(VERBOSE)
-#define PRINTF(...) printf(__VA_ARGS__)
-#else
-#define PRINTF(...)
-#endif
-
 #if !defined(DATA_SIZE)
 #define DATA_SIZE 8
 #endif
