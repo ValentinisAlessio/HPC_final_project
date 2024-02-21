@@ -3,7 +3,7 @@
 
 | Name | Surname | email | Master |
 |:---:|:---:|:---:|:---:|
-| Alessio | Valentinis | ALESSIO:VALENTINIS@studenti.units.it | DSAI |
+| Alessio | Valentinis | ALESSIO.VALENTINIS@studenti.units.it | DSAI |
 
 
 This repository contains all the scripts and materials used and collected for the High Performance Computing exam assignment. All the complete assignemt texts are available in the main course [repository](https://github.com/Foundations-of-HPC/High-Performance-Computing-2023/tree/main/ASSIGNMENTS)
