@@ -1,9 +1,0 @@
-Sun Feb 18 07:29:10 PM CET 2024
-/u/dssc/avalentinis/HPC_final_project/exercise2
-epyc002.hpc.rd.areasciencepark.it
-mpicc -Iheaders -c -fopenmp -O3 -march=native -fopenmp source/par_quicksort.c -o objects/par_quicksort.o
-mpicc -Iheaders -c -fopenmp -O3 -march=native -fopenmp source/main.c -o objects/main.o
-mpicc -O3 -march=native -fopenmp objects/par_quicksort.o objects/main.o -o main
-
-23.673574
-rm -f objects/*.o main

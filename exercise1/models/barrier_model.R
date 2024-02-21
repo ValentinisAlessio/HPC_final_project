@@ -17,7 +17,7 @@ model_barrier = lm(Avg.Latency.us. ~ Algorithm + Allocation + Processes , data =
 
 summary(model_barrier)
 
-compl_model <-summary(model)
+compl_model <-summary(model_barrier)
 compl_model_table <- xtable(compl_model)
 print.xtable(compl_model_table, file = "compl_model_table_bar.tex", floating = FALSE, type = "latex")
 

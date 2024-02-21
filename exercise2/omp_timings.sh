@@ -31,7 +31,6 @@ export OMP_PLACES=cores
 export OMP_PROC_BIND=close
 export OMP_NUM_THREADS=4
 
-./main $N
 
 echo "Size,Threads,Time" > $csv_file
 

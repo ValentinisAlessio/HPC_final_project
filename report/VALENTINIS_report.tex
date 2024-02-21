@@ -37,8 +37,8 @@
 	The goal of the exercise is to estimate the latency of default openMPI implementation of two collective blocking algorithms, one of which being \textit{broadcast}, varying the virtual topology with which the algorithms operate, along with the map by whcich the cores are allocated.
 	My choice resided into:
 	\begin{itemize}
-		\item \textbf{Broadcast}: varying virtual topologies among \textit{default}, \textit{basic linear}, \textit{flat chain} and \textit{binary tree}.\\
-		\item \textbf{Barrier}: varying virtual topologies among \textit{default}, \textit{basic linear}, \textit{double ring} and \textit{bruck}.
+		\item \textbf{Broadcast}: varying algorithms among \textit{default}, \textit{basic linear}, \textit{flat chain} and \textit{binary tree}.\\
+		\item \textbf{Barrier}: varying algorithms among \textit{default}, \textit{basic linear}, \textit{double ring} and \textit{bruck}.
 	\end{itemize}
 	
 	The benchmark library used is OSU microbenchmark, available \href{https://mvapich.cse.ohio-state.edu/benchmarks/}{here}.
@@ -46,21 +46,21 @@
 	
 	\section{Broadcast operation}
 	
-	MPI\_Broadcast is a fundamental collective communication operation provided by the Message Passing Interface (MPI) library. It allows one process, typically referred to as the root process, to efficiently broadcast data to all other processes in a communicator. This operation is crucial for distributing information across multiple processes in parallel computing environments. It's a widely used one-to-all operation that, by default is implemented in multiple ways, in order to optimize the process of sending data to multiple processes.
-	We will go into some further details only of those operations which are covered in this study.
+	MPI\_Broadcast is a fundamental collective communication operation provided by the Message Passing Interface (MPI) library. It allows one process, typically referred to as the root process, to efficiently broadcast data to all other processes in a communicator. This operation is crucial for distributing information across multiple processes in parallel computing environments. It's a widely used one-to-all operation that by default is implemented in multiple ways, in order to optimize the times taken for sending data to multiple processes.
+	I will go into some further details only of those operations which are covered in this study.
 	\begin{itemize}
 		\item Default: this kind of implementation should authomatically choose the optimal way of sending the information, based on both size of the message and number of cores.\\
-		\item Basic linear: it's the way we could think to implement the broadcast algorithm, i.e. the root process sends sequentially to all processes the message, one by one.\\
+		\item Basic linear: it's the way we could think to naiively implement the broadcast algorithm, i.e. the root process sends sequentially to all processes the message, one by one.\\
 		\item Chain: In this implementation, as the name suggests, the message is sent from one process to the other, so process0 sends its message to process1, process1 to process2, and so on and so forth.\\
-		\item Binary tree: as the name suggests, this virtual topology of the cores is such that they are places in a binary tree fashion, so process0 is in charge of sending the message to process1 and process2, process1 to process3 and process4, and so on.
+		\item Binary tree: this virtual topology of the cores is such that they are organized in a binary tree fashion, so process0 is in charge of sending the message to process1 and process2, process1 to process3 and process4, and so on.
 	\end{itemize}
 	
-	For some of these operations message segmentation is inabled, so the message is divided in chunks, and these chunks are sequentially sent to the other processes. In particular we are referring to binary tree and chain.
+	For some of these operations message segmentation is enabled, i.e. the message is divided in chunks, and these chunks are sequentially sent to the other processes. In particular we are referring to binary tree and chain.
 	
 	\subsection{Data collecting process}
 	The process of collecting data has been authomatized through the use of a bash script, available in the GitHub repository \cite{repo}. 
 	To have a better view of the what happens with different mappings of the cores, the same gathering process has been brougth on varying the \textit{--map-by} parameter, and to collect as many data in one shot, the maximum message has been truncated to 2024 bytes, which is anyway well beyond the latency-dominated size region.
-	To allow for a better data gathering process, the different mapping of the cores (by core, by socket and by node), the different scripts have been separated.
+	To allow for a better data gathering process, the different mapping of the processes (by core, by socket and by node), the different scripts have been separated.
 	
 	As previously announced, the tests have been brought up into the EPYC nodes, selecting and prioritizing the acces to two whole nodes. So, due to the characteristics of the computing architecture, I have conduced the test onto a maximum of 256 cores, distributed in four sockets and two nodes.
 	
@@ -73,7 +73,7 @@
 	
 	\subsubsection{Fix algorithm and vary allocation}
 	
-	In this part we explore the behavior of the various algorithm, for data size of 1 MPI\_CHAR, so 1 byte, by varying the number of cores and cores allocation. This choose of the message size isolates and examines the "pure" latency of the communication.
+	In this part we explore the behavior of the various algorithm, for data size of 1 MPI\_CHAR, so 1 byte, by varying the number of cores and their allocation. This choice of the message size isolates and examines the "pure" latency of the communication.
 	
 	% INSERIRE IMMAGINE DI ALGORITMI PER 1 CHAR communications
 	% 1a default
@@ -123,7 +123,7 @@
 	
 	\subsubsection{Compare algorithms fixing allocation}
 	
-	In this second part of our analysis, we fixed the allocation type to \textit{core}, as it shows all the expected changes in behavior of the algorithm, and is the less influenced by eventual iner-node traffic with other communication. Fixing this degree of freedom, we chose once more to analyze the 1 byte scenario, to isolate the pure latency of the communication, and we vary number of cores and type of algorithm.
+	In this second part of our analysis, I fixed the allocation type to \textit{core}, as it shows all the expected changes in behavior, and is the less influenced by eventual iner-node traffic with other communication. Fixing this degree of freedom, I chose once more to analyze the 1 byte scenario, to isolate the pure latency of the communication, and varying number of cores and type of algorithm.
 	
 	% INSERT IMAGE OF ALL MAP BY CORE
 	\begin{figure}[h]
@@ -134,7 +134,7 @@
 	\end{figure}
 	
 	
-	The figure above offer some insights into how the algorithm influences across three main regions:
+	The figure above offer some insights into how the algorithm influences the latency across three main regions:
 	
 	\begin{itemize}
 		\item \textbf{Within 64 cores}: in this intra-socket region we can observe almost identical performances, which can be indicative of some optimal speed of communication occuring between cores in the same socket. The slight advantage observed with respect to the default and binary tree algorithm may be due to the fact that the first selects the send policy authomatically, while the latter organizes in a more optimal way the hierarchy of communication.\\
@@ -169,8 +169,8 @@
 		\end{subfigure}
 	\end{figure}
 	
-	Varying message sizes we can observe more peculiar aspects of each implementations: while with a 1 byte message, the difference between implementations is pretty negligible as long we remain into the same node, varying message sizes, we can clearly see how the linear algorithm performs wprse and worse increasing the message size.
-	This behavior is due to two main factors: firstly the communication between processes is put as responsibility of the root process, which one by one sends the message to the other processes, while in all other algorithms the communication is organized in a more or less hierarchical way; secondly the linear approach is the only one among the analyzed ones that doesn't imply message segmentation, so in the linear algorithm the message is sent entirely from the root process to the remaining ones. The other methods, on the other hand, aside from the hierarchy of communications, allow for message segmentation, i.e. the message is divided in chunks and sent one chunk at the time via buffer-send (MPI\_ISend), as mentioned in the article \cite{bcast_article}.
+	Varying message sizes we can observe more peculiar aspects of each implementations: while with a 1 byte message, the difference between implementations is pretty negligible as long we remain into the same node, varying message sizes, we can clearly see how the linear algorithm performs worse and worse increasing the message size.
+	This behavior is due to two main factors: firstly the communication between processes is put as responsibility of the root process, which one by one sends the message to the other processes, while in all other algorithms the communication is organized in a more or less hierarchical way; secondly the linear approach is the only one among the analyzed ones that doesn't imply message segmentation, so in the linear algorithm the message is sent entirely from the root process to the remaining ones. The other methods, on the other hand, aside from the hierarchy of communications, allow for message segmentation, i.e. the message is divided in chunks and sent one chunk at the time via buffer-send (MPI\_ISend), as mentioned in the article suggested as reference \cite{bcast_article}.
 	
 	\subsection{Broadcast performance model}
 	As a conclusive step of the analysis I attempted to formulate a performance model to try to better understand the not-so-straight-forward dynamics playing into these algorithms. 
@@ -181,7 +181,7 @@
 	
 	\input{../exercise1/models/compl_model_table.tex}
 	
-	This suggested me to try and fit a spline polinomial refression, with the help of a GAM model. Despite the fact that the effective spline degrees of freedom for the \textit{Processes} variable is 8, so not at all linear, the Message Size, although continuing not to be statistically significant, it resulted to have a linear effect on the \textit{Average Latency}.
+	This suggested me to try and fit a spline polinomial refression, with the help of a GAM model. Despite the fact that the effective spline degrees of freedom for the \textit{Processes} variable resulted to be 8, so not at all linear, the Message Size, although continuing not to be statistically significant, resulted to have a linear effect on the \textit{Average Latency}.
 	This model, although being far more complex and capable to capture some evident non linear  effects, resulted to be not more accurate than $3\%$, suggesting an even more intricated relationship between the variables.
 	
 	
@@ -198,9 +198,9 @@
 	
 	\section{Barrier operation}
 	
-	In this second part of the exercise, I chose to analyze and study the performance model of the MPI\_Barrier algorithm. It's an operation that allows for the synchronization of different process within the same communicator. It consists in a construct that guarantees that by the end of the operation, all the processes have at least entered it.
-	This collective blocking operation becomes crucial when we want to synchronize the processes involved in some parts of our distributed programm to ensure coherent and predictable execution. Among the plethora of synchronization mechanisms, the barrier algorithm stands as a fundamental construct, enabling synchronization points within parallel programs.
-	By default, the library OpenMPI offers different implementation of this algorithm, always characterized by beculiar virtual topology of the cores, or by different hierarchy of the execution \cite{barrier_article}. In this study I have examined only four of the  several algorithms present.
+	In this second part of the exercise, I chose to analyze and study the performance model of the MPI\_Barrier algorithm. It's an operation that allows for the synchronization of different process within the same communicator. It consists of a construct that guarantees that by the end of the operation, all the processes have at least entered it.
+	This collective blocking operation becomes crucial when we want to synchronize the processes involved in some parts of our distributed program, to ensure coherent and predictable execution. Among the plethora of synchronization mechanisms, the barrier algorithm stands as a fundamental construct, enabling synchronization points within parallel programs.
+	By default, the library OpenMPI offers different implementation of this algorithm, always characterized by peculiar virtual topology of the cores, or by different hierarchy of execution \cite{barrier_article}. In this study I have examined only four of the  several algorithms present.
 	
 	\begin{itemize}
 		\item Default: this kind of implementation chooses authomatically the optimal way to synchronize the processes, based on their number and allocation.\\
@@ -211,7 +211,7 @@
 	
 	\subsection{Data collecting process}
 	
-	The process of collecting data, similarly to the first part, has been authomatized through the use of a bash script. To ensure a better all around view of the process, the same gathering process has been brought up on varying the \textit{--map-by} parameter. To allow the generation of a more complete dataset, the different scripts are divided other than by algorithm, also by core mapping.
+	The process of collecting data, similarly to the first part, has been authomatized through the use of a bash script. To ensure a better all around view of the process, the same gathering process has been brought up on varying the \textit{--map-by} parameter. To allow the generation of a more complete dataset, the different scripts are divided, other than by algorithm, also by core mapping.
 	
 	As before, the tests have been conducted into the EPYC nodes, selecting two whole computing nodes fully reserved for this task.
 	
@@ -219,12 +219,12 @@
 	
 	\subsection{Latency analysis}
 	
-	The data collection process generated a complete dataset, that can in principle allow for a quite extensive analysis. Similarly to the first part, my effort was to select and fix some degrees of freedom , while varying the others, and permitting for a simpler visualization of the data.
+	The data collection process generated a complete dataset, that can in principle allow for a quite extensive analysis. Similarly to the first part, my effort was to select and fix some degrees of freedom, while varying the others, and permitting for a simpler visualization of the data.
 	At the end I tried to formulate a model that could explain the complex interaction between the various parameters.
 	
 	\subsubsection{Vary allocation for fixed algorithm}
 	
-	In this part we are going to explore the behavoiur of the various algorithms, by varying number of processes and core allocation.
+	In this part we are going to explore the behavoiur of the various algorithms, by varying number of processes and their allocation.
 	
 	% INSERIRE IMMAGINE DI ALGORITMI PER 1 CHAR communications
 	% 1a default
@@ -264,14 +264,14 @@
 	
 	Passing to the second plot, regarding the linear algorithm, we can see almost the same characteristics as before, just with some more regular pattern into the node allocation. We can see that the changes in behavior don't happen where expected, suggesting some more complex interaction than the simple node/socket changes.
 	
-	Going to the Double Ring algorithm, we can see some pretty worse behavior in general, with hugher values of the latency, and with clear separation between the three types of allocations. This may be due to the "serial" nature of the communication, where process0 waits for process1, which waits for process2, and so on and so forth untill each process receives the message for the second time. This reflects in an almost linear behavior in all the types of allocation, with the node distribution being from the beginning the worst one.
+	Going to the Double Ring algorithm, we can see some pretty worse behavior in general, with higher values of the latency, and with clear separation between the three types of allocations. This may be due to the "serial" nature of the communication, where process0 waits for process1, which waits for process2, and so on and so forth untill each process receives the message for the second time. This reflects in an almost linear behavior in all the types of allocation, with the node distribution being from the beginning the worst one.
 	
 	Lastly, passing to the bruck algorithm, we can see some similar behavior to the default algorithm, with the same region division and almost the same behavior, suggesting that this algorithm may have an optimal hierarchy of communication, making it suitable for the default implementation.
 	
 	
 	\subsubsection{Compare algorithms fixing allocation}
 	
-	In this second part of our analysis, we fixed the core allocation to \textit{core}, which showed to be more stable, other than being the least influenced by inter-node traffic.
+	In this second part of my analysis, I fixed the process allocation to \textit{core}, which showed to be more stable, other than being the least influenced by inter-node traffic.
 	
 	% INSERIRE IMMAGINE DI TUTTI GLI ALGORITMI MAPPATI PER CORE
 	
@@ -348,7 +348,7 @@
 	\begin{enumerate}
 		\item Choose a global pivot between processes and broadcast it to all the processes: for this step I chose to opt for a random selection of elements between the processes and then to choose its median. This may produce some time loss, but hopefully can achieve a better balance between the data that will be stored in each process.
 		\item Let each process partition its array with respect to this pivot.
-		\item Let the processes with rank less than the pivot rank (which is chosen to be the middle one), exchange their major right part of the partition with the left part of the partiiton of the corresponding process with rank major than the pivot rank (look at figure \ref{fig:parallelquicksort}).
+		\item Let the processes with rank less than the pivot rank (which is chosen to be the middle one), exchange their major right part of the partition with the left part of the partition of the corresponding process with rank major than the pivot rank (look at figure \ref{fig:parallelquicksort}).
 		\item Do this step recursively for the two halves of the ranks. For this purpose I've created for each step two custom communicators in which to put the proper processes that will do the recursive call.
 		\item Once all the communication have finished, each rank has elements that are less or equal to the elements of the following ranks, so we only need to locally order the array, using serial or OMP implementation.
 	\end{enumerate}
@@ -389,7 +389,7 @@
 	
 	% INSERIRE GRAFICO SPEERDUP OMP
 	
-	As we can see, the OMP speedup is far from linear (a part from the up-to 4 threads scenario), and better follows a logarithmic trend. This may be due to the usage of the \textit{task} construct, where the instrucions within each construct are put in a task-scheduling list, and the first free thread takes the first available task, in a queue fashion. This construct allws to have a static number of operating software threads decided at the beginning of the execution, but can introduce some cache related effects, as we can't manage which thread enters which task. I've tried to avoid this problem by switching to the serial algorithm if the array size fits entirely on the L1 cache of the operating threads, only marginally solving the problem.
+	As we can see, the OMP speedup is far from linear (a part from the up-to 4 threads scenario), and better follows a logarithmic trend. This may be due to the usage of the \textit{task} construct, where the instrucions within each construct are put in a task-scheduling list, and the first free thread takes the first available task, form a queue-like structure. This construct allows to have a static number of operating software threads decided at the beginning of the execution, but can introduce some cache related effects, as we can't manage which thread enters which task. I've tried to avoid this problem by switching to the serial algorithm if the array size fits entirely on the L1 cache of the operating threads, only marginally solving the problem.
 	
 	\subsection{MPI strong scalability}
 	
@@ -397,8 +397,8 @@
 	
 	%INSERISCI GRAFICO TEMPISTICHE
 	
-	As we can see, for a sufficient large array, that would not lead to too less work to each process, the trend of the timings is similar to the OpenMP case.
-	In particular this is more explainable, as for increasing number of processes, the number of communications increases exponentially. This allows for rapid growth of the speedup for few number of elements, but as the number of processes increases, although the workload per process is decreasing, the time taken for the communications to setup each chunk before ordering takes more and more time.
+	As we can see, for a sufficient large array, that would not lead to too little work assigned to each process, the trend of the timings is similar to the OpenMP case.
+	However in this case there is a clearer explanation: for increasing number of processes, the number of communications increases exponentially. This allows for rapid growth of the speedup for few number of elements, but as the number of processes increases, although the workload per process is decreasing, the time taken for the communications to setup each chunk before ordering takes more and more time.
 	
 	% INSERISCI GRAFICO SPEEDUP
 	
@@ -421,15 +421,15 @@
 	For its nature, quicksort is not a balanced algorithm, so its purely serial part results in a huge limitation in parallelization.
 	My approach focussed more on a try to carefully organize the generated data on each process, in order to then apply the serial or OMP quicksort to order each chunk. This avoids a huge roblem of a naive implementation of a parallel quicksort, which consists in:
 	\begin{itemize}
-		\item One process generates the data and scattes it among the processes;
+		\item One process generates the data and scatters them among the processes;
 		\item Each process quicksorts its chunk;
 		\item Carefully merge the data back into one process.
 	\end{itemize}
-	This approach soffers two main issues: firstly the array we want to order may not iven fit into one single node memory, but aside this, the fareful merge done as last step, even if it's done in a binary tree fashion, results in a huge bottleneck for the computation. This way, by carefully managing the data at the beginning, we don't have to merge it into one single process, and let it scattered among processes.
+	This approach soffers two main issues: firstly the array we want to order may not even fit into one single node memory, but aside this, the careful merge done as last step, even though done in a binary tree fashion, results in a huge bottleneck for the computation. This way, by carefully managing the data at the beginning, we don't have to merge it into one single process, and let it scattered among processes.
 	
 	My solution, however, appears to be far from optimal, in a way due to the nature of the sorting algorithm, which is hardly perfectly parallelizable, and due to some improvements that could be done in the code, such as:
 	\begin{itemize}
-		\item Try and reduce the overhead of the algorithm when trying to select a good pivot, which consists in a gather operation followed by a sorting routine and by a scatter of the selected pivot. Maybe just randomly choose an element from a random process and broadcast it as a global pivot could lead to less time sent in that sense, but could imply a way worse load imbalance between processes.
+		\item Try and reduce the overhead of the algorithm when trying to select a good pivot, which consists in a gather operation followed by a sorting routine and by a scatter of the selected pivot. Maybe just randomly choosing an element from a random process and broadcast it as a global pivot could lead to less time sent in that sense, but could imply a way worse load imbalance between processes.
 		\item Try and implement an algorithm that has a linear number of communication to the number of processes, such as the one referred in literature as Parallel Sorting through Regular Sampling. This approach, however, implies a prior sorting of the local chunk to select appropriate pivots and maintain load balance. This approach, however, which I had a try on implementing, resulted in way worse performance than the analyzed implementation, other than the fact that utilizing an MPI\_Alltoall operation, tends to fail with extremely high number of elements to transfer.
 		\item Try and implement a similar approach also in shared memory, which would require careful threads synchronization, but would it exploit full parallelization power?
 		\item Try with a different partitioning routine, for which I opted the classical serial approach, with a more parallelizable algorithm, such as Hoare partition routine.

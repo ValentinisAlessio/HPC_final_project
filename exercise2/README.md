@@ -38,3 +38,5 @@ Each folder name has a significant meaning:
 ## How to compile
 
 Authomatic compilation is provided through the use of a `Makefile`. Tests and data collection are authomatized through the various `.sh` SBATCH scripts.
+
+If you want to run a test on the ORFEO cluster, just perform `sbatch <job>.sh`, while if you want just to perform compilation of the script, just do `make`.
