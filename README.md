@@ -10,6 +10,8 @@ This repository contains all the scripts and materials used and collected for th
 ```
 📂 HPC_final_project/
 │ 
+├── 📂 Assignments/
+│ 
 ├── 📂 exercise1/
 │ 
 ├── 📂 exercise2/
