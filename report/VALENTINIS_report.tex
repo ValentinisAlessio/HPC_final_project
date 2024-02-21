@@ -75,12 +75,6 @@
 	
 	In this part we explore the behavior of the various algorithm, for data size of 1 MPI\_CHAR, so 1 byte, by varying the number of cores and their allocation. This choice of the message size isolates and examines the "pure" latency of the communication.
 	
-	% INSERIRE IMMAGINE DI ALGORITMI PER 1 CHAR communications
-	% 1a default
-	% 1b linear
-	% 1c chain
-	% 1d binary
-	
 	\begin{figure}[h]
 		\centering
 		\begin{subfigure}{0.45\textwidth}
@@ -125,7 +119,6 @@
 	
 	In this second part of our analysis, I fixed the allocation type to \textit{core}, as it shows all the expected changes in behavior, and is the less influenced by eventual iner-node traffic with other communication. Fixing this degree of freedom, I chose once more to analyze the 1 byte scenario, to isolate the pure latency of the communication, and varying number of cores and type of algorithm.
 	
-	% INSERT IMAGE OF ALL MAP BY CORE
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.7\linewidth]{../exercise1/plots/bcast_all_1byte}
@@ -146,7 +139,6 @@
 	
 	In this section we plan to analyze the various performance models among different message size.
 	
-	% INSERT IMAGES ABOUT DIFFERENT MESSAGE SIZES
 	\begin{figure}[h]
 		\centering
 		\begin{subfigure}{0.45\textwidth}
@@ -179,9 +171,11 @@
 	With the use of the software R, my first attempt was to try and model the \textit{Average Latency} parameter on all the other parameters. This approach resulted not to be the most appropriate, other from the fact that not all the covariates resulted to be statistically relevant, such as, for example the \textit{Message Size} and the \textit{default algorithm}, the percentage of variability descripted by the model, represented form the $R^2$ coefficient, resulted to be less than $3\%$.
 	This result is another evidence towards the fact that the Average Latency is not the actual linear combination between allocation, algorithm, message size and number of processors.
 	
+	\begin{center}
 	\input{../exercise1/models/compl_model_table.tex}
+	\end{center}
 	
-	This suggested me to try and fit a spline polinomial refression, with the help of a GAM model. Despite the fact that the effective spline degrees of freedom for the \textit{Processes} variable resulted to be 8, so not at all linear, the Message Size, although continuing not to be statistically significant, resulted to have a linear effect on the \textit{Average Latency}.
+	This suggested me to try and fit a spline polinomial regression, with the help of a GAM model. Despite the fact that the effective spline degrees of freedom for the \textit{Processes} variable resulted to be 8, so not at all linear, the Message Size, although continuing not to be statistically significant, resulted to have a linear effect on the \textit{Average Latency}.
 	This model, although being far more complex and capable to capture some evident non linear  effects, resulted to be not more accurate than $3\%$, suggesting an even more intricated relationship between the variables.
 	
 	
@@ -191,9 +185,10 @@
 	In fact, starting from the statistic relevance of the variables, all of them showed a much lower p-value, included \textit{Message Size}, which before didn't seem to have an importance in estimating the Average Latency.
 	Other from this aspect, the model was able to capture more than $65\%$ of the variability of the model, a value by far more relevant than the ones obtained before. This, although showing a sensible improvements in the esitimation of the Latency, clearly states that a simple linear model is able to capture little more than the majority of the variability. Anyway, the real model underlying the \textit{Average Latency} variable seems to have more complicated relations than a simple linear one, for example due to the virtual topology of the algorithm (think for example at the binary tree algorithm, which has $log_2$ operations with respect to the linear one).
 	
-	\input{../exercise1/models/fixed_model_table.tex}
-	
-	% INSERISCI PARTE RIGUARDO MODELLO LINEARE
+	\begin{center}
+		\input{../exercise1/models/fixed_model_table.tex}
+	\end{center}
+
 	
 	
 	\section{Barrier operation}
@@ -225,12 +220,6 @@
 	\subsubsection{Vary allocation for fixed algorithm}
 	
 	In this part we are going to explore the behavoiur of the various algorithms, by varying number of processes and their allocation.
-	
-	% INSERIRE IMMAGINE DI ALGORITMI PER 1 CHAR communications
-	% 1a default
-	% 1b linear
-	% 1c ring
-	% 1d bruck
 	
 	\begin{figure}[h]
 		\centering
@@ -273,7 +262,6 @@
 	
 	In this second part of my analysis, I fixed the process allocation to \textit{core}, which showed to be more stable, other than being the least influenced by inter-node traffic.
 	
-	% INSERIRE IMMAGINE DI TUTTI GLI ALGORITMI MAPPATI PER CORE
 	
 	\begin{figure}[h]
 		\centering
@@ -297,14 +285,19 @@
 	Analyzing statistical importance of the variables, we can state that all of them have a low p-value, except from the one related to the Default algorithm, which as we have seen from the qualitative analysis, almost perfectly mimics the bruck algorithm.
 	As far as percentage of variability explained, I have obtained a $R^2=55\%$, which is a farly good result, but yet doesn't model all the complex variability of the underlying real model.
 	
-	\input{../exercise1/models/compl_model_table_bar.tex}
+	\begin{center}
+		\input{../exercise1/models/compl_model_table_bar.tex}
+	\end{center}
+	
 	
 	Similarly to the analysis conducted before, I chose to analyze also the single allocation case, focussing on the \textit{core} case.
 	In this case, just considering the core allocation case, showed a considerable improvement in the model, showing similar statistical importance of the variables, but boosting the $R^2$ value to more than $80\%$. This shows how the barrier operation, instead of the broadcast one, has a "simpler" real model that regulates it, that can be fairly decently be estimated by a simple linear model.
 	
-	\input{../exercise1/models/fixed_model_table_bar.tex}
+	\begin{center}
+		\input{../exercise1/models/fixed_model_table_bar.tex}
+	\end{center}
 	
-	% INSERIRE PARTE DI ANALISI STATISTICA
+	
 	
 	\newpage
 	
@@ -329,7 +322,7 @@
 	\end{figure}
 	
 	
-	In this exercise, the goal was to order a sequence of \textit{data\_t} elements, which are arrays of doubles with size 8, based on one of their elements, for simplicity let's say the first. All detailed informations about the assignment can be found at the referenced pdf \cite{ex2}.
+	In this exercise, the goal was to order a sequence of \textit{data\_t} elements, which are 8-sized arrays of doubles, based on one of their elements, for simplicity let's say the first. All detailed informations about the assignment can be found at the referenced pdf \cite{ex2}.
 	
 	The aim of this project was to try and implement a parallel version of this algorithm using both MPI and OpenMP standards.
 	
@@ -355,7 +348,7 @@
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[height=0.4\linewidth]{Parallel_quicksort}
+		\includegraphics[height=0.7\linewidth]{Parallel_quicksort}
 		\caption{Sketch of parallel quicksort}
 		\label{fig:parallelquicksort}
 	\end{figure}
@@ -378,16 +371,26 @@
 	
 	To run this test, I've used the \textit{omp\_timings.sh} script, which takes the timings of each run by executing the program via \textit{mpirun -np 1} command, which ensures the execution by only one process, and by varying the number of threads used and mapping them by core with \textit{OMP\_PLACES=cores} and placing them close together with \textit{OMP\_PROC\_BIND=close}, making all the threads share the same L3 cache. 
 	
-	% INSERT PLOT RELATIVE TO TIME OF EXECUTION
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.5\linewidth]{../exercise2/plots/omp_timings}
+		\caption[OMP timings]{Time vs. \#threads for OpenMP}
+		\label{fig:omptimings}
+	\end{figure}
 	
 	This plot represents the time of execution of the algorithm for a 64 million elements array for different number of threads.
 	It is evident that the execution time has a diminishing trend, that however doesn't perfectly follow an inverse proportionality relation. Furthermore we can observe that the execution time tend to stall from $40$ threads on, probably due to a "starvation" effect, where there are too many threads than work to be done, and the creation and synchronization of threads take too much time with respect to the work to be done. 
 	
-	% Se riesci prendi tempi con più dati per vedere se cambiano i tempi
 	
 	This trend is even more clear when we plot the speedup graph.
 	
-	% INSERIRE GRAFICO SPEERDUP OMP
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../exercise2/plots/omp_speedup}
+		\caption[OMP Speedup]{Speedup vs. \#threads for OpenMP}
+		\label{fig:ompspeedup}
+	\end{figure}
+	
 	
 	As we can see, the OMP speedup is far from linear (a part from the up-to 4 threads scenario), and better follows a logarithmic trend. This may be due to the usage of the \textit{task} construct, where the instrucions within each construct are put in a task-scheduling list, and the first free thread takes the first available task, form a queue-like structure. This construct allows to have a static number of operating software threads decided at the beginning of the execution, but can introduce some cache related effects, as we can't manage which thread enters which task. I've tried to avoid this problem by switching to the serial algorithm if the array size fits entirely on the L1 cache of the operating threads, only marginally solving the problem.
 	
@@ -395,31 +398,47 @@
 	
 	To run this test, I've used the \textit{smpi.sh} script, which takes the timings of each run via \textit{mpirun -np \#procs}, and mapping them by socket, minimizing, except from the first communication, the distance between operating processes, and as a consequence the time of communication. Here I've considered that each process would spawn 4 threads, which in the previous study resulted to be the most efficient number with respect to the number of elements.
 	
-	%INSERISCI GRAFICO TEMPISTICHE
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../exercise2/plots/smpi_timings}
+		\caption[Strong MPI timings]{Plot of time vs. \#cores}
+		\label{fig:smpitimings}
+	\end{figure}
 	
-	As we can see, for a sufficient large array, that would not lead to too little work assigned to each process, the trend of the timings is similar to the OpenMP case.
-	However in this case there is a clearer explanation: for increasing number of processes, the number of communications increases exponentially. This allows for rapid growth of the speedup for few number of elements, but as the number of processes increases, although the workload per process is decreasing, the time taken for the communications to setup each chunk before ordering takes more and more time.
 	
-	% INSERISCI GRAFICO SPEEDUP
+	As we can see in \ref{fig:smpitimings}, for a sufficient large array, that would not lead to too little work assigned to each process, the trend of the timings is similar to the OpenMP case.
+	However in this case there is a clearer explanation: for increasing number of processes, the number of communications increases exponentially. This allows for rapid growth of the speedup for few number of processes, but as their number increases, although the workload per process is decreasing, the time taken for the communications to setup each chunk before ordering takes more and more time.
 	
-	As before the speedup is not lenear, but this phenomenon is explainable, as specified above, by the inclreasingly higher time taken for the communications. However the trend results to be better than the simple logarithm, expecially when the number of processes are a power of two, as the communications are balanced and reduced to the minimum.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../exercise2/plots/mpi_scaling}
+		\caption[Strong MPI Speedup]{Strong MPI Speedup vs. \#cores}
+		\label{fig:mpiscaling}
+	\end{figure}
+	
+	
+	As we can see in \ref{fig:mpiscaling} the speedup is not lenear, but this phenomenon is explainable, as specified above, by the inclreasingly higher time taken for the communications. However the trend results to be better than the simple logarithm, expecially when the number of processes are a power of two, as the communications are balanced and reduced to the minimum.
 	The generalization I've tried to assess inevitably produces some more overhead, showed by the worse speedup expecially with a prime number of processes.
 	
 	\subsection{MPI weak scalability}
 	
 	To run this test, I've used the \textit{wmpi.sh} script, which takes the timings of each run via \textit{mpirun -np \#procs}, always placing the map of the processes by socket, for the same reasons as before. I decided to keep the workload for each process constant at $240000$ elements, and set the number of threads to $4$.
 	
-	% INSERIRE PLOT TIMINGS
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\linewidth]{../exercise2/plots/wmpi_timings}
+		\caption[wMPI Timings]{Time vs \#cores at constant workload}
+		\label{fig:wmpitimings}
+	\end{figure}
 	
-	As we can see, the algorithm doesn't scale perfectly when we are speaking of weak scalability, as the timings are not constant to the serial case, but we can see that for increasingly high number of processes, the timings tend to settle to a constant behavior.
 	
-	This is explainable by the fact that for too low number of processes, the array results to be too small to see the actual benefits of parallelism, but as the number of processes increase, yet the total size is very high, but also the time taken for communications increases with the number of processes.
+	As shown in figure \ref{fig:wmpitimings}, the algorithm doesn't scale perfectly when we are speaking of weak scalability, as the timings are not constant to the serial case, but yet this is due to the fact that for increasingly high number of processes, the time taken for message passing grows exponentially. 
 	
 	\section{Conclusions and further improvements}
 	
 	As we can see from the analysis, this implementation didn't result in an optimal linear parallelization, but it's not too surprising.
 	For its nature, quicksort is not a balanced algorithm, so its purely serial part results in a huge limitation in parallelization.
-	My approach focussed more on a try to carefully organize the generated data on each process, in order to then apply the serial or OMP quicksort to order each chunk. This avoids a huge roblem of a naive implementation of a parallel quicksort, which consists in:
+	My approach focused more on a try to carefully organize the generated data on each process, in order to then apply the serial or OMP quicksort to order each chunk. This avoids a huge roblem of a naive implementation of a parallel quicksort, which consists in:
 	\begin{itemize}
 		\item One process generates the data and scatters them among the processes;
 		\item Each process quicksorts its chunk;
@@ -430,7 +449,7 @@
 	My solution, however, appears to be far from optimal, in a way due to the nature of the sorting algorithm, which is hardly perfectly parallelizable, and due to some improvements that could be done in the code, such as:
 	\begin{itemize}
 		\item Try and reduce the overhead of the algorithm when trying to select a good pivot, which consists in a gather operation followed by a sorting routine and by a scatter of the selected pivot. Maybe just randomly choosing an element from a random process and broadcast it as a global pivot could lead to less time sent in that sense, but could imply a way worse load imbalance between processes.
-		\item Try and implement an algorithm that has a linear number of communication to the number of processes, such as the one referred in literature as Parallel Sorting through Regular Sampling. This approach, however, implies a prior sorting of the local chunk to select appropriate pivots and maintain load balance. This approach, however, which I had a try on implementing, resulted in way worse performance than the analyzed implementation, other than the fact that utilizing an MPI\_Alltoall operation, tends to fail with extremely high number of elements to transfer.
+		\item Try and implement an algorithm that has a linear number of communication to the number of processes, such as the one referred in literature as Parallel Sorting through Regular Sampling. This approach, however, implies a prior sorting of the local chunk to select appropriate pivots and maintain load balance. This approach, however, which I had a try on implementing, resulted in way worse performance than the analyzed implementation.
 		\item Try and implement a similar approach also in shared memory, which would require careful threads synchronization, but would it exploit full parallelization power?
 		\item Try with a different partitioning routine, for which I opted the classical serial approach, with a more parallelizable algorithm, such as Hoare partition routine.
 		\item Try and organize the partitions between threads using parallel sections instead tasks. This of course could avoid some cache related effects, statically binding the recursion call to the thread, but would spawn an exponentially higher number of threads, one for each recursive call, incurring in rapid exhaustion of the threads available on the machine.
