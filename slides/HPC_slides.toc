@@ -1,0 +1,2 @@
+\beamer@sectionintoc {1}{Exercise 1}{2}{0}{1}
+\beamer@sectionintoc {2}{Exercise 2b}{13}{0}{2}
