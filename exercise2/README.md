@@ -33,7 +33,7 @@ Each folder name has a significant meaning:
 - `data`: contains `.csv` files obtained by testing
 - `objects`: contains objects files generated during compilation
 - `plots`: contains jupyter notebook used to obtain the plots
-- `headers` and `source`: contain headers and source files ised to develop my program.
+- `headers` and `source`: contain headers and source files used to develop my program.
 
 ## How to compile
 
